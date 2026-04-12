@@ -12,24 +12,27 @@ import {
   Brain,
   Shield
 } from "lucide-react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
 
-const navigation = [
-  { name: "Dashboard", href: "/", icon: LayoutDashboard },
-  { name: "Patients", href: "/patients", icon: Users },
-  { name: "Alerts", href: "/alerts", icon: Bell },
-  { name: "Biomarkers", href: "/biomarkers", icon: LineChart },
-  { name: "Test Deployer", href: "/tests", icon: FlaskConical },
-  { name: "Communications", href: "/communications", icon: MessageSquare },
-  { name: "Settings", href: "/settings", icon: Settings },
+type SidebarSection = "dashboard" | "patients" | "alerts" | "biomarkers" | "tests" | "communications" | "settings"
+
+interface SidebarProps {
+  activeSection?: SidebarSection
+  onSectionChange?: (section: SidebarSection) => void
+}
+
+const navigation: { name: string; id: SidebarSection; icon: React.ComponentType<{ className?: string }> }[] = [
+  { name: "Dashboard", id: "dashboard", icon: LayoutDashboard },
+  { name: "Patients", id: "patients", icon: Users },
+  { name: "Alerts", id: "alerts", icon: Bell },
+  { name: "Biomarkers", id: "biomarkers", icon: LineChart },
+  { name: "Test Deployer", id: "tests", icon: FlaskConical },
+  { name: "Communications", id: "communications", icon: MessageSquare },
+  { name: "Settings", id: "settings", icon: Settings },
 ]
 
-export function Sidebar() {
-  const pathname = usePathname()
-
+export function Sidebar({ activeSection = "dashboard", onSectionChange }: SidebarProps) {
   return (
-    <aside className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 bg-sidebar">
+    <aside className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 bg-sidebar mt-12">
       <div className="flex flex-col h-full">
         {/* Logo */}
         <div className="flex items-center gap-3 px-6 py-6 border-b border-sidebar-border">
@@ -45,13 +48,13 @@ export function Sidebar() {
         {/* Navigation */}
         <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
           {navigation.map((item) => {
-            const isActive = pathname === item.href
+            const isActive = activeSection === item.id
             return (
-              <Link
+              <button
                 key={item.name}
-                href={item.href}
+                onClick={() => onSectionChange?.(item.id)}
                 className={cn(
-                  "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200",
+                  "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200",
                   isActive 
                     ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-lg shadow-primary/25" 
                     : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
@@ -59,7 +62,7 @@ export function Sidebar() {
               >
                 <item.icon className="w-5 h-5" />
                 {item.name}
-              </Link>
+              </button>
             )
           })}
         </nav>

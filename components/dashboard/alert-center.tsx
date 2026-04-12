@@ -98,7 +98,11 @@ function getSeverityStyles(severity: string) {
   }
 }
 
-export function AlertCenter() {
+interface AlertCenterProps {
+  expanded?: boolean
+}
+
+export function AlertCenter({ expanded = false }: AlertCenterProps) {
   return (
     <Card className="border-border/50 shadow-sm h-full">
       <CardHeader className="flex flex-row items-center justify-between pb-3">
@@ -117,7 +121,7 @@ export function AlertCenter() {
         </Button>
       </CardHeader>
       <CardContent className="p-0">
-        <ScrollArea className="h-[400px]">
+        <ScrollArea className={expanded ? "h-[600px]" : "h-[400px]"}>
           <div className="px-4 pb-4 space-y-3">
             {alerts.map((alert) => {
               const styles = getSeverityStyles(alert.severity)

@@ -64,7 +64,11 @@ const aiInsights = [
   }
 ]
 
-export function CommunicationHub() {
+interface CommunicationHubProps {
+  expanded?: boolean
+}
+
+export function CommunicationHub({ expanded = false }: CommunicationHubProps) {
   const [message, setMessage] = useState("")
 
   return (
@@ -98,7 +102,7 @@ export function CommunicationHub() {
           </TabsList>
 
           <TabsContent value="messages" className="m-0">
-            <ScrollArea className="h-[280px]">
+            <ScrollArea className={expanded ? "h-[500px]" : "h-[280px]"}>
               <div className="p-4 space-y-3">
                 {directMessages.map((msg) => (
                   <div
@@ -153,7 +157,7 @@ export function CommunicationHub() {
           </TabsContent>
 
           <TabsContent value="ai" className="m-0">
-            <ScrollArea className="h-[340px]">
+            <ScrollArea className={expanded ? "h-[560px]" : "h-[340px]"}>
               <div className="p-4 space-y-3">
                 {aiInsights.map((insight) => (
                   <div
