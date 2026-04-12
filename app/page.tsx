@@ -13,13 +13,20 @@ import { Footer } from "@/components/dashboard/footer"
 import { ViewSwitcher } from "@/components/dashboard/view-switcher"
 import { PatientApp } from "@/components/patient/patient-app"
 import { AIChatbot } from "@/components/chatbot/ai-companion"
+import { NebixSplash } from "@/components/splash/nebix-splash"
 
 type SidebarSection = "dashboard" | "patients" | "alerts" | "biomarkers" | "tests" | "communications" | "settings"
+type AppView = "splash" | "clinician" | "patient" | "biomarkers"
 
 export default function Home() {
-  const [currentView, setCurrentView] = useState<"clinician" | "patient" | "biomarkers">("clinician")
+  const [currentView, setCurrentView] = useState<AppView>("splash")
   const [activeSection, setActiveSection] = useState<SidebarSection>("dashboard")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  // Handle entry from splash screen
+  const handleSplashEnter = (type: "clinician" | "patient") => {
+    setCurrentView(type)
+  }
 
   // When clicking biomarkers in sidebar, also update the view switcher
   const handleSectionChange = (section: SidebarSection) => {
@@ -32,7 +39,7 @@ export default function Home() {
   }
 
   // Sync sidebar when view changes
-  const handleViewChange = (view: "clinician" | "patient" | "biomarkers") => {
+  const handleViewChange = (view: AppView) => {
     setCurrentView(view)
     if (view === "biomarkers") {
       setActiveSection("biomarkers")
@@ -132,6 +139,11 @@ export default function Home() {
           </>
         )
     }
+  }
+
+  // Don't show splash if already entered
+  if (currentView === "splash") {
+    return <NebixSplash onEnter={handleSplashEnter} />
   }
 
   return (
