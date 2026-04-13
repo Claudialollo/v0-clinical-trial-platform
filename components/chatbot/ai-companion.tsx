@@ -43,7 +43,7 @@ const initialMessages: MessageType[] = [
   {
     id: 1,
     role: "assistant",
-    content: "Hello! I'm your EstroMind companion. I'm here to help you with scheduling, protocol questions, and to provide support whenever you need it. How are you feeling today?",
+    content: "Hello! I'm your NEBix companion. I'm here to help you with scheduling, protocol questions, and to provide support whenever you need it. How are you feeling today?",
     timestamp: new Date(Date.now() - 60000),
     mode: "operational"
   }

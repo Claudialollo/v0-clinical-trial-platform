@@ -3,7 +3,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* EstroMind Clinical Trial Platform Theme */
+/* NEBix - Neuro Estrogen Biotics Clinical Trial Platform Theme */
 /* Deep Violet: #4C1D95, Tech Blue: #2563EB, Slate Gray for text */
 
 :root {
@@ -41,7 +41,7 @@
   --sidebar-border: oklch(0.30 0.06 280);
   --sidebar-ring: oklch(0.55 0.22 260);
   
-  /* Custom EstroMind tokens */
+  /* Custom NEBix tokens */
   --violet-deep: oklch(0.35 0.18 285);
   --blue-tech: oklch(0.55 0.22 260);
   --success: oklch(0.65 0.18 155);

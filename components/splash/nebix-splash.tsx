@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Activity, Brain, Lock, Sparkles } from "lucide-react"
+import Image from "next/image"
 
 type EntryType = "clinician" | "patient"
 
@@ -46,16 +47,22 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
             transition={{ duration: 0.5 }}
             className="relative z-10 flex flex-col items-center gap-8 px-6"
           >
-            {/* Brain icon with glow */}
+            {/* NEBix Logo */}
             <motion.div
-              initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
               transition={{ type: "spring", duration: 1.2, bounce: 0.4 }}
               className="relative"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-blue-500 rounded-full blur-2xl opacity-50 animate-pulse" />
-              <div className="relative flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-violet-600 to-blue-600 shadow-2xl shadow-violet-500/30">
-                <Brain className="w-12 h-12 text-white" />
+              <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-blue-500 rounded-full blur-3xl opacity-30 animate-pulse scale-150" />
+              <div className="relative w-48 h-48 md:w-56 md:h-56">
+                <Image
+                  src="/images/nebix-logo.png"
+                  alt="NEBix - Neuro Estrogen Biotics"
+                  fill
+                  className="object-contain drop-shadow-2xl"
+                  priority
+                />
               </div>
             </motion.div>
 
@@ -66,16 +73,13 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="text-center"
             >
-              <h1 className="text-6xl md:text-7xl font-bold tracking-tight bg-gradient-to-r from-white via-violet-200 to-blue-200 bg-clip-text text-transparent">
-                NEBix
-              </h1>
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6, duration: 0.8 }}
-                className="mt-4 text-lg md:text-xl text-slate-400 font-light tracking-wide"
+                className="mt-2 text-lg md:text-xl text-slate-300 font-medium tracking-wide"
               >
-                Neuro-Endocrine-Brain Integrated Experience
+                Neuro Estrogen Biotics
               </motion.p>
             </motion.div>
 
@@ -104,7 +108,7 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
               {/* Button */}
               <span className="relative flex items-center gap-3 px-8 py-4 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 text-white font-medium shadow-2xl shadow-violet-500/20 hover:bg-white/15 hover:border-white/30 transition-all duration-300">
                 <Sparkles className="w-5 h-5 text-violet-300" />
-                Start NEBix Experience
+                Explore Neuro Estrogen Biotics
               </span>
             </motion.button>
           </motion.div>

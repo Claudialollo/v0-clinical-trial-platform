@@ -255,8 +255,8 @@ export function PatientApp() {
               <Brain className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 className="text-lg font-bold">EstroMind</h1>
-              <p className="text-xs text-muted-foreground">Your Trial Companion</p>
+              <h1 className="text-lg font-bold">NEBix</h1>
+              <p className="text-xs text-muted-foreground">Neuro Estrogen Biotics</p>
             </div>
           </div>
           <div className="flex items-center gap-2">

@@ -10,8 +10,8 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'EstroMind | Clinical Trial Management Platform',
-  description: 'Advanced neuro-endocrinology clinical trial management system for Gut-Brain axis research. HIPAA compliant, GDPR ready.',
+  title: 'NEBix | Neuro Estrogen Biotics - Clinical Trial Platform',
+  description: 'Advanced neuro-endocrinology clinical trial management system for Gut-Brain axis research. Neuro Estrogen Biotics platform. HIPAA compliant, GDPR ready.',
   generator: 'v0.app',
   icons: {
     icon: [

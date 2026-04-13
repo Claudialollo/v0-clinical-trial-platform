@@ -35,7 +35,7 @@ export function Footer() {
 
           {/* Copyright */}
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <span>EstroMind Clinical Trial Platform</span>
+            <span>NEBix - Neuro Estrogen Biotics Platform</span>
             <span className="hidden md:inline">|</span>
             <span>Version 2.1.0</span>
             <span className="hidden md:inline">|</span>

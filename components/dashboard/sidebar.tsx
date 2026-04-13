@@ -40,8 +40,8 @@ export function Sidebar({ activeSection = "dashboard", onSectionChange }: Sideba
             <Brain className="w-6 h-6 text-white" />
           </div>
           <div className="flex flex-col">
-            <span className="text-lg font-bold text-sidebar-foreground tracking-tight">EstroMind</span>
-            <span className="text-xs text-sidebar-foreground/60">Clinical Trial Platform</span>
+            <span className="text-lg font-bold text-sidebar-foreground tracking-tight">NEBix</span>
+            <span className="text-xs text-sidebar-foreground/60">Neuro Estrogen Biotics</span>
           </div>
         </div>
 
