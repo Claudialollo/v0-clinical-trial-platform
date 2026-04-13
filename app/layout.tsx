@@ -3,14 +3,14 @@ import { DM_Sans } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const dmSans = DM_Sans({ 
+const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-dm-sans",
   weight: ["300", "400", "500", "600", "700"]
 });
 
 export const metadata: Metadata = {
-  title: 'NEBix | Neuro Estrogen Biotics - Clinical Trial Platform',
+  title: 'NEBix | Neuro Estrogen Biotics Integrated Experience - Clinical Trial Platform',
   description: 'Advanced neuro-endocrinology clinical trial management system for Gut-Brain axis research. Neuro Estrogen Biotics platform. HIPAA compliant, GDPR ready.',
   generator: 'v0.app',
   icons: {
