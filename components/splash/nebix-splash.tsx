@@ -56,9 +56,10 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
               <div className="relative flex items-center justify-center w-24 h-24">
                 <img src="/nebix-logo.png" alt="NEBix Logo" className="w-24 h-24 object-contain" />
               </div>
+            <</motion.div>
             </motion.div>
-{/* Brand name */}
-            <motion.div
+
+            {/* Brand name */}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
