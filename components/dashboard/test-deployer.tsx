@@ -24,7 +24,7 @@ const tests = [
     fullName: "Menopause Rating Scale",
     description: "Menopausal symptom severity scale",
     duration: "5 min",
-    icon: Female,
+    icon: Heart,
     category: "health-related quality of life"
   },
   {
