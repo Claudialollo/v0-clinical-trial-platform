@@ -20,12 +20,12 @@ import { cn } from "@/lib/utils"
 const tests = [
   {
     id: "moca",
-    name: "MoCA",
-    fullName: "Montreal Cognitive Assessment",
-    description: "Standard cognitive screening",
-    duration: "15 min",
-    icon: Brain,
-    category: "cognitive"
+    name: "MRS",
+    fullName: "Menopause Rating Scale",
+    description: "Menopausal symptom severity scale",
+    duration: "5 min",
+    icon: Female symbol,
+    category: "health-related quality of life"
   },
   {
     id: "phq9",
