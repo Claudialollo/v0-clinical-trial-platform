@@ -53,8 +53,8 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
               transition={{ type: "spring", duration: 1.2, bounce: 0.4 }}
               className="relative"
             >
-              <div className="relative flex items-center justify-center w-96 h-96">
-                <img src="/nebix-logo.png" alt="NEBix Logo" className="w-96 h-96 object-contain" />
+              <div className="relative flex items-center justify-center w-48 h-48">
+                <img src="/nebix-logo.png" alt="NEBix Logo" className="w-48 h-48 object-contain" />
               </div>
             </motion.div>
 
