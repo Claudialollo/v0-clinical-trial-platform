@@ -1,4 +1,4 @@
-// Brain Constellation - Versione a forma di CERVELLO (come il logo)
+// Brain Constellation - Versione a forma di CERVELLO (compatibile Vercel)
 function BrainConstellation() {
   const [completedTimepoints, setCompletedTimepoints] = useState(3)
   const [isClient, setIsClient] = useState(false)
@@ -24,13 +24,15 @@ function BrainConstellation() {
     setIsClient(true)
   }, [])
 
+  // Placeholder durante SSR (evita hydration mismatch)
   if (!isClient) {
     return (
       <Card className="border-primary/30 bg-gradient-to-br from-violet-500/5 to-transparent">
         <CardHeader>
-          <CardTitle className="flex items-center gap-3">
-            <Brain className="w-6 h-6" /> Costellazione del Cervello
-          </CardTitle>
+          <div className="flex items-center gap-3">
+            <Brain className="w-6 h-6 text-primary" />
+            <CardTitle className="text-lg">La tua Costellazione Cerebrale</CardTitle>
+          </div>
         </CardHeader>
         <CardContent className="h-[240px] flex items-center justify-center">
           <div className="text-muted-foreground">Caricamento costellazione...</div>
@@ -58,18 +60,21 @@ function BrainConstellation() {
 
       <CardContent className="pt-4 pb-8">
         <div className="relative mx-auto" style={{ width: 290, height: 190 }}>
-          <svg 
-            width="290" 
-            height="190" 
-            viewBox="0 0 290 190" 
+          <svg
+            width="290"
+            height="190"
+            viewBox="0 0 290 190"
             className="overflow-visible"
             suppressHydrationWarning
           >
             {/* Connessioni del cervello */}
             {connections.map(([a, b], i) => {
-              const nodeA = timepoints.find(n => n.id === a)!
-              const nodeB = timepoints.find(n => n.id === b)!
+              const nodeA = timepoints.find(n => n.id === a)
+              const nodeB = timepoints.find(n => n.id === b)
+              if (!nodeA || !nodeB) return null
+
               const isLit = completedTimepoints >= Math.max(a, b)
+
               return (
                 <line
                   key={i}
@@ -89,14 +94,13 @@ function BrainConstellation() {
               const isLit = completedTimepoints >= node.id
               return (
                 <g key={node.id}>
-                  {/* Glow quando illuminato */}
                   {isLit && (
-                    <circle 
-                      cx={node.x} 
-                      cy={node.y} 
-                      r="19" 
-                      fill="#2563EB" 
-                      opacity="0.22" 
+                    <circle
+                      cx={node.x}
+                      cy={node.y}
+                      r="19"
+                      fill="#2563EB"
+                      opacity="0.22"
                     />
                   )}
                   <circle
@@ -132,8 +136,8 @@ function BrainConstellation() {
             className="gap-2 bg-gradient-to-r from-primary to-secondary hover:brightness-110 transition-all"
           >
             <Sparkles className="w-4 h-4" />
-            {completedTimepoints >= maxTimepoints 
-              ? "🎉 Tutti i timepoint completati!" 
+            {completedTimepoints >= maxTimepoints
+              ? "🎉 Tutti i timepoint completati!"
               : "Completa prossimo timepoint"}
           </Button>
         </div>
