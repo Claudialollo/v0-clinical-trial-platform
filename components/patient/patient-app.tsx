@@ -5,12 +5,13 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { 
   Brain, Calendar, Check, Clock, Heart, Moon, Utensils, Activity,
-  Pill, ChevronRight, Shield, Sparkles, BookOpen, Leaf, ExternalLink
+  Pill, ChevronRight, Shield, Sparkles, BookOpen, Leaf, ExternalLink,
+  MessageCircle, AlertTriangle
 } from "lucide-react"
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 
-// Protocol Tracker
+// ====================== PROTOCOL TRACKER ======================
 function ProtocolTracker() {
   const probioticProgress = 85
   const daysUntilAppointment = 12
@@ -71,16 +72,20 @@ function ProtocolTracker() {
   )
 }
 
-// Interactive Logs
+// ====================== INTERACTIVE LOGS ======================
 function InteractiveLogs() {
   const [selectedLog, setSelectedLog] = useState<string | null>(null)
 
   const logs = [
-    { id: "sleep", title: "Sleep Quality", icon: Moon, color: "from-violet-500/20 to-purple-500/20", iconColor: "text-violet-600", lastEntry: "7.5 hours", status: "good" },
-    { id: "diet", title: "Diet Log", icon: Utensils, color: "from-emerald-500/20 to-teal-500/20", iconColor: "text-emerald-600", lastEntry: "3 meals logged", status: "good" },
-    { id: "stress", title: "Stress Level", icon: Heart, color: "from-amber-500/20 to-orange-500/20", iconColor: "text-amber-600", lastEntry: "Level 4/10", status: "moderate" },
-    { id: "medication", title: "Other Medications", icon: Pill, color: "from-rose-500/20 to-red-500/20", iconColor: "text-rose-600", lastEntry: "No antibiotics", status: "good", alert: true }
+    { id: "sleep", title: "Sleep Quality", icon: Moon, color: "from-violet-500/20 to-purple-500/20", iconColor: "text-violet-600", lastEntry: "7.5 hours" },
+    { id: "diet", title: "Diet Log", icon: Utensils, color: "from-emerald-500/20 to-teal-500/20", iconColor: "text-emerald-600", lastEntry: "3 meals logged" },
+    { id: "stress", title: "Stress Level", icon: Heart, color: "from-amber-500/20 to-orange-500/20", iconColor: "text-amber-600", lastEntry: "Level 4/10" },
+    { id: "medication", title: "Other Medications", icon: Pill, color: "from-rose-500/20 to-red-500/20", iconColor: "text-rose-600", lastEntry: "No antibiotics" }
   ]
+
+  const sendAlert = (type: string) => {
+    alert(`Alert sent to care team for: ${type}. They will contact you soon.`)
+  }
 
   return (
     <div className="space-y-3">
@@ -95,7 +100,9 @@ function InteractiveLogs() {
             <CardContent className={cn("p-4 bg-gradient-to-br", log.color)}>
               <div className="flex items-start justify-between mb-3">
                 <log.icon className={cn("w-5 h-5", log.iconColor)} />
-                {log.alert && <Badge variant="outline" className="text-[10px] bg-rose-500/10 text-rose-600 border-rose-500/20">Alert</Badge>}
+                <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); sendAlert(log.title); }}>
+                  <AlertTriangle className="w-4 h-4 text-rose-500" />
+                </Button>
               </div>
               <p className="font-medium text-sm">{log.title}</p>
               <p className="text-xs text-muted-foreground mt-1">{log.lastEntry}</p>
@@ -107,7 +114,7 @@ function InteractiveLogs() {
   )
 }
 
-// Brain Protection Gauge
+// ====================== BRAIN PROTECTION GAUGE ======================
 function BrainProtectionGauge() {
   const protectionScore = 78
   return (
@@ -139,66 +146,33 @@ function BrainProtectionGauge() {
               <p className="text-[10px] text-muted-foreground">/ 100</p>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-2">
-            <div className="flex items-center gap-2 p-2 rounded-lg bg-background/50">
-              <Activity className="w-4 h-4 text-emerald-500" />
-              <div>
-                <p className="text-[10px] text-muted-foreground">p-tau217</p>
-                <p className="text-xs font-medium text-emerald-600">-18% vs baseline</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2 p-2 rounded-lg bg-background/50">
-              <Sparkles className="w-4 h-4 text-secondary" />
-              <div>
-                <p className="text-[10px] text-muted-foreground">Estradiol</p>
-                <p className="text-xs font-medium text-secondary">+45% vs baseline</p>
-              </div>
-            </div>
-          </div>
         </div>
       </CardContent>
     </Card>
   )
 }
 
-// Brain Constellation - 6 Mesi (forma di cervello)
-function BrainConstellation() {
-  const [completedMonths, setCompletedMonths] = useState(2)
+// ====================== BRAIN CONSTELLATION (6 Months) ======================
+function BrainConstellation({ onMilestoneClick }: { onMilestoneClick: (month: number) => void }) {
+  const [completedMonths, setCompletedMonths] = useState(3)
   const [isClient, setIsClient] = useState(false)
   const maxMonths = 6
 
   const timepoints = [
-    { id: 1, label: "M1", x: 68, y: 68 },
-    { id: 2, label: "M2", x: 105, y: 42 },
-    { id: 3, label: "M3", x: 155, y: 28 },
-    { id: 4, label: "M4", x: 205, y: 45 },
-    { id: 5, label: "M5", x: 235, y: 78 },
-    { id: 6, label: "M6", x: 160, y: 125 },
+    { id: 1, label: "Month 1", x: 68, y: 68 },
+    { id: 2, label: "Month 2", x: 105, y: 42 },
+    { id: 3, label: "Month 3", x: 155, y: 28 },
+    { id: 4, label: "Month 4", x: 205, y: 45 },
+    { id: 5, label: "Month 5", x: 235, y: 78 },
+    { id: 6, label: "Month 6", x: 160, y: 125 },
   ]
 
-  const connections = [
-    [1,2], [2,3], [3,4], [4,5], [5,6], [6,1],
-    [1,3], [2,4], [3,5], [2,6]
-  ]
+  const connections = [[1,2],[2,3],[3,4],[4,5],[5,6],[6,1],[1,3],[2,4],[3,5],[2,6]]
 
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
+  useEffect(() => { setIsClient(true) }, [])
 
   if (!isClient) {
-    return (
-      <Card className="border-primary/30 bg-gradient-to-br from-violet-500/5 to-transparent">
-        <CardHeader>
-          <div className="flex items-center gap-3">
-            <Brain className="w-6 h-6 text-primary" />
-            <CardTitle className="text-lg">Costellazione Cerebrale</CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent className="h-[240px] flex items-center justify-center">
-          <div className="text-muted-foreground">Caricamento costellazione...</div>
-        </CardContent>
-      </Card>
-    )
+    return <Card className="h-[260px] flex items-center justify-center"><div className="text-muted-foreground">Loading constellation...</div></Card>
   }
 
   return (
@@ -208,12 +182,12 @@ function BrainConstellation() {
           <div className="flex items-center gap-3">
             <Brain className="w-6 h-6 text-primary" />
             <div>
-              <CardTitle className="text-lg">La tua Costellazione Cerebrale</CardTitle>
-              <CardDescription>6 mesi • Un nodo si illumina ogni mese</CardDescription>
+              <CardTitle className="text-lg">My Milestones</CardTitle>
+              <CardDescription>6-month journey • Tap a node for your reward</CardDescription>
             </div>
           </div>
           <Badge variant="outline" className="bg-emerald-500/10 text-emerald-600 border-emerald-500/30 px-3">
-            {completedMonths}/{maxMonths} completati
+            {completedMonths}/6 completed
           </Badge>
         </div>
       </CardHeader>
@@ -227,39 +201,23 @@ function BrainConstellation() {
               if (!nodeA || !nodeB) return null
               const isLit = completedMonths >= Math.max(a, b)
               return (
-                <line
-                  key={i}
-                  x1={nodeA.x} y1={nodeA.y}
-                  x2={nodeB.x} y2={nodeB.y}
-                  stroke={isLit ? "#4C1D95" : "#cbd5e1"}
-                  strokeWidth="3.5"
-                  strokeOpacity={isLit ? 0.95 : 0.4}
-                  strokeDasharray={isLit ? "none" : "3 3"}
-                  className="transition-all duration-700"
-                />
+                <line key={i} x1={nodeA.x} y1={nodeA.y} x2={nodeB.x} y2={nodeB.y}
+                  stroke={isLit ? "#4C1D95" : "#cbd5e1"} strokeWidth="3.5"
+                  strokeOpacity={isLit ? 0.95 : 0.4} strokeDasharray={isLit ? "none" : "3 3"}
+                  className="transition-all duration-700" />
               )
             })}
 
             {timepoints.map((node) => {
               const isLit = completedMonths >= node.id
               return (
-                <g key={node.id}>
+                <g key={node.id} onClick={() => onMilestoneClick(node.id)} className="cursor-pointer">
                   {isLit && <circle cx={node.x} cy={node.y} r="19" fill="#2563EB" opacity="0.25" />}
-                  <circle
-                    cx={node.x}
-                    cy={node.y}
-                    r={isLit ? "13.5" : "10.5"}
+                  <circle cx={node.x} cy={node.y} r={isLit ? "13.5" : "10.5"}
                     fill={isLit ? "#4C1D95" : "#94a3b8"}
-                    className={cn("transition-all duration-500", isLit && "drop-shadow-[0_0_12px_#4C1D95]")}
-                  />
-                  <text
-                    x={node.x}
-                    y={node.y + 33}
-                    textAnchor="middle"
-                    fill={isLit ? "#4C1D95" : "#64748b"}
-                    fontSize="10.5"
-                    fontWeight={isLit ? "700" : "500"}
-                  >
+                    className={cn("transition-all duration-500", isLit && "drop-shadow-[0_0_12px_#4C1D95]")} />
+                  <text x={node.x} y={node.y + 33} textAnchor="middle"
+                    fill={isLit ? "#4C1D95" : "#64748b"} fontSize="10.5" fontWeight={isLit ? "700" : "500"}>
                     {node.label}
                   </text>
                 </g>
@@ -267,88 +225,76 @@ function BrainConstellation() {
             })}
           </svg>
         </div>
-
-        <div className="flex justify-center mt-10">
-          <Button
-            onClick={() => setCompletedMonths(p => Math.min(p + 1, maxMonths))}
-            disabled={completedMonths >= maxMonths}
-            className="gap-2 bg-gradient-to-r from-primary to-secondary hover:brightness-110"
-          >
-            <Sparkles className="w-4 h-4" />
-            {completedMonths >= maxMonths ? "🎉 6 mesi completati!" : "Completa mese successivo"}
-          </Button>
-        </div>
       </CardContent>
     </Card>
   )
 }
 
-// Education + Product Section
-function EducationAndProductSection() {
+// ====================== EDUCATION SECTION ======================
+function EducationSection() {
   return (
     <Card className="border-border shadow-sm">
       <CardHeader>
         <div className="flex items-center gap-3">
           <BookOpen className="w-6 h-6 text-primary" />
-          <CardTitle className="text-xl">Educazione sulla Menopausa e l’Estroboloma</CardTitle>
+          <CardTitle className="text-xl">Menopause Education</CardTitle>
         </div>
       </CardHeader>
       <CardContent className="space-y-8">
         <div>
           <h3 className="font-semibold mb-3 flex items-center gap-2">
             <Leaf className="w-5 h-5 text-emerald-600" />
-            Cos’è l’Estroboloma?
+            What is the Estrobolome?
           </h3>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            L’<strong>estroboloma</strong> è l’insieme di batteri intestinali che aiutano a metabolizzare e riciclare gli estrogeni. 
-            Durante la menopausa un estroboloma sano aiuta a mantenere livelli più stabili di estrogeni circolanti.
+            The <strong>estrobolome</strong> is the collection of gut bacteria that help metabolize and recycle estrogens. 
+            A healthy estrobolome supports more stable estrogen levels during menopause.
           </p>
 
           <div className="mt-6 grid md:grid-cols-2 gap-6 text-sm">
             <div>
-              <h4 className="font-medium mb-2">Cambiamenti ormonali post-menopausa</h4>
+              <h4 className="font-medium mb-2">Hormonal Changes in Post-Menopause</h4>
               <ul className="space-y-2 text-muted-foreground">
-                <li>• Diminuzione di estradiolo ed estrone</li>
-                <li>• Aumento relativo di FSH e LH</li>
-                <li>• Riduzione della protezione cardiovascolare e ossea</li>
+                <li>• Decline in estradiol and estrone</li>
+                <li>• Relative increase in FSH and LH</li>
+                <li>• Reduced cardiovascular and bone protection</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-medium mb-2">Sintomi comuni della menopausa</h4>
+              <h4 className="font-medium mb-2">Common Menopause Symptoms</h4>
               <ul className="space-y-2 text-muted-foreground">
-                <li>• Vampate di calore e sudorazione notturna</li>
-                <li>• Secchezza vaginale e discomfort intimo</li>
-                <li>• Stanchezza, irritabilità, disturbi del sonno</li>
-                <li>• Calo della libido e cambiamenti dell’umore</li>
+                <li>• Hot flashes and night sweats</li>
+                <li>• Vaginal dryness and intimate discomfort</li>
+                <li>• Fatigue, irritability, sleep disturbances</li>
+                <li>• Decreased libido and mood changes</li>
               </ul>
             </div>
           </div>
         </div>
 
         <div className="pt-6 border-t">
-          <h3 className="font-semibold mb-4">Il tuo prodotto nel trial: <span className="text-primary">KANEKA Gyntima Menopausa</span></h3>
+          <h3 className="font-semibold mb-4">Your Trial Product: <span className="text-primary">KANEKA Gyntima Menopausa</span></h3>
           <div className="flex flex-col sm:flex-row gap-6">
             <div className="flex-1">
-              <p className="text-sm text-muted-foreground">Probiotico specifico per la menopausa con i ceppi brevettati:</p>
+              <p className="text-sm text-muted-foreground">Targeted probiotic with patented strains:</p>
               <ul className="mt-3 space-y-2 text-sm">
                 <li className="flex items-center gap-2"><span className="text-emerald-600">•</span> <strong>L. plantarum KABP® 051</strong></li>
-                <li className="flex items-center gap-2"><span className="text-emerald-600">•</span> <strong>L. brevis KABP® 052</strong> (il ceppo del trial)</li>
+                <li className="flex items-center gap-2"><span className="text-emerald-600">•</span> <strong>L. brevis KABP® 052</strong> (trial strain)</li>
                 <li className="flex items-center gap-2"><span className="text-emerald-600">•</span> <strong>P. acidilactici KABP® 021</strong></li>
               </ul>
               <p className="mt-4 text-sm text-muted-foreground">
-                Aiuta a supportare l’estroboloma, mantenere livelli di estrogeni più stabili e ridurre i sintomi della menopausa.
+                Supports the estrobolome, helps stabilize estrogen levels and reduces menopause symptoms.
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:w-64">
               <Button asChild className="gap-2">
                 <a href="https://kanekaprobiotics.com/product/kabp-menopause/" target="_blank" rel="noopener noreferrer">
-                  <ExternalLink className="w-4 h-4" />
-                  Vai al sito ufficiale Kaneka
+                  <ExternalLink className="w-4 h-4" /> Official Kaneka Website
                 </a>
               </Button>
               <Button variant="outline" asChild className="gap-2">
                 <a href="https://kanekaprobiotics.com/product/kabp-menopause/" target="_blank" rel="noopener noreferrer">
-                  📄 Visualizza informazioni prodotto
+                  📄 Product Information
                 </a>
               </Button>
             </div>
@@ -359,85 +305,128 @@ function EducationAndProductSection() {
   )
 }
 
-// Main Patient App
+// ====================== MAIN PATIENT APP ======================
 export function PatientApp() {
+  const [activeSection, setActiveSection] = useState<"home" | "education" | "milestones" | "logs" | "calendar" | "contact">("home")
+
+  const handleMilestoneClick = (month: number) => {
+    const rewards = {
+      1: "🎉 Congratulations! You unlocked a free Pelvic Floor Workshop.",
+      2: "Great job! You earned the Menopause Nutrition Guide.",
+      3: "Milestone reached! Invitation to the Sexual Wellness in Menopause webinar.",
+      4: "Halfway there! Reward: Personalized Sleep Optimization Tips.",
+      5: "Almost done! You unlocked a 1:1 call with the nutritionist.",
+      6: "Trial completed! 🎊 You receive a certificate + lifetime access to the EstroMind community."
+    }
+    alert(rewards[month as keyof typeof rewards] || "Reward unlocked!")
+  }
+
+  const renderContent = () => {
+    switch (activeSection) {
+      case "education":
+        return <EducationSection />
+      case "milestones":
+        return <BrainConstellation onMilestoneClick={handleMilestoneClick} />
+      case "logs":
+        return <InteractiveLogs />
+      case "calendar":
+        return <div className="text-center py-20 text-muted-foreground">📅 My Calendar - Trial appointments will be shown here</div>
+      case "contact":
+        return <div className="text-center py-20 text-muted-foreground">💬 Contact Care Team - Chat coming soon</div>
+      default:
+        return (
+          <>
+            <ProtocolTracker />
+            <BrainProtectionGauge />
+            <InteractiveLogs />
+          </>
+        )
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-background">
-      {/* Mobile Header */}
-      <header className="sticky top-0 z-40 px-4 py-3 bg-background/95 backdrop-blur-sm border-b border-border">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary">
-              <Brain className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <h1 className="text-lg font-bold">EstroMind</h1>
-              <p className="text-xs text-muted-foreground">Your Trial Companion</p>
-            </div>
+    <div className="min-h-screen bg-background flex">
+      {/* Sidebar - Desktop */}
+      <div className="hidden lg:flex w-64 flex-col border-r border-border bg-card p-4">
+        <div className="flex items-center gap-3 mb-8">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+            <Brain className="w-5 h-5 text-white" />
           </div>
-          <Badge variant="outline" className="text-[10px] bg-emerald-500/10 text-emerald-600 border-emerald-500/20">
-            <Shield className="w-3 h-3 mr-1" />
-            Week 8
-          </Badge>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="p-4 pb-24 space-y-6 max-w-lg mx-auto">
-        <div className="text-center py-4">
-          <h2 className="text-xl font-bold text-balance">Good Morning!</h2>
-          <p className="text-sm text-muted-foreground mt-1">Let's track your progress today</p>
-        </div>
-
-        <ProtocolTracker />
-        <BrainProtectionGauge />
-        <BrainConstellation />
-        <EducationAndProductSection />
-        <InteractiveLogs />
-
-        {/* Quick Actions */}
-        <div className="space-y-3">
-          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Quick Actions</h3>
-          <div className="space-y-2">
-            {[
-              { label: "Complete Today's Assessment", icon: Clock },
-              { label: "View My Progress Report", icon: Activity },
-              { label: "Contact My Care Team", icon: Heart }
-            ].map((action) => (
-              <Button key={action.label} variant="outline" className="w-full justify-between h-12">
-                <div className="flex items-center gap-3">
-                  <action.icon className="w-4 h-4 text-muted-foreground" />
-                  <span>{action.label}</span>
-                </div>
-                <ChevronRight className="w-4 h-4 text-muted-foreground" />
-              </Button>
-            ))}
+          <div>
+            <h1 className="font-bold text-xl">EstroMind</h1>
+            <p className="text-xs text-muted-foreground">Patient Portal</p>
           </div>
         </div>
-      </main>
 
-      {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t border-border px-4 py-2 z-40">
-        <div className="flex items-center justify-around max-w-lg mx-auto">
+        <nav className="space-y-1 flex-1">
           {[
-            { icon: Activity, label: "Home", active: true },
-            { icon: Calendar, label: "Schedule", active: false },
-            { icon: Brain, label: "Tests", active: false },
-            { icon: Heart, label: "Wellness", active: false }
+            { id: "home", label: "Home", icon: Activity },
+            { id: "education", label: "Education", icon: BookOpen },
+            { id: "milestones", label: "My Milestones", icon: Brain },
+            { id: "logs", label: "Daily Logs", icon: Clock },
+            { id: "calendar", label: "My Calendar", icon: Calendar },
+            { id: "contact", label: "Contact Care Team", icon: MessageCircle },
           ].map((item) => (
             <button
-              key={item.label}
+              key={item.id}
+              onClick={() => setActiveSection(item.id as any)}
               className={cn(
-                "flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-colors",
-                item.active ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all",
+                activeSection === item.id ? "bg-primary text-primary-foreground" : "hover:bg-muted"
               )}
             >
               <item.icon className="w-5 h-5" />
-              <span className="text-[10px] font-medium">{item.label}</span>
+              {item.label}
             </button>
           ))}
-        </div>
-      </nav>
+        </nav>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col">
+        {/* Mobile Header */}
+        <header className="lg:hidden sticky top-0 z-40 px-4 py-3 bg-background/95 backdrop-blur-sm border-b border-border">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                <Brain className="w-5 h-5 text-white" />
+              </div>
+              <h1 className="font-bold text-xl">EstroMind</h1>
+            </div>
+            <Badge variant="outline" className="text-xs bg-emerald-500/10 text-emerald-600 border-emerald-500/20">
+              <Shield className="w-3 h-3 mr-1" /> Week 8
+            </Badge>
+          </div>
+        </header>
+
+        <main className="flex-1 p-4 lg:p-8 max-w-3xl mx-auto w-full">
+          {renderContent()}
+        </main>
+
+        {/* Bottom Navigation - Mobile */}
+        <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t border-border px-4 py-2 z-50">
+          <div className="flex justify-around max-w-lg mx-auto">
+            {[
+              { id: "home", icon: Activity, label: "Home" },
+              { id: "education", icon: BookOpen, label: "Learn" },
+              { id: "milestones", icon: Brain, label: "Milestones" },
+              { id: "contact", icon: MessageCircle, label: "Chat" }
+            ].map((item) => (
+              <button
+                key={item.id}
+                onClick={() => setActiveSection(item.id as any)}
+                className={cn(
+                  "flex flex-col items-center gap-1 text-xs py-1",
+                  activeSection === item.id ? "text-primary" : "text-muted-foreground"
+                )}
+              >
+                <item.icon className="w-6 h-6" />
+                <span>{item.label}</span>
+              </button>
+            ))}
+          </div>
+        </nav>
+      </div>
     </div>
   )
 }
