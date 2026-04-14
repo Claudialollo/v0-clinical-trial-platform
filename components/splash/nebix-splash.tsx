@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Activity, Lock, Sparkles } from "lucide-react"
+import { Activity, Brain, Lock, Sparkles } from "lucide-react"
 
 type EntryType = "clinician" | "patient"
 
