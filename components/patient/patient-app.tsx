@@ -11,40 +11,173 @@ import {
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 
-// Protocol Tracker
+// Protocol Tracker (tuo originale)
 function ProtocolTracker() {
   const probioticProgress = 85
+  const daysUntilAppointment = 12
+
   return (
-    <Card className="border-border/50 bg-card">
-      <CardContent className="p-6">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <Pill className="w-5 h-5 text-primary" />
-            <span className="font-semibold">KABP052 Intake</span>
+    <div className="space-y-4">
+      <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-secondary/5">
+        <CardContent className="p-4">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/20">
+                <Pill className="w-4 h-4 text-primary" />
+              </div>
+              <span className="font-medium text-sm">KABP052 Intake</span>
+            </div>
+            <Badge variant="outline" className="text-xs bg-emerald-500/10 text-emerald-600 border-emerald-500/20">
+              On Track
+            </Badge>
           </div>
-          <Badge className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20">On Track</Badge>
-        </div>
-        <div className="flex justify-center py-6">
-          <div className="relative w-36 h-36">
-            <svg className="w-full h-full -rotate-90" viewBox="0 0 128 128">
-              <circle cx="64" cy="64" r="56" fill="none" stroke="#e5e5e5" strokeWidth="14"/>
-              <circle cx="64" cy="64" r="56" fill="none" stroke="#4C1D95" strokeWidth="14" strokeLinecap="round"
-                strokeDasharray={`${probioticProgress * 3.52} 352`}/>
-            </svg>
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-5xl font-bold text-primary">{probioticProgress}</span>
-              <span className="text-sm text-muted-foreground">%</span>
+          
+          <div className="flex items-center justify-center py-4">
+            <div className="relative w-32 h-32">
+              <svg className="w-full h-full transform -rotate-90">
+                <circle cx="64" cy="64" r="56" fill="none" stroke="hsl(var(--border))" strokeWidth="8" />
+                <circle cx="64" cy="64" r="56" fill="none" stroke="hsl(var(--primary))" strokeWidth="8" strokeLinecap="round"
+                  strokeDasharray={`${probioticProgress * 3.52} 352`} className="transition-all duration-500" />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <span className="text-3xl font-bold text-primary">{probioticProgress}%</span>
+                <span className="text-xs text-muted-foreground">This Week</span>
+              </div>
+            </div>
+          </div>
+
+          <Button className="w-full bg-primary hover:bg-primary/90">
+            <Check className="w-4 h-4 mr-2" />
+            Log Today's Dose
+          </Button>
+        </CardContent>
+      </Card>
+
+      <Card className="border-secondary/20 bg-gradient-to-br from-secondary/5 to-primary/5">
+        <CardContent className="p-4">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-secondary/20">
+              <Calendar className="w-6 h-6 text-secondary" />
+            </div>
+            <div className="flex-1">
+              <p className="text-xs text-muted-foreground">Next Blood Test</p>
+              <p className="text-lg font-bold">{daysUntilAppointment} Days</p>
+            </div>
+            <div className="text-right">
+              <p className="text-xs text-muted-foreground">April 24</p>
+              <p className="text-xs text-muted-foreground">10:00 AM</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
+// Interactive Logs (tuo originale)
+function InteractiveLogs() {
+  const [selectedLog, setSelectedLog] = useState<string | null>(null)
+
+  const logs = [
+    { id: "sleep", title: "Sleep Quality", icon: Moon, color: "from-violet-500/20 to-purple-500/20", iconColor: "text-violet-600", lastEntry: "7.5 hours", status: "good" },
+    { id: "diet", title: "Diet Log", icon: Utensils, color: "from-emerald-500/20 to-teal-500/20", iconColor: "text-emerald-600", lastEntry: "3 meals logged", status: "good" },
+    { id: "stress", title: "Stress Level", icon: Heart, color: "from-amber-500/20 to-orange-500/20", iconColor: "text-amber-600", lastEntry: "Level 4/10", status: "moderate" },
+    { id: "medication", title: "Other Medications", icon: Pill, color: "from-rose-500/20 to-red-500/20", iconColor: "text-rose-600", lastEntry: "No antibiotics", status: "good", alert: true }
+  ]
+
+  return (
+    <div className="space-y-3">
+      <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Daily Logs</h3>
+      <div className="grid grid-cols-2 gap-3">
+        {logs.map((log) => (
+          <Card 
+            key={log.id}
+            className={cn(
+              "cursor-pointer transition-all duration-200 border-border/50",
+              selectedLog === log.id && "ring-2 ring-primary"
+            )}
+            onClick={() => setSelectedLog(selectedLog === log.id ? null : log.id)}
+          >
+            <CardContent className={cn("p-4 bg-gradient-to-br", log.color)}>
+              <div className="flex items-start justify-between mb-3">
+                <log.icon className={cn("w-5 h-5", log.iconColor)} />
+                {log.alert && (
+                  <Badge variant="outline" className="text-[10px] bg-rose-500/10 text-rose-600 border-rose-500/20">
+                    Alert
+                  </Badge>
+                )}
+              </div>
+              <p className="font-medium text-sm">{log.title}</p>
+              <p className="text-xs text-muted-foreground mt-1">{log.lastEntry}</p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// Brain Protection Gauge (tuo originale)
+function BrainProtectionGauge() {
+  const protectionScore = 78
+  return (
+    <Card className="border-border/50 bg-gradient-to-br from-primary/10 via-secondary/5 to-primary/10 overflow-hidden">
+      <CardContent className="p-4 relative">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl" />
+        <div className="relative">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-primary/20">
+              <Brain className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-sm">Brain Protection Score</h3>
+              <p className="text-xs text-muted-foreground">Based on your adherence</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4 mb-4">
+            <div className="flex-1">
+              <div className="relative h-4 bg-muted rounded-full overflow-hidden">
+                <div 
+                  className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-secondary rounded-full transition-all duration-500"
+                  style={{ width: `${protectionScore}%` }}
+                />
+              </div>
+              <div className="flex justify-between mt-1">
+                <span className="text-[10px] text-muted-foreground">0</span>
+                <span className="text-[10px] text-muted-foreground">100</span>
+              </div>
+            </div>
+            <div className="text-center">
+              <span className="text-3xl font-bold text-primary">{protectionScore}</span>
+              <p className="text-[10px] text-muted-foreground">/ 100</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2">
+            <div className="flex items-center gap-2 p-2 rounded-lg bg-background/50">
+              <Activity className="w-4 h-4 text-emerald-500" />
+              <div>
+                <p className="text-[10px] text-muted-foreground">p-tau217</p>
+                <p className="text-xs font-medium text-emerald-600">-18% vs baseline</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 p-2 rounded-lg bg-background/50">
+              <Sparkles className="w-4 h-4 text-secondary" />
+              <div>
+                <p className="text-[10px] text-muted-foreground">Estradiol</p>
+                <p className="text-xs font-medium text-secondary">+45% vs baseline</p>
+              </div>
             </div>
           </div>
         </div>
-        <Button className="w-full">Log Today's Dose</Button>
       </CardContent>
     </Card>
   )
 }
 
 // Brain Constellation (6 Months)
-function BrainConstellation({ onRewardClick }: { onRewardClick: (month: number) => void }) {
+function BrainConstellation() {
   const [completedMonths, setCompletedMonths] = useState(3)
   const maxMonths = 6
 
@@ -62,10 +195,10 @@ function BrainConstellation({ onRewardClick }: { onRewardClick: (month: number) 
   return (
     <Card className="border-border/50 bg-card">
       <CardHeader>
-        <CardTitle>My Milestones • 6 Months</CardTitle>
-        <CardDescription>Tap a node to see your reward</CardDescription>
+        <CardTitle>My Milestones</CardTitle>
+        <CardDescription>6-month journey • Tap a node for reward</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="pt-4">
         <div className="relative mx-auto" style={{ width: 290, height: 190 }}>
           <svg width="290" height="190" viewBox="0 0 290 190" suppressHydrationWarning>
             {connections.map(([a,b],i) => {
@@ -80,8 +213,8 @@ function BrainConstellation({ onRewardClick }: { onRewardClick: (month: number) 
             {timepoints.map(node => {
               const lit = completedMonths >= node.id
               return (
-                <g key={node.id} onClick={() => onRewardClick(node.id)} className="cursor-pointer">
-                  {lit && <circle cx={node.x} cy={node.y} r="19" fill="#2563EB" opacity="0.25"/>}
+                <g key={node.id}>
+                  {lit && <circle cx={node.x} cy={node.y} r="19" fill="#2563EB" opacity="0.25" />}
                   <circle cx={node.x} cy={node.y} r={lit ? "13.5" : "10.5"} fill={lit ? "#4C1D95" : "#94a3b8"} />
                   <text x={node.x} y={node.y+33} textAnchor="middle" fill={lit ? "#4C1D95" : "#64748b"} fontSize="11" fontWeight={lit ? "700" : "500"}>
                     {node.label}
@@ -96,52 +229,13 @@ function BrainConstellation({ onRewardClick }: { onRewardClick: (month: number) 
   )
 }
 
-// Education Section
-function EducationSection() {
-  return (
-    <Card className="border-border/50 bg-card">
-      <CardHeader>
-        <CardTitle>Menopause Education</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-6 text-sm">
-        <div>
-          <h4 className="font-semibold mb-2">What is the Estrobolome?</h4>
-          <p className="text-muted-foreground">The collection of gut bacteria that help metabolize and recycle estrogens. A healthy estrobolome supports stable estrogen levels during menopause.</p>
-        </div>
-        <div className="grid grid-cols-2 gap-6">
-          <div>
-            <h4 className="font-medium mb-2">Hormonal Changes</h4>
-            <ul className="text-muted-foreground space-y-1">
-              <li>• Decline in estradiol & estrone</li>
-              <li>• Rise in FSH & LH</li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-medium mb-2">Common Symptoms</h4>
-            <ul className="text-muted-foreground space-y-1">
-              <li>• Hot flashes</li>
-              <li>• Vaginal dryness</li>
-              <li>• Sleep issues</li>
-            </ul>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  )
-}
-
-// Main Patient App - Clinician-like Layout
-export default function PatientApp() {
+// Main Patient App - Clinician-style Layout
+export function PatientApp() {
   const [activeSection, setActiveSection] = useState<"dashboard" | "education" | "milestones" | "logs" | "calendar" | "chat">("dashboard")
-
-  const handleReward = (month: number) => {
-    const rewards = ["Pelvic Floor Workshop", "Nutrition Guide", "Sexual Wellness Webinar", "Sleep Tips", "Nutritionist Call", "Certificate + Community"]
-    alert(`Reward unlocked: ${rewards[month-1]}`)
-  }
 
   return (
     <div className="min-h-screen bg-background flex">
-      {/* Sidebar - Clinician Style */}
+      {/* Sidebar sinistra - stile clinician */}
       <div className="w-72 border-r border-border bg-card flex flex-col">
         <div className="p-6 border-b">
           <div className="flex items-center gap-3">
@@ -150,7 +244,7 @@ export default function PatientApp() {
             </div>
             <div>
               <div className="font-bold text-2xl tracking-tight">EstroMind</div>
-              <div className="text-xs text-muted-foreground">Clinical Trial Platform</div>
+              <div className="text-xs text-muted-foreground">Patient Portal</div>
             </div>
           </div>
         </div>
@@ -185,21 +279,16 @@ export default function PatientApp() {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col">
-        {/* Top Header */}
+        {/* Header superiore */}
         <header className="h-16 border-b bg-card px-8 flex items-center justify-between">
+          <div className="text-xl font-semibold">Patient Dashboard</div>
           <div className="flex items-center gap-4">
-            <div className="text-xl font-semibold">Patient Portal</div>
-          </div>
-          <div className="flex items-center gap-6">
-            <div className="text-sm text-muted-foreground">EM-002 • Week 8</div>
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+            <Badge variant="outline">Week 8 • EM-002</Badge>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
                 <Shield className="w-4 h-4" />
               </div>
-              <div>
-                <div className="text-sm font-medium">Patient EM-002</div>
-                <div className="text-xs text-muted-foreground">KABP052 Trial</div>
-              </div>
+              <div className="text-sm">Patient EM-002</div>
             </div>
           </div>
         </header>
@@ -209,7 +298,7 @@ export default function PatientApp() {
           {activeSection === "dashboard" && (
             <div className="space-y-8">
               <div>
-                <h1 className="text-3xl font-bold tracking-tight">Welcome back</h1>
+                <h1 className="text-3xl font-bold tracking-tight">Good Morning, EM-002</h1>
                 <p className="text-muted-foreground">Here's your progress in the KABP052 trial</p>
               </div>
               <ProtocolTracker />
@@ -217,37 +306,42 @@ export default function PatientApp() {
             </div>
           )}
 
-          {activeSection === "education" && <EducationSection />}
-          {activeSection === "milestones" && <BrainConstellation onRewardClick={handleReward} />}
-          {activeSection === "logs" && <InteractiveLogs />}
-          {activeSection === "calendar" && (
-            <Card>
-              <CardHeader><CardTitle>My Calendar</CardTitle></CardHeader>
-              <CardContent className="space-y-4">
-                <div className="p-4 border rounded-xl flex gap-4">
-                  <Calendar className="w-5 h-5 text-primary mt-1" />
-                  <div>
-                    <p className="font-medium">Blood Draw + Biomarkers</p>
-                    <p className="text-sm text-muted-foreground">April 24, 2026 • 10:00 AM • Clinic</p>
-                  </div>
-                </div>
-                <div className="p-4 border rounded-xl flex gap-4">
-                  <Calendar className="w-5 h-5 text-primary mt-1" />
-                  <div>
-                    <p className="font-medium">Telemedicine Follow-up</p>
-                    <p className="text-sm text-muted-foreground">May 15, 2026 • 11:30 AM • Online</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+          {activeSection === "education" && (
+            <div className="max-w-2xl">
+              <h2 className="text-2xl font-bold mb-6">Menopause Education</h2>
+              <div className="prose text-muted-foreground">
+                <p>The estrobolome is the group of gut bacteria that help metabolize and recycle estrogens.</p>
+                <p>During menopause, a healthy estrobolome helps maintain more stable estrogen levels.</p>
+              </div>
+            </div>
           )}
+
+          {activeSection === "milestones" && <BrainConstellation />}
+
+          {activeSection === "logs" && <InteractiveLogs />}
+
+          {activeSection === "calendar" && (
+            <div>
+              <h2 className="text-2xl font-bold mb-6">My Calendar</h2>
+              <div className="space-y-4">
+                <div className="p-6 border rounded-2xl">
+                  <p className="font-medium">Blood Draw + Biomarkers</p>
+                  <p className="text-sm text-muted-foreground">April 24, 2026 • 10:00 AM</p>
+                </div>
+                <div className="p-6 border rounded-2xl">
+                  <p className="font-medium">Telemedicine Follow-up</p>
+                  <p className="text-sm text-muted-foreground">May 15, 2026 • 11:30 AM</p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {activeSection === "chat" && (
-            <Card className="h-[500px]">
-              <CardHeader><CardTitle>Chat with Your Clinician</CardTitle></CardHeader>
-              <CardContent className="flex items-center justify-center h-96 text-muted-foreground">
-                Secure AI + Clinician chat coming soon
-              </CardContent>
-            </Card>
+            <div className="text-center py-20">
+              <MessageCircle className="w-12 h-12 mx-auto mb-4 text-primary" />
+              <h3 className="text-xl font-semibold">Chat with your Clinician</h3>
+              <p className="text-muted-foreground mt-2">Secure messaging and AI support</p>
+            </div>
           )}
         </main>
       </div>
