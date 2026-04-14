@@ -44,7 +44,7 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.5 }}
-            className="relative z-10 flex flex-col items-center gap-4 px-6"
+            className="relative z-10 flex flex-col items-center gap-4 px-6 pt-32"
           >
             {/* Logo */}
             <motion.div
