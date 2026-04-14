@@ -23,12 +23,10 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState<SidebarSection>("dashboard")
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-  // Handle entry from splash screen
   const handleSplashEnter = (type: "clinician" | "patient") => {
     setCurrentView(type)
   }
 
-  // When clicking biomarkers in sidebar, also update the view switcher
   const handleSectionChange = (section: SidebarSection) => {
     setActiveSection(section)
     if (section === "biomarkers") {
@@ -38,7 +36,6 @@ export default function Home() {
     }
   }
 
-  // Sync sidebar when view changes
   const handleViewChange = (view: AppView) => {
     setCurrentView(view)
     if (view === "biomarkers") {
@@ -48,7 +45,6 @@ export default function Home() {
     }
   }
 
-  // Render content based on active sidebar section
   const renderClinicianContent = () => {
     switch (activeSection) {
       case "patients":
@@ -56,9 +52,7 @@ export default function Home() {
           <>
             <div className="flex flex-col gap-1">
               <h1 className="text-2xl font-bold tracking-tight">Patient Management</h1>
-              <p className="text-muted-foreground">
-                Monitor all enrolled patients in the KABP052 trial
-              </p>
+              <p className="text-muted-foreground">Monitor all enrolled patients in the KABP052 trial</p>
             </div>
             <PatientTable />
           </>
@@ -68,9 +62,7 @@ export default function Home() {
           <>
             <div className="flex flex-col gap-1">
               <h1 className="text-2xl font-bold tracking-tight">Alert Center</h1>
-              <p className="text-muted-foreground">
-                Real-time red flags and patient notifications
-              </p>
+              <p className="text-muted-foreground">Real-time red flags and patient notifications</p>
             </div>
             <AlertCenter expanded />
           </>
@@ -80,9 +72,7 @@ export default function Home() {
           <>
             <div className="flex flex-col gap-1">
               <h1 className="text-2xl font-bold tracking-tight">Remote Test Deployer</h1>
-              <p className="text-muted-foreground">
-                Deploy cognitive scales and PROMs to patient devices
-              </p>
+              <p className="text-muted-foreground">Deploy cognitive scales and PROMs to patient devices</p>
             </div>
             <TestDeployer />
           </>
@@ -92,9 +82,7 @@ export default function Home() {
           <>
             <div className="flex flex-col gap-1">
               <h1 className="text-2xl font-bold tracking-tight">Communication Hub</h1>
-              <p className="text-muted-foreground">
-                Secure messaging and AI conversation insights
-              </p>
+              <p className="text-muted-foreground">Secure messaging and AI conversation insights</p>
             </div>
             <CommunicationHub expanded />
           </>
@@ -104,9 +92,7 @@ export default function Home() {
           <>
             <div className="flex flex-col gap-1">
               <h1 className="text-2xl font-bold tracking-tight">Settings</h1>
-              <p className="text-muted-foreground">
-                Configure trial parameters and notifications
-              </p>
+              <p className="text-muted-foreground">Configure trial parameters and notifications</p>
             </div>
             <div className="p-8 rounded-xl border border-border bg-card text-center">
               <p className="text-muted-foreground">Settings panel coming soon</p>
@@ -118,18 +104,12 @@ export default function Home() {
           <>
             <div className="flex flex-col gap-1">
               <h1 className="text-2xl font-bold tracking-tight">Clinical Trial Dashboard</h1>
-              <p className="text-muted-foreground">
-                Gut-Brain Axis Study: KABP052 Probiotic Trial
-              </p>
+              <p className="text-muted-foreground">Gut-Brain Axis Study: KABP052 Probiotic Trial</p>
             </div>
             <StatsCards />
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-              <div className="xl:col-span-2">
-                <PatientTable />
-              </div>
-              <div className="xl:col-span-1">
-                <AlertCenter />
-              </div>
+              <div className="xl:col-span-2"><PatientTable /></div>
+              <div className="xl:col-span-1"><AlertCenter /></div>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <TestDeployer />
@@ -141,14 +121,12 @@ export default function Home() {
     }
   }
 
-  // Don't show splash if already entered
   if (currentView === "splash") {
     return <NebixSplash onEnter={handleSplashEnter} />
   }
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {/* View Switcher - Demo Navigation */}
       <ViewSwitcher currentView={currentView} onViewChange={handleViewChange} />
 
       {/* Clinician Dashboard View */}
@@ -177,9 +155,7 @@ export default function Home() {
               <div className="max-w-7xl mx-auto space-y-6">
                 <div className="flex flex-col gap-1">
                   <h1 className="text-2xl font-bold tracking-tight">Biomarker Analytics</h1>
-                  <p className="text-muted-foreground">
-                    p-tau217 vs Estradiol correlation analysis with lifestyle event markers
-                  </p>
+                  <p className="text-muted-foreground">p-tau217 vs Estradiol correlation analysis with lifestyle event markers</p>
                 </div>
                 <BiomarkerChart />
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -225,12 +201,11 @@ export default function Home() {
 
       {/* Patient App View */}
       {currentView === "patient" && (
-        <div className="flex-1 max-w-lg mx-auto w-full border-x border-border bg-background shadow-2xl mt-12">
+        <div className="flex-1 w-full">
           <PatientApp />
         </div>
       )}
 
-      {/* AI Chatbot - Available on all views */}
       <AIChatbot />
     </div>
   )
