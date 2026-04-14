@@ -57,8 +57,8 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
                 <img src="/nebix-logo.png" alt="NEBix Logo" className="w-24 h-24 object-contain" />
               </div>
             </motion.div>
-
-            {/* Brand name */}
+{/* Brand name */}
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
@@ -73,7 +73,7 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
                 transition={{ delay: 0.6, duration: 0.8 }}
                 className="mt-4 text-lg md:text-xl text-slate-400 font-light tracking-wide"
               >
-                Neuro-Endocrine-Brain Integrated Experience
+                Neuro-Estrogen-Biotics Integrated Experience
               </motion.p>
             </motion.div>
 
