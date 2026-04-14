@@ -44,7 +44,7 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.5 }}
-            className="relative z-10 flex flex-col items-center gap-8 px-6"
+            className="relative z-10 flex flex-col items-center gap-4 px-6"
           >
             {/* Brain icon with glow */}
             <motion.div
@@ -54,7 +54,7 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
               className="relative"
             >
               <div className="relative flex items-center justify-center w-48 h-48">
-                <img src="/nebix-logo.png" alt="NEBix Logo" className="w-48 h-48 object-contain" />
+                <img src="/nebix-logo.png" alt="NEBix Logo" className="w-48 h-48 object-contain mix-blend-screen" />
               </div>
             </motion.div>
 
