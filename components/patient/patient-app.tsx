@@ -7,7 +7,7 @@ import {
   Brain, Calendar, Check, Clock, Heart, Moon, Utensils, Activity,
   Pill, Shield, Sparkles, BookOpen, MessageCircle, Trophy, Bell,
   Send, Bot, User, X, AlertTriangle, Lock, Package, Info,
-  ThumbsUp, Leaf, FlaskConical
+  ThumbsUp, Leaf, FlaskConical, ChevronRight
 } from "lucide-react"
 import { useState } from "react"
 import { cn } from "@/lib/utils"
@@ -297,12 +297,17 @@ function BrainConstellation() {
 
 // ── EDUCATION ─────────────────────────────────────────────────────
 function Education() {
-  const [activeTab, setActiveTab] = useState(0)
+  const [selectedTopic, setSelectedTopic] = useState<number | null>(null)
 
   const topics = [
     {
       title: "Hormonal Changes",
-      icon: "🌡️",
+      icon: Activity,
+      color: "from-rose-500 to-pink-600",
+      bgColor: "bg-rose-500/10",
+      borderColor: "border-rose-500/30",
+      iconColor: "text-rose-500",
+      description: "What happens to your body during menopause",
       content: [
         { heading: "What happens hormonally?", text: "During menopause, the ovaries gradually reduce production of estrogen and progesterone. This transition — called perimenopause — typically begins in the mid-40s and can last several years. Estradiol (E2), the primary form of estrogen, drops significantly, affecting many body systems including the brain, heart, bones, and skin." },
         { heading: "Vasomotor Symptoms", text: "Hot flashes and night sweats affect up to 80% of menopausal women. They are triggered by estrogen's effect on the hypothalamus, which regulates body temperature. A hot flash typically lasts 1–5 minutes and can occur multiple times daily. Night sweats can severely disrupt sleep quality and subsequent daily functioning." },
@@ -315,7 +320,12 @@ function Education() {
     },
     {
       title: "Estrobolome & Gut",
-      icon: "🦠",
+      icon: FlaskConical,
+      color: "from-emerald-500 to-teal-600",
+      bgColor: "bg-emerald-500/10",
+      borderColor: "border-emerald-500/30",
+      iconColor: "text-emerald-500",
+      description: "How your gut microbiome regulates estrogen",
       content: [
         { heading: "What is the estrobolome?", text: "The estrobolome is a specific subset of gut bacteria that produce the enzyme beta-glucuronidase, which deconjugates estrogens in the gut — allowing them to be reabsorbed into circulation rather than excreted. A balanced estrobolome therefore helps maintain adequate circulating estrogen levels, which is particularly important during the hormonal decline of menopause." },
         { heading: "Dysbiosis and hormonal imbalance", text: "When the gut microbiome is disrupted (dysbiosis), beta-glucuronidase activity can become too high or too low. High activity leads to excess estrogen reabsorption (linked to estrogen-sensitive cancers). Low activity leads to insufficient estrogen recycling, worsening menopausal symptoms. Causes of dysbiosis include antibiotics, processed food diet, chronic stress, aging, and alcohol." },
@@ -325,7 +335,12 @@ function Education() {
     },
     {
       title: "Probiotics & Trial",
-      icon: "💊",
+      icon: Pill,
+      color: "from-violet-500 to-purple-600",
+      bgColor: "bg-violet-500/10",
+      borderColor: "border-violet-500/30",
+      iconColor: "text-violet-500",
+      description: "How KABP052 works and what to expect",
       content: [
         { heading: "How do probiotics help?", text: "Specific probiotic strains can restore microbial balance in the estrobolome, reducing dysbiosis-related beta-glucuronidase overactivity and improving estrogen metabolism. This may help maintain more stable estradiol levels during menopause, reducing symptom severity and supporting neuroprotection." },
         { heading: "About KABP052", text: "KABP052 is a multi-strain probiotic formulation developed for neuro-endocrine support in perimenopausal and menopausal women. The strains were selected based on preclinical and clinical evidence for their ability to modulate the gut-brain axis, support estrogen recycling, and reduce systemic inflammation markers." },
@@ -335,51 +350,145 @@ function Education() {
     },
     {
       title: "Menopause Symptoms",
-      icon: "📋",
+      icon: Heart,
+      color: "from-amber-500 to-orange-600",
+      bgColor: "bg-amber-500/10",
+      borderColor: "border-amber-500/30",
+      iconColor: "text-amber-500",
+      description: "Complete guide to symptoms and management",
       content: [
         { heading: "Vasomotor: Hot Flashes & Night Sweats", text: "The most common and disruptive symptoms, affecting ~80% of women. Caused by the hypothalamus becoming hypersensitive to small temperature changes due to estrogen withdrawal. Triggers include: warm environments, spicy foods, caffeine, alcohol, stress. Frequency and severity are highly individual — some women experience mild occasional flushes, others 20+ per day." },
         { heading: "Genitourinary Syndrome of Menopause (GSM)", text: "Encompasses vaginal dryness, itching, burning, pain during intercourse, urinary urgency, frequency, and recurrent UTIs. Affects ~50% of postmenopausal women but is significantly underreported. Unlike vasomotor symptoms which often improve over time, GSM is progressive without treatment. Effective treatments exist — local estrogen, ospemifene, vaginal moisturisers." },
         { heading: "Mood: Anxiety, Irritability & Depression", text: "Perimenopausal hormonal fluctuations can trigger new-onset anxiety and depression even in women with no prior psychiatric history. The mood vulnerability window coincides with periods of greatest hormonal variability, not necessarily lowest estrogen. Symptoms include: heightened anxiety, panic attacks, rage, tearfulness, emotional fragility, low motivation." },
         { heading: "Cognitive: Brain Fog & Memory", text: "Includes forgetfulness (especially verbal recall), difficulty concentrating, slower processing speed, word-finding difficulties, and mental fatigue. Most prominent during perimenopause. Research from the SWAN study shows objective cognitive decline during transition that typically recovers post-menopause. Sleep deprivation significantly amplifies cognitive symptoms." },
-        { heading: "Sleep: Insomnia & Disruption", text: "Menopausal insomnia is multifactorial: night sweats causing arousal, reduced progesterone (a natural sleep promoter), anxiety-driven hyperarousal, and altered circadian rhythms. Consequences include daytime fatigue, impaired memory consolidation, elevated cortisol, and increased cardiovascular risk. Good sleep hygiene, CBT-I (cognitive behavioural therapy for insomnia), and addressing night sweats are first-line approaches." },
+        { heading: "Sleep: Insomnia & Disruption", text: "Menopausal insomnia is multifactorial: night sweats causing arousal, reduced progesterone (a natural sleep promoter), anxiety-driven hyperarousal, and altered circadian rhythms. Consequences include daytime fatigue, impaired memory consolidation, elevated cortisol, and increased cardiovascular risk. Good sleep hygiene, CBT-I, and addressing night sweats are first-line approaches." },
         { heading: "Musculoskeletal: Joints, Bones & Muscle", text: "Estrogen has anti-inflammatory properties and supports collagen production. Its decline leads to joint stiffness and pain (especially in hands, knees, hips), muscle mass reduction (sarcopenia), and accelerated bone density loss. Women lose up to 20% of bone density in the first 5–7 years post-menopause. Weight-bearing exercise and adequate calcium and vitamin D are essential." },
-        { heading: "Cardiovascular Changes", text: "Estrogen protects blood vessels by maintaining arterial elasticity, reducing LDL cholesterol, and supporting healthy blood pressure. After menopause, cardiovascular disease risk rises sharply — women in their 60s have similar heart disease rates to men of the same age. Lifestyle modification (diet, exercise, stress management) and regular monitoring are critical." },
+        { heading: "Cardiovascular Changes", text: "Estrogen protects blood vessels by maintaining arterial elasticity, reducing LDL cholesterol, and supporting healthy blood pressure. After menopause, cardiovascular disease risk rises sharply — women in their 60s have similar heart disease rates to men of the same age. Lifestyle modification and regular monitoring are critical." },
         { heading: "Skin, Hair & Body Composition", text: "Collagen decreases ~30% in the first 5 years of menopause, causing skin thinning, dryness, and increased wrinkling. Hair may thin and become more brittle. Weight tends to redistribute from hips to abdomen (visceral fat), increasing metabolic risk. These changes are gradual and manageable with targeted lifestyle strategies." },
+      ]
+    },
+    {
+      title: "Brain & Cognition",
+      icon: Brain,
+      color: "from-blue-500 to-cyan-600",
+      bgColor: "bg-blue-500/10",
+      borderColor: "border-blue-500/30",
+      iconColor: "text-blue-500",
+      description: "Estrogen's role in neuroprotection",
+      content: [
+        { heading: "Why estrogen matters for the brain", text: "Estrogen plays a neuroprotective role by supporting serotonin and dopamine function, promoting synaptic plasticity, and helping clear amyloid beta — a protein linked to Alzheimer's disease. Lower estrogen levels are associated with increased neuroinflammation and higher risk of cognitive decline." },
+        { heading: "The p-tau217 biomarker", text: "Phosphorylated tau protein 217 (p-tau217) is an early blood-based biomarker for Alzheimer's risk. Elevated levels indicate tau pathology in the brain. In our trial, we monitor p-tau217 as a key indicator of neurodegeneration risk and neuroprotective benefit from estrogen restoration via the estrobolome." },
+        { heading: "Estrogen and memory", text: "Estradiol directly supports hippocampal neurogenesis (the growth of new brain cells in the memory centre), enhances synaptic connections, and improves verbal memory and executive function. The cognitive decline seen in perimenopause correlates strongly with estradiol fluctuations rather than absolute levels." },
+        { heading: "The gut-brain-hormone axis", text: "This trial is built on the hypothesis that restoring estrobolome function → increases circulating estradiol → reduces p-tau217 → lowers Alzheimer's risk. The gut-brain-hormone axis represents one of the most promising new frontiers in women's neuroscience and dementia prevention." },
+      ]
+    },
+    {
+      title: "Sleep & Recovery",
+      icon: Moon,
+      color: "from-indigo-500 to-violet-600",
+      bgColor: "bg-indigo-500/10",
+      borderColor: "border-indigo-500/30",
+      iconColor: "text-indigo-500",
+      description: "Why sleep is your most powerful tool",
+      content: [
+        { heading: "Sleep and the glymphatic system", text: "During deep sleep, the brain's glymphatic system activates — a cleaning mechanism that flushes out metabolic waste including amyloid beta and tau proteins. Poor sleep directly impairs this clearance, accelerating neurodegenerative risk. In menopausal women, sleep disruption therefore compounds hormonal neurodegeneration risk." },
+        { heading: "Progesterone and sleep architecture", text: "Progesterone, which declines alongside estrogen in menopause, has natural sedative properties via GABA-A receptor modulation. Its loss contributes to reduced slow-wave (deep) sleep, more frequent awakenings, and reduced REM sleep — all of which impair cognitive consolidation and emotional regulation." },
+        { heading: "How your probiotic supports sleep", text: "Gut bacteria influence sleep via the gut-brain axis. Bifidobacterium and Lactobacillus strains produce GABA and serotonin precursors that support sleep onset and quality. Clinical studies show probiotic supplementation can improve sleep scores in menopausal women, particularly when combined with consistent dosing and stress management." },
+        { heading: "Practical sleep tips", text: "Keep a consistent sleep/wake schedule. Keep the bedroom cool (16–19°C is optimal). Avoid caffeine after 2pm and alcohol within 3 hours of sleep. Use your sleep log in the app to identify patterns. Report significant disruptions to your clinician via the alert system." },
       ]
     },
   ]
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-5xl mx-auto space-y-8">
       <div>
         <h2 className="text-2xl font-bold">Menopause Education Hub</h2>
-        <p className="text-muted-foreground mt-1">Evidence-based resources tailored to your trial journey</p>
+        <p className="text-muted-foreground mt-1">Tap a topic to explore evidence-based resources</p>
       </div>
-      <div className="flex gap-2 flex-wrap">
-        {topics.map((t, i) => (
-          <button key={i} onClick={() => setActiveTab(i)}
-            className={cn("px-4 py-2 rounded-xl text-sm font-medium transition-all",
-              activeTab === i ? "bg-primary text-primary-foreground" : "bg-muted hover:bg-muted/80")}>
-            {t.icon} {t.title}
+
+      {/* Icon Grid */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        {topics.map((topic, i) => (
+          <button
+            key={i}
+            onClick={() => setSelectedTopic(i)}
+            className={cn(
+              "group p-6 rounded-2xl border text-left transition-all duration-300 hover:scale-105 hover:shadow-lg",
+              topic.bgColor, topic.borderColor
+            )}
+          >
+            <div className={cn(
+              "w-14 h-14 rounded-2xl flex items-center justify-center mb-4 bg-gradient-to-br shadow-lg",
+              topic.color
+            )}>
+              <topic.icon className="w-7 h-7 text-white" />
+            </div>
+            <h3 className="font-semibold text-base mb-1">{topic.title}</h3>
+            <p className="text-xs text-muted-foreground leading-relaxed">{topic.description}</p>
+            <div className={cn("mt-3 text-xs font-medium flex items-center gap-1", topic.iconColor)}>
+              Tap to explore <ChevronRight className="w-3 h-3" />
+            </div>
           </button>
         ))}
       </div>
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <span className="text-2xl">{topics[activeTab].icon}</span>
-            {topics[activeTab].title}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {topics[activeTab].content.map((section, i) => (
-            <div key={i} className="p-4 rounded-xl bg-muted/30 border border-border/50">
-              <h4 className="font-semibold mb-2 text-primary">{section.heading}</h4>
-              <p className="text-sm text-muted-foreground leading-relaxed">{section.text}</p>
+
+      {/* Modal */}
+      {selectedTopic !== null && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+          <div className="bg-card border border-border rounded-2xl w-full max-w-2xl max-h-[80vh] flex flex-col shadow-2xl">
+            {/* Modal Header */}
+            <div className={cn(
+              "flex items-center justify-between p-6 border-b rounded-t-2xl",
+              topics[selectedTopic].bgColor
+            )}>
+              <div className="flex items-center gap-4">
+                <div className={cn(
+                  "w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br shadow-lg",
+                  topics[selectedTopic].color
+                )}>
+                  {(() => {
+                    const Icon = topics[selectedTopic].icon
+                    return <Icon className="w-6 h-6 text-white" />
+                  })()}
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold">{topics[selectedTopic].title}</h3>
+                  <p className="text-sm text-muted-foreground">{topics[selectedTopic].description}</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setSelectedTopic(null)}
+                className="w-8 h-8 rounded-full bg-background/80 flex items-center justify-center hover:bg-background transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
             </div>
-          ))}
-        </CardContent>
-      </Card>
+
+            {/* Modal Content */}
+            <div className="flex-1 overflow-y-auto p-6 space-y-4">
+              {topics[selectedTopic].content.map((section, i) => (
+                <div key={i} className={cn(
+                  "p-4 rounded-xl border",
+                  topics[selectedTopic].bgColor,
+                  topics[selectedTopic].borderColor
+                )}>
+                  <h4 className={cn("font-semibold mb-2 text-sm", topics[selectedTopic].iconColor)}>
+                    {section.heading}
+                  </h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{section.text}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 border-t">
+              <Button variant="outline" className="w-full" onClick={() => setSelectedTopic(null)}>
+                Close
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
