@@ -398,21 +398,22 @@ function ProductInfo() {
             <div className="text-4xl">💊</div>
             <div>
               <h3 className="text-xl font-bold">Kaneka Gyntima Menopause</h3>
-              <p className="text-sm text-muted-foreground mt-1">Multi-strain probiotic formulation for menopausal women</p>
+              <p className="text-sm text-muted-foreground mt-1">Three-strain probiotic blend for peri- and post-menopausal women — the first clinically proven probiotic to modulate estrogen levels via the estrobolome.</p>
               <div className="flex gap-2 mt-2 flex-wrap">
                 <Badge className="bg-primary/10 text-primary border-primary/20">Probiotic</Badge>
-                <Badge className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20">Clinically Studied</Badge>
-                <Badge className="bg-violet-500/10 text-violet-600 border-violet-500/20">Neuro-Endocrine Support</Badge>
+                <Badge className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20">RCT Clinically Proven</Badge>
+                <Badge className="bg-violet-500/10 text-violet-600 border-violet-500/20">Estrobolome Targeted</Badge>
               </div>
             </div>
           </div>
           {[
-            { label: "Product Name", value: "Kaneka Gyntima Menopause (KABP052)" },
+            { label: "Commercial Name", value: "Gyntima Menopause® (KABP Menopause)" },
+            { label: "Manufacturer", value: "AB-Biotics / Kaneka Probiotics Group" },
             { label: "Form", value: "Oral capsule" },
             { label: "Daily Dose", value: "1 capsule per day, preferably with a meal" },
-            { label: "Duration", value: "6-month trial protocol" },
+            { label: "Trial Duration", value: "6 months (NEBix KABP052 trial protocol)" },
+            { label: "Clinical Study Duration", value: "12 weeks (published RCT, Journal of Medical Food)" },
             { label: "Storage", value: "Store below 25°C, away from direct sunlight and moisture" },
-            { label: "Manufacturer", value: "Kaneka Corporation / Gyntima Research Division" },
           ].map((item, i) => (
             <div key={i} className="flex justify-between items-center p-3 rounded-lg border border-border/50 bg-card">
               <span className="text-sm font-medium text-muted-foreground">{item.label}</span>
@@ -427,54 +428,60 @@ function ProductInfo() {
       icon: <FlaskConical className="w-5 h-5" />,
       content: (
         <div className="space-y-4">
-          <p className="text-sm text-muted-foreground">KABP052 contains a proprietary blend of probiotic strains selected for their evidence-based activity on the estrobolome and gut-brain axis:</p>
+          <p className="text-sm text-muted-foreground">Gyntima Menopause contains <strong>3 clinically selected probiotic strains</strong> in a <strong>2:1:1 CFU ratio</strong>, chosen from a screening of over 80 strains for β-glucuronidase (GUS) activity:</p>
           {[
-            { strain: "Lactobacillus acidophilus LA-5", cfu: "2 × 10⁹ CFU", role: "Supports estrogen metabolism via beta-glucuronidase modulation. Reduces intestinal permeability and supports vaginal microbiome health.", color: "from-violet-500/10 to-purple-500/10" },
-            { strain: "Lactobacillus rhamnosus GG", cfu: "1 × 10⁹ CFU", role: "Anti-inflammatory properties. Supports gut barrier integrity and has demonstrated effects on anxiety and mood via the vagus nerve pathway.", color: "from-blue-500/10 to-cyan-500/10" },
-            { strain: "Bifidobacterium longum BB536", cfu: "1 × 10⁹ CFU", role: "Reduces systemic inflammation (IL-6, TNF-α). Supports cognitive function and has shown positive effects on sleep quality in clinical studies.", color: "from-emerald-500/10 to-teal-500/10" },
-            { strain: "Lactobacillus gasseri BNR17", cfu: "5 × 10⁸ CFU", role: "Supports healthy body composition and metabolic function. May reduce visceral fat accumulation associated with menopausal transition.", color: "from-amber-500/10 to-orange-500/10" },
-            { strain: "Bifidobacterium breve BR03", cfu: "5 × 10⁸ CFU", role: "Supports GABA production and mood regulation. Demonstrated improvements in anxiety scores in perimenopausal women in a randomised controlled trial.", color: "from-rose-500/10 to-pink-500/10" },
+            {
+              strain: "Levilactobacillus brevis KABP® 052",
+              ratio: "2 parts (dominant strain)",
+              role: "Selected for the highest β-glucuronidase (GUS) activity among 80+ screened strains. Directly deconjugates estrogen glucuronides in the gut, enabling reabsorption of free estrogen back into the bloodstream. This is the primary driver of estrogen recycling in the formula.",
+              color: "from-violet-500/10 to-purple-500/10",
+              badge: "Primary GUS Activity"
+            },
+            {
+              strain: "Lactiplantibacillus plantarum KABP® 051",
+              ratio: "1 part",
+              role: "Selected for its ability to inhibit gut pathogens and improve gut homeostasis. Supports the intestinal barrier and reduces systemic inflammation — creating a stable gut environment that enhances estrobolome function.",
+              color: "from-blue-500/10 to-cyan-500/10",
+              badge: "Gut Homeostasis"
+            },
+            {
+              strain: "Pediococcus acidilactici KABP® 021",
+              ratio: "1 part",
+              role: "Contributes to pathogen inhibition and gut microbiome balance. Also present in Kaneka's other clinically validated probiotic formulations (i3.1, AB-LIFE), demonstrating a strong safety and efficacy profile across multiple indications.",
+              color: "from-emerald-500/10 to-teal-500/10",
+              badge: "Microbiome Balance"
+            },
           ].map((s, i) => (
             <div key={i} className={cn("p-4 rounded-xl border border-border/50 bg-gradient-to-br", s.color)}>
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
                 <p className="font-semibold text-sm">{s.strain}</p>
-                <Badge variant="outline" className="text-xs">{s.cfu}</Badge>
+                <Badge variant="outline" className="text-xs">{s.badge}</Badge>
               </div>
+              <p className="text-xs text-muted-foreground mb-2"><span className="font-medium">Ratio:</span> {s.ratio}</p>
               <p className="text-xs text-muted-foreground leading-relaxed">{s.role}</p>
             </div>
           ))}
-          <div className="p-3 rounded-lg bg-muted/50 border border-border/50">
-            <p className="text-xs text-muted-foreground"><span className="font-semibold">Total CFU per capsule:</span> 5 × 10⁹ (5 billion colony forming units). Viability guaranteed until end of shelf life when stored correctly.</p>
+          <div className="p-4 rounded-xl border border-primary/20 bg-primary/5">
+            <h4 className="font-semibold text-sm mb-2">How the blend was developed</h4>
+            <p className="text-xs text-muted-foreground leading-relaxed">Researchers at AB-Biotics conducted in vitro screening of over 80 strains across 16 species of lactic acid bacteria and bifidobacteria for β-glucuronidase activity. L. brevis KABP 052 showed the highest deconjugation capacity and was selected as the dominant strain, then combined with the two supporting strains for gut stability. The resulting 2:1:1 formula was validated in a double-blind, randomised, placebo-controlled clinical trial on 100 peri- and post-menopausal women, published in the Journal of Medical Food (2024).</p>
           </div>
         </div>
       )
     },
     {
-      title: "Indications & Use",
+      title: "Clinical Evidence",
       icon: <Info className="w-5 h-5" />,
       content: (
         <div className="space-y-4">
+          <div className="p-4 rounded-xl border border-primary/20 bg-primary/5">
+            <h4 className="font-semibold mb-2">The Clinical Trial</h4>
+            <p className="text-sm text-muted-foreground leading-relaxed">A prospective, double-blind, randomised, placebo-controlled clinical study on <strong>100 healthy peri- and post-menopausal women</strong> aged 45–55. Published in the <em>Journal of Medical Food</em> (2024). Duration: <strong>12 weeks</strong>, 1 capsule daily.</p>
+          </div>
           {[
-            {
-              heading: "Intended Use",
-              text: "Kaneka Gyntima Menopause is indicated as a dietary supplement to support gut microbiome health, estrogen metabolism, and overall wellbeing in perimenopausal and menopausal women.",
-              color: "border-primary/30 bg-primary/5"
-            },
-            {
-              heading: "Target Symptoms",
-              text: "The formulation is designed to support management of: vasomotor symptoms (hot flashes, night sweats), mood and anxiety fluctuations, cognitive symptoms (brain fog, memory), sleep disturbances, vaginal microbiome health, and metabolic changes associated with menopause.",
-              color: "border-secondary/30 bg-secondary/5"
-            },
-            {
-              heading: "How to Take",
-              text: "Take 1 capsule daily, preferably with your largest meal of the day to maximise probiotic survival in the gastric environment. Take at the same time each day to maintain consistent gut colonisation. Do not take within 2 hours of antibiotics.",
-              color: "border-emerald-500/30 bg-emerald-500/5"
-            },
-            {
-              heading: "What to Expect",
-              text: "Weeks 1–2: Possible mild digestive adjustment (bloating, altered bowel habits) — this is normal and typically resolves. Weeks 4–8: Many women notice improved gut comfort, mood stability, and reduced hot flash frequency. Months 3–6: Biomarker improvements (estradiol, p-tau217) become measurable. Full benefit requires consistent 6-month intake.",
-              color: "border-amber-500/30 bg-amber-500/5"
-            },
+            { heading: "Primary Finding", text: "After 12 weeks, estrogen levels (estrone and estradiol) were significantly more sustained in the Gyntima Menopause group compared to placebo when adjusted for age and baseline. The placebo group showed significant estrogen decline; the probiotic group did not reach clinical significance of decline.", color: "border-emerald-500/30 bg-emerald-500/5" },
+            { heading: "Mechanism Confirmed", text: "The formula works by increasing β-glucuronidase (GUS) activity in the gut, deconjugating estrogen glucuronides and allowing free estrogen to be reabsorbed into the bloodstream. This is the first commercial probiotic clinically proven to operate via this mechanism.", color: "border-violet-500/30 bg-violet-500/5" },
+            { heading: "Microbiome Observation", text: "Interestingly, no notable changes were observed in fecal microbiome composition, suggesting the probiotic's estrogen-modulating effects occur primarily in the upper gastrointestinal tract rather than through permanent microbiome colonisation.", color: "border-blue-500/30 bg-blue-500/5" },
+            { heading: "Safety Profile", text: "The formula was well tolerated across all 100 participants with no serious adverse events reported. This confirms the safety profile already established through Kaneka's broader probiotic portfolio.", color: "border-amber-500/30 bg-amber-500/5" },
           ].map((item, i) => (
             <div key={i} className={cn("p-4 rounded-xl border", item.color)}>
               <h4 className="font-semibold mb-2">{item.heading}</h4>
@@ -485,78 +492,47 @@ function ProductInfo() {
       )
     },
     {
-      title: "Safety & Interactions",
+      title: "How to Use",
+      icon: <Pill className="w-5 h-5" />,
+      content: (
+        <div className="space-y-4">
+          {[
+            { heading: "Dosage", text: "Take 1 capsule per day, preferably with your largest meal to maximise probiotic survival through the gastric environment. Take at the same time each day to maintain consistent colonisation.", color: "border-primary/30 bg-primary/5" },
+            { heading: "What to Expect — Timeline", text: "Weeks 1–2: Possible mild digestive adjustment (bloating, altered bowel habits) as the microbiome adjusts — this is normal and typically resolves. Weeks 4–8: Many women notice improved gut comfort, mood stability, and reduced hot flash frequency. Months 3–6: Biomarker improvements (estradiol, p-tau217, FSH) become measurable in blood draws.", color: "border-emerald-500/30 bg-emerald-500/5" },
+            { heading: "Antibiotics — Important", text: "If prescribed antibiotics, complete the full course as directed by your doctor. Continue taking the probiotic but separate by at least 2 hours. Report antibiotic use immediately via the Daily Logs alert — it is a critical biomarker event in your trial.", color: "border-amber-500/30 bg-amber-500/5" },
+            { heading: "Storage", text: "Store below 25°C, away from direct sunlight and moisture. No refrigeration required. Do not use after the expiry date printed on the packaging.", color: "border-border/50 bg-muted/30" },
+          ].map((item, i) => (
+            <div key={i} className={cn("p-4 rounded-xl border", item.color)}>
+              <h4 className="font-semibold mb-2">{item.heading}</h4>
+              <p className="text-sm text-muted-foreground leading-relaxed">{item.text}</p>
+            </div>
+          ))}
+        </div>
+      )
+    },
+    {
+      title: "Safety",
       icon: <Shield className="w-5 h-5" />,
       content: (
         <div className="space-y-4">
           <div className="p-4 rounded-xl border border-amber-500/30 bg-amber-500/5">
             <div className="flex items-center gap-2 mb-2">
               <AlertTriangle className="w-4 h-4 text-amber-500" />
-              <h4 className="font-semibold text-amber-700">Important Safety Information</h4>
+              <h4 className="font-semibold text-amber-700">Important Notice</h4>
             </div>
-            <p className="text-sm text-muted-foreground">This product is a dietary supplement, not a medicine. It does not replace prescribed hormone therapy or other medical treatments. Always consult your clinician before making changes to your treatment plan.</p>
+            <p className="text-sm text-muted-foreground">This is a dietary supplement, not a medicine. It does not replace prescribed hormone therapy or other medical treatments. Always consult your clinician before changing your treatment plan.</p>
           </div>
           {[
-            { heading: "Contraindications", text: "Do not use if you have a known allergy to any of the ingredients. Use with caution in severely immunocompromised patients — consult your physician first. Not recommended during active systemic infection.", color: "border-rose-500/30 bg-rose-500/5" },
-            { heading: "Antibiotic Interactions", text: "Antibiotics will significantly reduce the viability of probiotic strains. If you are prescribed antibiotics, continue taking your probiotic but separate intake by at least 2 hours. Report antibiotic use immediately via the Daily Logs alert system, as this is a key biomarker event in your trial.", color: "border-orange-500/30 bg-orange-500/5" },
-            { heading: "Side Effects", text: "Very commonly (>10%): mild bloating or gas in the first 1–2 weeks. Commonly (1–10%): altered bowel habits (loose stools or constipation). Rarely (<1%): mild nausea. If symptoms persist beyond 2 weeks or are severe, report via the app or contact your clinician.", color: "border-violet-500/30 bg-violet-500/5" },
-            { heading: "Pregnancy & Breastfeeding", text: "Safety during pregnancy and breastfeeding has not been established in clinical trials. Discuss with your clinician if applicable.", color: "border-blue-500/30 bg-blue-500/5" },
+            { heading: "Side Effects", text: "Very commonly (>10%): mild bloating or gas in the first 1–2 weeks. Commonly (1–10%): altered bowel habits. These are normal signs of microbiome adjustment and typically resolve spontaneously. Report persistent or severe symptoms via the app or to your clinician.", color: "border-rose-500/30 bg-rose-500/5" },
+            { heading: "Contraindications", text: "Do not use if you have a known allergy to any ingredient. Use with caution in severely immunocompromised patients — consult your physician first. Not recommended during active systemic infection.", color: "border-orange-500/30 bg-orange-500/5" },
+            { heading: "Pregnancy & Breastfeeding", text: "Safety during pregnancy and breastfeeding has not been established in clinical trials for this specific formulation. Discuss with your clinician if applicable.", color: "border-blue-500/30 bg-blue-500/5" },
+            { heading: "Quality & Certification", text: "Manufactured in GMP-certified facilities by AB-Biotics (Kaneka Group). Strain identity verified by 16S rRNA gene sequencing. Third-party tested for potency and purity. Viability guaranteed until end of shelf life when stored correctly.", color: "border-emerald-500/30 bg-emerald-500/5" },
           ].map((item, i) => (
             <div key={i} className={cn("p-4 rounded-xl border", item.color)}>
               <h4 className="font-semibold mb-2">{item.heading}</h4>
               <p className="text-sm text-muted-foreground leading-relaxed">{item.text}</p>
             </div>
           ))}
-        </div>
-      )
-    },
-    {
-      title: "Ingredients",
-      icon: <Leaf className="w-5 h-5" />,
-      content: (
-        <div className="space-y-4">
-          <div className="p-4 rounded-xl border border-border/50 bg-muted/30">
-            <h4 className="font-semibold mb-3">Full Ingredients List</h4>
-            <div className="space-y-2">
-              {[
-                { name: "Probiotic blend (KABP052)", amount: "200 mg", note: "5 × 10⁹ CFU total" },
-                { name: "Microcrystalline cellulose", amount: "85 mg", note: "Bulking agent" },
-                { name: "Hydroxypropyl methylcellulose", amount: "—", note: "Capsule shell (vegetarian)" },
-                { name: "Magnesium stearate", amount: "5 mg", note: "Anti-caking agent" },
-                { name: "Silicon dioxide", amount: "3 mg", note: "Anti-caking agent" },
-              ].map((ing, i) => (
-                <div key={i} className="flex justify-between items-center py-2 border-b border-border/30 last:border-0">
-                  <div>
-                    <p className="text-sm font-medium">{ing.name}</p>
-                    <p className="text-xs text-muted-foreground">{ing.note}</p>
-                  </div>
-                  <span className="text-sm text-muted-foreground">{ing.amount}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            {[
-              { label: "Gluten Free", value: "✅ Yes" },
-              { label: "Lactose Free", value: "✅ Yes" },
-              { label: "Vegetarian", value: "✅ Yes" },
-              { label: "Vegan", value: "✅ Yes" },
-              { label: "GMO Free", value: "✅ Yes" },
-              { label: "Allergens", value: "None declared" },
-            ].map((item, i) => (
-              <div key={i} className="p-3 rounded-lg border border-border/50 bg-card flex justify-between">
-                <span className="text-sm text-muted-foreground">{item.label}</span>
-                <span className="text-sm font-medium">{item.value}</span>
-              </div>
-            ))}
-          </div>
-          <div className="p-4 rounded-xl border border-emerald-500/30 bg-emerald-500/5 flex items-start gap-3">
-            <ThumbsUp className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
-            <div>
-              <h4 className="font-semibold text-emerald-700 mb-1">Quality Certification</h4>
-              <p className="text-sm text-muted-foreground">Manufactured in GMP-certified facilities. Third-party tested for potency, purity, and absence of contaminants. Strain identity verified by 16S rRNA gene sequencing.</p>
-            </div>
-          </div>
         </div>
       )
     },
@@ -566,7 +542,7 @@ function ProductInfo() {
     <div className="max-w-4xl mx-auto space-y-6">
       <div>
         <h2 className="text-2xl font-bold">My Product: Kaneka Gyntima Menopause</h2>
-        <p className="text-muted-foreground mt-1">Complete product information and patient leaflet</p>
+        <p className="text-muted-foreground mt-1">Complete product information based on published clinical data</p>
       </div>
       <div className="flex gap-2 flex-wrap">
         {sections.map((s, i) => (
@@ -589,7 +565,6 @@ function ProductInfo() {
     </div>
   )
 }
-
 // ── CHAT ──────────────────────────────────────────────────────────
 function ChatSection() {
   const [messages, setMessages] = useState([
