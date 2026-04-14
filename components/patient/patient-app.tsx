@@ -3,15 +3,14 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
 import { 
-  Brain, Calendar, Check, Clock, Heart, Moon, Utensils, Activity, 
-  Pill, ChevronRight, Shield, Sparkles 
+  Brain, Calendar, Check, Clock, Heart, Moon, Utensils, Activity,
+  Pill, ChevronRight, Shield, Sparkles, BookOpen, Leaf, ExternalLink
 } from "lucide-react"
 import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 
-// Protocol Tracker Component (il tuo originale)
+// Protocol Tracker
 function ProtocolTracker() {
   const probioticProgress = 85
   const daysUntilAppointment = 12
@@ -31,7 +30,6 @@ function ProtocolTracker() {
               On Track
             </Badge>
           </div>
-          
           <div className="flex items-center justify-center py-4">
             <div className="relative w-32 h-32">
               <svg className="w-full h-full transform -rotate-90">
@@ -45,7 +43,6 @@ function ProtocolTracker() {
               </div>
             </div>
           </div>
-
           <Button className="w-full bg-primary hover:bg-primary/90">
             <Check className="w-4 h-4 mr-2" />
             Log Today's Dose
@@ -74,7 +71,7 @@ function ProtocolTracker() {
   )
 }
 
-// Interactive Logs (il tuo originale)
+// Interactive Logs
 function InteractiveLogs() {
   const [selectedLog, setSelectedLog] = useState<string | null>(null)
 
@@ -90,7 +87,7 @@ function InteractiveLogs() {
       <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Daily Logs</h3>
       <div className="grid grid-cols-2 gap-3">
         {logs.map((log) => (
-          <Card 
+          <Card
             key={log.id}
             className={cn("cursor-pointer transition-all duration-200 border-border/50", selectedLog === log.id && "ring-2 ring-primary")}
             onClick={() => setSelectedLog(selectedLog === log.id ? null : log.id)}
@@ -110,7 +107,7 @@ function InteractiveLogs() {
   )
 }
 
-// Brain Protection Gauge (il tuo originale)
+// Brain Protection Gauge
 function BrainProtectionGauge() {
   const protectionScore = 78
   return (
@@ -164,24 +161,24 @@ function BrainProtectionGauge() {
   )
 }
 
-// === BRAIN CONSTELLATION A FORMA DI CERVELLO (versione corretta e Vercel-safe) ===
+// Brain Constellation - 6 Mesi (forma di cervello)
 function BrainConstellation() {
-  const [completedTimepoints, setCompletedTimepoints] = useState(3)
+  const [completedMonths, setCompletedMonths] = useState(2)
   const [isClient, setIsClient] = useState(false)
-  const maxTimepoints = 6
+  const maxMonths = 6
 
   const timepoints = [
-    { id: 1, label: "Baseline", x: 72,  y: 55 },
-    { id: 2, label: "W2",       x: 115, y: 38 },
-    { id: 3, label: "W4",       x: 165, y: 32 },
-    { id: 4, label: "W8",       x: 205, y: 48 },
-    { id: 5, label: "W12",      x: 238, y: 78 },
-    { id: 6, label: "Fine",     x: 155, y: 125 },
+    { id: 1, label: "M1", x: 68, y: 68 },
+    { id: 2, label: "M2", x: 105, y: 42 },
+    { id: 3, label: "M3", x: 155, y: 28 },
+    { id: 4, label: "M4", x: 205, y: 45 },
+    { id: 5, label: "M5", x: 235, y: 78 },
+    { id: 6, label: "M6", x: 160, y: 125 },
   ]
 
   const connections = [
-    [1,2], [2,3], [3,4], [4,5], [5,6],
-    [1,3], [2,4], [3,5], [1,6], [4,6]
+    [1,2], [2,3], [3,4], [4,5], [5,6], [6,1],
+    [1,3], [2,4], [3,5], [2,6]
   ]
 
   useEffect(() => {
@@ -212,11 +209,11 @@ function BrainConstellation() {
             <Brain className="w-6 h-6 text-primary" />
             <div>
               <CardTitle className="text-lg">La tua Costellazione Cerebrale</CardTitle>
-              <CardDescription>Ogni timepoint completato illumina una regione</CardDescription>
+              <CardDescription>6 mesi • Un nodo si illumina ogni mese</CardDescription>
             </div>
           </div>
           <Badge variant="outline" className="bg-emerald-500/10 text-emerald-600 border-emerald-500/30 px-3">
-            {completedTimepoints}/6 attive
+            {completedMonths}/{maxMonths} completati
           </Badge>
         </div>
       </CardHeader>
@@ -228,40 +225,40 @@ function BrainConstellation() {
               const nodeA = timepoints.find(n => n.id === a)
               const nodeB = timepoints.find(n => n.id === b)
               if (!nodeA || !nodeB) return null
-              const isLit = completedTimepoints >= Math.max(a, b)
+              const isLit = completedMonths >= Math.max(a, b)
               return (
                 <line
                   key={i}
                   x1={nodeA.x} y1={nodeA.y}
                   x2={nodeB.x} y2={nodeB.y}
                   stroke={isLit ? "#4C1D95" : "#cbd5e1"}
-                  strokeWidth="3"
-                  strokeOpacity={isLit ? 0.9 : 0.35}
-                  strokeDasharray={isLit ? "none" : "2 2"}
+                  strokeWidth="3.5"
+                  strokeOpacity={isLit ? 0.95 : 0.4}
+                  strokeDasharray={isLit ? "none" : "3 3"}
                   className="transition-all duration-700"
                 />
               )
             })}
 
             {timepoints.map((node) => {
-              const isLit = completedTimepoints >= node.id
+              const isLit = completedMonths >= node.id
               return (
                 <g key={node.id}>
-                  {isLit && <circle cx={node.x} cy={node.y} r="19" fill="#2563EB" opacity="0.22" />}
+                  {isLit && <circle cx={node.x} cy={node.y} r="19" fill="#2563EB" opacity="0.25" />}
                   <circle
                     cx={node.x}
                     cy={node.y}
-                    r={isLit ? "13" : "10.5"}
+                    r={isLit ? "13.5" : "10.5"}
                     fill={isLit ? "#4C1D95" : "#94a3b8"}
-                    className={cn("transition-all duration-500", isLit && "drop-shadow-[0_0_10px_#4C1D95]")}
+                    className={cn("transition-all duration-500", isLit && "drop-shadow-[0_0_12px_#4C1D95]")}
                   />
                   <text
                     x={node.x}
-                    y={node.y + 32}
+                    y={node.y + 33}
                     textAnchor="middle"
                     fill={isLit ? "#4C1D95" : "#64748b"}
-                    fontSize="10"
-                    fontWeight={isLit ? "600" : "500"}
+                    fontSize="10.5"
+                    fontWeight={isLit ? "700" : "500"}
                   >
                     {node.label}
                   </text>
@@ -271,14 +268,14 @@ function BrainConstellation() {
           </svg>
         </div>
 
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-center mt-10">
           <Button
-            onClick={() => setCompletedTimepoints(p => Math.min(p + 1, maxTimepoints))}
-            disabled={completedTimepoints >= maxTimepoints}
-            className="gap-2 bg-gradient-to-r from-primary to-secondary"
+            onClick={() => setCompletedMonths(p => Math.min(p + 1, maxMonths))}
+            disabled={completedMonths >= maxMonths}
+            className="gap-2 bg-gradient-to-r from-primary to-secondary hover:brightness-110"
           >
             <Sparkles className="w-4 h-4" />
-            {completedTimepoints >= maxTimepoints ? "🎉 Trial completato!" : "Completa prossimo timepoint"}
+            {completedMonths >= maxMonths ? "🎉 6 mesi completati!" : "Completa mese successivo"}
           </Button>
         </div>
       </CardContent>
@@ -286,7 +283,83 @@ function BrainConstellation() {
   )
 }
 
-// Main Patient App Component
+// Education + Product Section
+function EducationAndProductSection() {
+  return (
+    <Card className="border-border shadow-sm">
+      <CardHeader>
+        <div className="flex items-center gap-3">
+          <BookOpen className="w-6 h-6 text-primary" />
+          <CardTitle className="text-xl">Educazione sulla Menopausa e l’Estroboloma</CardTitle>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-8">
+        <div>
+          <h3 className="font-semibold mb-3 flex items-center gap-2">
+            <Leaf className="w-5 h-5 text-emerald-600" />
+            Cos’è l’Estroboloma?
+          </h3>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            L’<strong>estroboloma</strong> è l’insieme di batteri intestinali che aiutano a metabolizzare e riciclare gli estrogeni. 
+            Durante la menopausa un estroboloma sano aiuta a mantenere livelli più stabili di estrogeni circolanti.
+          </p>
+
+          <div className="mt-6 grid md:grid-cols-2 gap-6 text-sm">
+            <div>
+              <h4 className="font-medium mb-2">Cambiamenti ormonali post-menopausa</h4>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>• Diminuzione di estradiolo ed estrone</li>
+                <li>• Aumento relativo di FSH e LH</li>
+                <li>• Riduzione della protezione cardiovascolare e ossea</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-medium mb-2">Sintomi comuni della menopausa</h4>
+              <ul className="space-y-2 text-muted-foreground">
+                <li>• Vampate di calore e sudorazione notturna</li>
+                <li>• Secchezza vaginale e discomfort intimo</li>
+                <li>• Stanchezza, irritabilità, disturbi del sonno</li>
+                <li>• Calo della libido e cambiamenti dell’umore</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div className="pt-6 border-t">
+          <h3 className="font-semibold mb-4">Il tuo prodotto nel trial: <span className="text-primary">KANEKA Gyntima Menopausa</span></h3>
+          <div className="flex flex-col sm:flex-row gap-6">
+            <div className="flex-1">
+              <p className="text-sm text-muted-foreground">Probiotico specifico per la menopausa con i ceppi brevettati:</p>
+              <ul className="mt-3 space-y-2 text-sm">
+                <li className="flex items-center gap-2"><span className="text-emerald-600">•</span> <strong>L. plantarum KABP® 051</strong></li>
+                <li className="flex items-center gap-2"><span className="text-emerald-600">•</span> <strong>L. brevis KABP® 052</strong> (il ceppo del trial)</li>
+                <li className="flex items-center gap-2"><span className="text-emerald-600">•</span> <strong>P. acidilactici KABP® 021</strong></li>
+              </ul>
+              <p className="mt-4 text-sm text-muted-foreground">
+                Aiuta a supportare l’estroboloma, mantenere livelli di estrogeni più stabili e ridurre i sintomi della menopausa.
+              </p>
+            </div>
+            <div className="flex flex-col gap-3 sm:w-64">
+              <Button asChild className="gap-2">
+                <a href="https://kanekaprobiotics.com/product/kabp-menopause/" target="_blank" rel="noopener noreferrer">
+                  <ExternalLink className="w-4 h-4" />
+                  Vai al sito ufficiale Kaneka
+                </a>
+              </Button>
+              <Button variant="outline" asChild className="gap-2">
+                <a href="https://kanekaprobiotics.com/product/kabp-menopause/" target="_blank" rel="noopener noreferrer">
+                  📄 Visualizza informazioni prodotto
+                </a>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+// Main Patient App
 export function PatientApp() {
   return (
     <div className="min-h-screen bg-background">
@@ -302,12 +375,10 @@ export function PatientApp() {
               <p className="text-xs text-muted-foreground">Your Trial Companion</p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <Badge variant="outline" className="text-[10px] bg-emerald-500/10 text-emerald-600 border-emerald-500/20">
-              <Shield className="w-3 h-3 mr-1" />
-              Week 8
-            </Badge>
-          </div>
+          <Badge variant="outline" className="text-[10px] bg-emerald-500/10 text-emerald-600 border-emerald-500/20">
+            <Shield className="w-3 h-3 mr-1" />
+            Week 8
+          </Badge>
         </div>
       </header>
 
@@ -320,10 +391,8 @@ export function PatientApp() {
 
         <ProtocolTracker />
         <BrainProtectionGauge />
-
-        {/* ← LA COSTELLAZIONE QUI */}
         <BrainConstellation />
-
+        <EducationAndProductSection />
         <InteractiveLogs />
 
         {/* Quick Actions */}
