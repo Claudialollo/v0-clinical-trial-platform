@@ -5,47 +5,43 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { 
   Brain, Calendar, Check, Clock, Heart, Moon, Utensils, Activity,
-  Pill, ChevronRight, Shield, Sparkles, BookOpen, Leaf, ExternalLink,
-  MessageCircle, AlertTriangle
+  Pill, Shield, Sparkles, BookOpen, MessageCircle
 } from "lucide-react"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { cn } from "@/lib/utils"
 
-// Protocol Tracker (tuo originale)
 function ProtocolTracker() {
   const probioticProgress = 85
   const daysUntilAppointment = 12
 
   return (
-    <div className="space-y-4">
+    <div className="grid grid-cols-2 gap-6">
       <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-secondary/5">
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between mb-3">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/20">
                 <Pill className="w-4 h-4 text-primary" />
               </div>
-              <span className="font-medium text-sm">KABP052 Intake</span>
+              <span className="font-medium">KABP052 Intake</span>
             </div>
-            <Badge variant="outline" className="text-xs bg-emerald-500/10 text-emerald-600 border-emerald-500/20">
+            <Badge variant="outline" className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20">
               On Track
             </Badge>
           </div>
-          
-          <div className="flex items-center justify-center py-4">
-            <div className="relative w-32 h-32">
+          <div className="flex items-center justify-center py-6">
+            <div className="relative w-40 h-40">
               <svg className="w-full h-full transform -rotate-90">
-                <circle cx="64" cy="64" r="56" fill="none" stroke="hsl(var(--border))" strokeWidth="8" />
-                <circle cx="64" cy="64" r="56" fill="none" stroke="hsl(var(--primary))" strokeWidth="8" strokeLinecap="round"
-                  strokeDasharray={`${probioticProgress * 3.52} 352`} className="transition-all duration-500" />
+                <circle cx="80" cy="80" r="70" fill="none" stroke="hsl(var(--border))" strokeWidth="10" />
+                <circle cx="80" cy="80" r="70" fill="none" stroke="hsl(var(--primary))" strokeWidth="10" strokeLinecap="round"
+                  strokeDasharray={`${probioticProgress * 4.4} 440`} className="transition-all duration-500" />
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-3xl font-bold text-primary">{probioticProgress}%</span>
-                <span className="text-xs text-muted-foreground">This Week</span>
+                <span className="text-4xl font-bold text-primary">{probioticProgress}%</span>
+                <span className="text-sm text-muted-foreground">This Week</span>
               </div>
             </div>
           </div>
-
           <Button className="w-full bg-primary hover:bg-primary/90">
             <Check className="w-4 h-4 mr-2" />
             Log Today's Dose
@@ -54,18 +50,15 @@ function ProtocolTracker() {
       </Card>
 
       <Card className="border-secondary/20 bg-gradient-to-br from-secondary/5 to-primary/5">
-        <CardContent className="p-4">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-secondary/20">
-              <Calendar className="w-6 h-6 text-secondary" />
+        <CardContent className="p-6 flex flex-col justify-center h-full">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-secondary/20">
+              <Calendar className="w-8 h-8 text-secondary" />
             </div>
-            <div className="flex-1">
-              <p className="text-xs text-muted-foreground">Next Blood Test</p>
-              <p className="text-lg font-bold">{daysUntilAppointment} Days</p>
-            </div>
-            <div className="text-right">
-              <p className="text-xs text-muted-foreground">April 24</p>
-              <p className="text-xs text-muted-foreground">10:00 AM</p>
+            <div>
+              <p className="text-sm text-muted-foreground">Next Blood Test</p>
+              <p className="text-3xl font-bold">{daysUntilAppointment} Days</p>
+              <p className="text-sm text-muted-foreground">April 24 • 10:00 AM</p>
             </div>
           </div>
         </CardContent>
@@ -74,7 +67,6 @@ function ProtocolTracker() {
   )
 }
 
-// Interactive Logs (tuo originale)
 function InteractiveLogs() {
   const [selectedLog, setSelectedLog] = useState<string | null>(null)
 
@@ -86,11 +78,11 @@ function InteractiveLogs() {
   ]
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Daily Logs</h3>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-4 gap-4">
         {logs.map((log) => (
-          <Card 
+          <Card
             key={log.id}
             className={cn(
               "cursor-pointer transition-all duration-200 border-border/50",
@@ -98,17 +90,17 @@ function InteractiveLogs() {
             )}
             onClick={() => setSelectedLog(selectedLog === log.id ? null : log.id)}
           >
-            <CardContent className={cn("p-4 bg-gradient-to-br", log.color)}>
+            <CardContent className={cn("p-5 bg-gradient-to-br", log.color)}>
               <div className="flex items-start justify-between mb-3">
-                <log.icon className={cn("w-5 h-5", log.iconColor)} />
+                <log.icon className={cn("w-6 h-6", log.iconColor)} />
                 {log.alert && (
                   <Badge variant="outline" className="text-[10px] bg-rose-500/10 text-rose-600 border-rose-500/20">
                     Alert
                   </Badge>
                 )}
               </div>
-              <p className="font-medium text-sm">{log.title}</p>
-              <p className="text-xs text-muted-foreground mt-1">{log.lastEntry}</p>
+              <p className="font-medium">{log.title}</p>
+              <p className="text-sm text-muted-foreground mt-1">{log.lastEntry}</p>
             </CardContent>
           </Card>
         ))}
@@ -117,57 +109,53 @@ function InteractiveLogs() {
   )
 }
 
-// Brain Protection Gauge (tuo originale)
 function BrainProtectionGauge() {
   const protectionScore = 78
   return (
-    <Card className="border-border/50 bg-gradient-to-br from-primary/10 via-secondary/5 to-primary/10 overflow-hidden">
-      <CardContent className="p-4 relative">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl" />
-        <div className="relative">
-          <div className="flex items-center gap-2 mb-4">
-            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-primary/20">
-              <Brain className="w-5 h-5 text-primary" />
+    <Card className="border-border/50 bg-gradient-to-br from-primary/10 via-secondary/5 to-primary/10">
+      <CardContent className="p-6">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-primary/20">
+            <Brain className="w-6 h-6 text-primary" />
+          </div>
+          <div>
+            <h3 className="font-semibold">Brain Protection Score</h3>
+            <p className="text-sm text-muted-foreground">Based on your adherence</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-6 mb-6">
+          <div className="flex-1">
+            <div className="relative h-5 bg-muted rounded-full overflow-hidden">
+              <div
+                className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-secondary rounded-full transition-all duration-500"
+                style={{ width: `${protectionScore}%` }}
+              />
             </div>
+            <div className="flex justify-between mt-1">
+              <span className="text-xs text-muted-foreground">0</span>
+              <span className="text-xs text-muted-foreground">100</span>
+            </div>
+          </div>
+          <div className="text-center">
+            <span className="text-4xl font-bold text-primary">{protectionScore}</span>
+            <p className="text-xs text-muted-foreground">/ 100</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex items-center gap-3 p-4 rounded-xl bg-background/50">
+            <Activity className="w-5 h-5 text-emerald-500" />
             <div>
-              <h3 className="font-semibold text-sm">Brain Protection Score</h3>
-              <p className="text-xs text-muted-foreground">Based on your adherence</p>
+              <p className="text-xs text-muted-foreground">p-tau217</p>
+              <p className="text-sm font-medium text-emerald-600">-18% vs baseline</p>
             </div>
           </div>
-
-          <div className="flex items-center gap-4 mb-4">
-            <div className="flex-1">
-              <div className="relative h-4 bg-muted rounded-full overflow-hidden">
-                <div 
-                  className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-secondary rounded-full transition-all duration-500"
-                  style={{ width: `${protectionScore}%` }}
-                />
-              </div>
-              <div className="flex justify-between mt-1">
-                <span className="text-[10px] text-muted-foreground">0</span>
-                <span className="text-[10px] text-muted-foreground">100</span>
-              </div>
-            </div>
-            <div className="text-center">
-              <span className="text-3xl font-bold text-primary">{protectionScore}</span>
-              <p className="text-[10px] text-muted-foreground">/ 100</p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-2">
-            <div className="flex items-center gap-2 p-2 rounded-lg bg-background/50">
-              <Activity className="w-4 h-4 text-emerald-500" />
-              <div>
-                <p className="text-[10px] text-muted-foreground">p-tau217</p>
-                <p className="text-xs font-medium text-emerald-600">-18% vs baseline</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2 p-2 rounded-lg bg-background/50">
-              <Sparkles className="w-4 h-4 text-secondary" />
-              <div>
-                <p className="text-[10px] text-muted-foreground">Estradiol</p>
-                <p className="text-xs font-medium text-secondary">+45% vs baseline</p>
-              </div>
+          <div className="flex items-center gap-3 p-4 rounded-xl bg-background/50">
+            <Sparkles className="w-5 h-5 text-secondary" />
+            <div>
+              <p className="text-xs text-muted-foreground">Estradiol</p>
+              <p className="text-sm font-medium text-secondary">+45% vs baseline</p>
             </div>
           </div>
         </div>
@@ -176,10 +164,8 @@ function BrainProtectionGauge() {
   )
 }
 
-// Brain Constellation (6 Months)
 function BrainConstellation() {
-  const [completedMonths, setCompletedMonths] = useState(3)
-  const maxMonths = 6
+  const [completedMonths] = useState(3)
 
   const timepoints = [
     { id: 1, label: "M1", x: 68, y: 68 },
@@ -196,9 +182,9 @@ function BrainConstellation() {
     <Card className="border-border/50 bg-card">
       <CardHeader>
         <CardTitle>My Milestones</CardTitle>
-        <CardDescription>6-month journey • Tap a node for reward</CardDescription>
+        <CardDescription>6-month journey</CardDescription>
       </CardHeader>
-      <CardContent className="pt-4">
+      <CardContent>
         <div className="relative mx-auto" style={{ width: 290, height: 190 }}>
           <svg width="290" height="190" viewBox="0 0 290 190" suppressHydrationWarning>
             {connections.map(([a,b],i) => {
@@ -209,7 +195,6 @@ function BrainConstellation() {
               return <line key={i} x1={A.x} y1={A.y} x2={B.x} y2={B.y}
                 stroke={lit ? "#4C1D95" : "#cbd5e1"} strokeWidth="3.5" strokeOpacity={lit ? 0.95 : 0.4} />
             })}
-
             {timepoints.map(node => {
               const lit = completedMonths >= node.id
               return (
@@ -229,21 +214,20 @@ function BrainConstellation() {
   )
 }
 
-// Main Patient App - Clinician-style Layout
 export function PatientApp() {
   const [activeSection, setActiveSection] = useState<"dashboard" | "education" | "milestones" | "logs" | "calendar" | "chat">("dashboard")
 
   return (
     <div className="min-h-screen bg-background flex">
-      {/* Sidebar sinistra - stile clinician */}
-      <div className="w-72 border-r border-border bg-card flex flex-col">
+      {/* Sidebar */}
+      <div className="w-64 border-r border-border bg-card flex flex-col fixed h-full">
         <div className="p-6 border-b">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
               <Brain className="w-6 h-6 text-white" />
             </div>
             <div>
-              <div className="font-bold text-2xl tracking-tight">EstroMind</div>
+              <div className="font-bold text-xl tracking-tight">NEBix</div>
               <div className="text-xs text-muted-foreground">Patient Portal</div>
             </div>
           </div>
@@ -277,10 +261,9 @@ export function PatientApp() {
         </div>
       </div>
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col">
-        {/* Header superiore */}
-        <header className="h-16 border-b bg-card px-8 flex items-center justify-between">
+      {/* Main Content */}
+      <div className="flex-1 ml-64 flex flex-col">
+        <header className="h-16 border-b bg-card px-8 flex items-center justify-between sticky top-0 z-10">
           <div className="text-xl font-semibold">Patient Dashboard</div>
           <div className="flex items-center gap-4">
             <Badge variant="outline">Week 8 • EM-002</Badge>
@@ -293,10 +276,9 @@ export function PatientApp() {
           </div>
         </header>
 
-        {/* Content */}
         <main className="flex-1 p-8 overflow-auto">
           {activeSection === "dashboard" && (
-            <div className="space-y-8">
+            <div className="space-y-8 max-w-6xl mx-auto">
               <div>
                 <h1 className="text-3xl font-bold tracking-tight">Good Morning, EM-002</h1>
                 <p className="text-muted-foreground">Here's your progress in the KABP052 trial</p>
@@ -307,21 +289,29 @@ export function PatientApp() {
           )}
 
           {activeSection === "education" && (
-            <div className="max-w-2xl">
+            <div className="max-w-3xl mx-auto">
               <h2 className="text-2xl font-bold mb-6">Menopause Education</h2>
-              <div className="prose text-muted-foreground">
+              <div className="prose text-muted-foreground space-y-4">
                 <p>The estrobolome is the group of gut bacteria that help metabolize and recycle estrogens.</p>
                 <p>During menopause, a healthy estrobolome helps maintain more stable estrogen levels.</p>
               </div>
             </div>
           )}
 
-          {activeSection === "milestones" && <BrainConstellation />}
+          {activeSection === "milestones" && (
+            <div className="max-w-3xl mx-auto">
+              <BrainConstellation />
+            </div>
+          )}
 
-          {activeSection === "logs" && <InteractiveLogs />}
+          {activeSection === "logs" && (
+            <div className="max-w-6xl mx-auto">
+              <InteractiveLogs />
+            </div>
+          )}
 
           {activeSection === "calendar" && (
-            <div>
+            <div className="max-w-3xl mx-auto">
               <h2 className="text-2xl font-bold mb-6">My Calendar</h2>
               <div className="space-y-4">
                 <div className="p-6 border rounded-2xl">
