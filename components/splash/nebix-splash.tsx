@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Activity, Brain, Lock, Sparkles } from "lucide-react"
+import { Activity, Lock, Sparkles } from "lucide-react"
 
 type EntryType = "clinician" | "patient"
 
@@ -53,14 +53,12 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
               transition={{ type: "spring", duration: 1.2, bounce: 0.4 }}
               className="relative"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-violet-500 to-blue-500 rounded-full blur-2xl opacity-50 animate-pulse" />
-              <div className="relative flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-violet-600 to-blue-600 shadow-2xl shadow-violet-500/30">
-                <Brain className="w-12 h-12 text-white" />
+              <div className="relative flex items-center justify-center w-24 h-24">
+                <img src="/nebix-logo.png" alt="NEBix Logo" className="w-24 h-24 object-contain" />
               </div>
             </motion.div>
 
             {/* Brand name */}
-            <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
