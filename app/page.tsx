@@ -15,8 +15,9 @@ import { PatientApp } from "@/components/patient/patient-app"
 import { AIChatbot } from "@/components/chatbot/ai-companion"
 import { NebixSplash } from "@/components/splash/nebix-splash"
 import { RegulatoryHub } from "@/components/dashboard/regulatory-hub"
+import { LabNursingHub } from "@/components/dashboard/lab-nursing-hub"
 
-type SidebarSection = "dashboard" | "patients" | "alerts" | "biomarkers" | "tests" | "communications" | "regulatory" | "settings"
+type SidebarSection = "dashboard" | "patients" | "alerts" | "biomarkers" | "tests" | "communications" | "regulatory" | "lab" | "settings"
 type AppView = "splash" | "clinician" | "patient" | "biomarkers"
 
 export default function Home() {
@@ -92,10 +93,20 @@ export default function Home() {
         return (
           <>
             <div className="flex flex-col gap-1">
-              <h1 className="text-2xl font-bold tracking-tight">Regulatory Documents Hub</h1>
+              <h1 className="text-2xl font-bold tracking-tight">Regulatory Hub</h1>
               <p className="text-muted-foreground">Informed consent, privacy policy and data processing documents for all trial participants</p>
             </div>
             <RegulatoryHub />
+          </>
+        )
+      case "lab":
+        return (
+          <>
+            <div className="flex flex-col gap-1">
+              <h1 className="text-2xl font-bold tracking-tight">Lab & Nursing Hub</h1>
+              <p className="text-muted-foreground">Coordina prelievi, protocolli e comunicazioni con infermieri e laboratorio</p>
+            </div>
+            <LabNursingHub />
           </>
         )
       case "settings":
