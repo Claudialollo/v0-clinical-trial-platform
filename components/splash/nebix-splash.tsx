@@ -60,7 +60,7 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
                   ? { duration: 1.0, ease: "easeInOut" }
                   : { type: "spring", duration: 1.2, bounce: 0.4 }
               }
-              className="relative flex items-center justify-center w-48 h-48 mb-[-40px] ml-[-65px]"
+              className="relative flex items-center justify-center w-48 h-48 mb-[-40px] ml-[-60px]"
             >
               <img
                 src="/nebix-logo.png"
