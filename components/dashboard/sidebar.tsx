@@ -10,10 +10,11 @@ import {
   Settings,
   FlaskConical,
   Brain,
-  Shield
+  Shield,
+  FileCheck
 } from "lucide-react"
 
-type SidebarSection = "dashboard" | "patients" | "alerts" | "biomarkers" | "tests" | "communications" | "settings"
+type SidebarSection = "dashboard" | "patients" | "alerts" | "biomarkers" | "tests" | "communications" | "regulatory" | "settings"
 
 interface SidebarProps {
   activeSection?: SidebarSection
@@ -21,13 +22,14 @@ interface SidebarProps {
 }
 
 const navigation: { name: string; id: SidebarSection; icon: React.ComponentType<{ className?: string }> }[] = [
-  { name: "Dashboard", id: "dashboard", icon: LayoutDashboard },
-  { name: "Patients", id: "patients", icon: Users },
-  { name: "Alerts", id: "alerts", icon: Bell },
-  { name: "Biomarkers", id: "biomarkers", icon: LineChart },
-  { name: "Test Deployer", id: "tests", icon: FlaskConical },
-  { name: "Communications", id: "communications", icon: MessageSquare },
-  { name: "Settings", id: "settings", icon: Settings },
+  { name: "Dashboard",        id: "dashboard",     icon: LayoutDashboard },
+  { name: "Patients",         id: "patients",      icon: Users },
+  { name: "Alerts",           id: "alerts",        icon: Bell },
+  { name: "Biomarkers",       id: "biomarkers",    icon: LineChart },
+  { name: "Test Deployer",    id: "tests",         icon: FlaskConical },
+  { name: "Communications",   id: "communications",icon: MessageSquare },
+  { name: "Regulatory Docs",  id: "regulatory",    icon: FileCheck },
+  { name: "Settings",         id: "settings",      icon: Settings },
 ]
 
 export function Sidebar({ activeSection = "dashboard", onSectionChange }: SidebarProps) {
@@ -55,8 +57,8 @@ export function Sidebar({ activeSection = "dashboard", onSectionChange }: Sideba
                 onClick={() => onSectionChange?.(item.id)}
                 className={cn(
                   "w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200",
-                  isActive 
-                    ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-lg shadow-primary/25" 
+                  isActive
+                    ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-lg shadow-primary/25"
                     : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                 )}
               >
