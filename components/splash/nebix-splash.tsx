@@ -45,7 +45,7 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.5 }}
-            className="relative z-10 flex flex-col items-center gap-4 px-6"
+            className="relative z-10 flex flex-col items-center gap-2 px-6"
           >
             {/* Logo */}
             <motion.div
@@ -60,13 +60,13 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
                   ? { duration: 1.0, ease: "easeInOut" }
                   : { type: "spring", duration: 1.2, bounce: 0.4 }
               }
-              className="relative flex items-center justify-center w-[768px] h-[768px]"
+              className="relative flex items-center justify-center w-48 h-48"
             >
               <img
                 src="/nebix-logo.png"
                 alt="NEBix Logo"
-                className="w-[768px] h-[768px] object-contain"
-                style={{ mixBlendMode: "screen" }}
+                className="w-48 h-48 object-contain"
+                style={{ mixBlendMode: "screen", transform: "scale(3)", transformOrigin: "center" }}
               />
             </motion.div>
 
@@ -75,7 +75,7 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
-              className="text-center -mt-32"
+              className="text-center mt-16"
             >
               <h1 className="text-6xl md:text-7xl font-bold tracking-tight bg-gradient-to-r from-white via-violet-200 to-blue-200 bg-clip-text text-transparent">
                 NEBix
