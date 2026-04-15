@@ -47,7 +47,7 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
             transition={{ duration: 0.5 }}
             className="relative z-10 flex flex-col items-center gap-2 px-6"
           >
-            {/* Logo */}
+            {/* Logo — ingrandito con scale(3), abbassato verso NEBix */}
             <motion.div
               initial={{ scale: 0 }}
               animate={
@@ -60,22 +60,26 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
                   ? { duration: 1.0, ease: "easeInOut" }
                   : { type: "spring", duration: 1.2, bounce: 0.4 }
               }
-              className="relative flex items-center justify-center w-48 h-48"
+              className="relative flex items-center justify-center w-48 h-48 mb-[-40px]"
             >
               <img
                 src="/nebix-logo.png"
                 alt="NEBix Logo"
                 className="w-48 h-48 object-contain"
-                style={{ mixBlendMode: "screen", transform: "scale(3)", transformOrigin: "center" }}
+                style={{
+                  mixBlendMode: "screen",
+                  transform: "scale(3)",
+                  transformOrigin: "center"
+                }}
               />
             </motion.div>
 
-            {/* Brand name */}
+            {/* Brand name — avvicinato al logo */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
-              className="text-center mt-16"
+              className="text-center"
             >
               <h1 className="text-6xl md:text-7xl font-bold tracking-tight bg-gradient-to-r from-white via-violet-200 to-blue-200 bg-clip-text text-transparent">
                 NEBix
