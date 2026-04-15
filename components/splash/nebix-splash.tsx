@@ -12,6 +12,14 @@ interface NebixSplashProps {
 
 export function NebixSplash({ onEnter }: NebixSplashProps) {
   const [showSelection, setShowSelection] = useState(false)
+  const [spinning, setSpinning] = useState(false)
+
+  const handleStart = () => {
+    setSpinning(true)
+    setTimeout(() => {
+      setShowSelection(true)
+    }, 800)
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-[#1a0a2e] via-[#16213e] to-[#0f0f1a]">
@@ -41,20 +49,26 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
             transition={{ duration: 0.5 }}
             className="relative z-10 flex flex-col items-center gap-4 px-6 pt-32"
           >
-            {/* Logo */}
+            {/* Logo — gira come moneta solo al click */}
             <motion.div
               initial={{ scale: 0, rotate: -180 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ type: "spring", duration: 1.2, bounce: 0.4 }}
-              className="relative"
+              animate={
+                spinning
+                  ? { scaleX: [1, 0, 1, 0, 1], scaleY: [1, 1, 1, 1, 1] }
+                  : { scale: 1, rotate: 0 }
+              }
+              transition={
+                spinning
+                  ? { duration: 0.8, ease: "easeInOut" }
+                  : { type: "spring", duration: 1.2, bounce: 0.4 }
+              }
+              className="relative flex items-center justify-center w-64 h-64"
             >
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, ease: "linear", repeat: Infinity, repeatType: "loop" }}
-                className="relative flex items-center justify-center w-64 h-64"
-              >
-                <img src="/feminine.png" alt="NEBix Logo" className="w-64 h-64 object-contain" />
-              </motion.div>
+              <img
+                src="/nebix-logo.png"
+                alt="NEBix Logo"
+                className="w-64 h-64 object-contain"
+              />
             </motion.div>
 
             {/* Brand name */}
@@ -91,7 +105,7 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.2, duration: 0.6 }}
-              onClick={() => setShowSelection(true)}
+              onClick={handleStart}
               className="group relative mt-4"
             >
               <span className="absolute inset-0 rounded-full bg-gradient-to-r from-violet-500 to-blue-500 animate-ping opacity-20" />
