@@ -1,20 +1,21 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { 
-  LayoutDashboard, 
-  Users, 
-  Bell, 
-  LineChart, 
-  MessageSquare, 
+import {
+  LayoutDashboard,
+  Users,
+  Bell,
+  LineChart,
+  MessageSquare,
   Settings,
   FlaskConical,
   Brain,
   Shield,
-  FileCheck
+  FileCheck,
+  Microscope
 } from "lucide-react"
 
-type SidebarSection = "dashboard" | "patients" | "alerts" | "biomarkers" | "tests" | "communications" | "regulatory" | "settings"
+type SidebarSection = "dashboard" | "patients" | "alerts" | "biomarkers" | "tests" | "communications" | "regulatory" | "lab" | "settings"
 
 interface SidebarProps {
   activeSection?: SidebarSection
@@ -22,14 +23,15 @@ interface SidebarProps {
 }
 
 const navigation: { name: string; id: SidebarSection; icon: React.ComponentType<{ className?: string }> }[] = [
-  { name: "Dashboard",        id: "dashboard",     icon: LayoutDashboard },
-  { name: "Patients",         id: "patients",      icon: Users },
-  { name: "Alerts",           id: "alerts",        icon: Bell },
-  { name: "Biomarkers",       id: "biomarkers",    icon: LineChart },
-  { name: "Test Deployer",    id: "tests",         icon: FlaskConical },
-  { name: "Communications",   id: "communications",icon: MessageSquare },
-  { name: "Regulatory Hub",  id: "regulatory",    icon: FileCheck },
-  { name: "Settings",         id: "settings",      icon: Settings },
+  { name: "Dashboard",       id: "dashboard",      icon: LayoutDashboard },
+  { name: "Patients",        id: "patients",       icon: Users },
+  { name: "Alerts",          id: "alerts",         icon: Bell },
+  { name: "Biomarkers",      id: "biomarkers",     icon: LineChart },
+  { name: "Test Deployer",   id: "tests",          icon: FlaskConical },
+  { name: "Communications",  id: "communications", icon: MessageSquare },
+  { name: "Regulatory Hub",  id: "regulatory",     icon: FileCheck },
+  { name: "Lab & Nursing",   id: "lab",            icon: Microscope },
+  { name: "Settings",        id: "settings",       icon: Settings },
 ]
 
 export function Sidebar({ activeSection = "dashboard", onSectionChange }: SidebarProps) {
