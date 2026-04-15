@@ -14,8 +14,9 @@ import { ViewSwitcher } from "@/components/dashboard/view-switcher"
 import { PatientApp } from "@/components/patient/patient-app"
 import { AIChatbot } from "@/components/chatbot/ai-companion"
 import { NebixSplash } from "@/components/splash/nebix-splash"
+import { RegulatoryHub } from "@/components/dashboard/regulatory-hub"
 
-type SidebarSection = "dashboard" | "patients" | "alerts" | "biomarkers" | "tests" | "communications" | "settings"
+type SidebarSection = "dashboard" | "patients" | "alerts" | "biomarkers" | "tests" | "communications" | "regulatory" | "settings"
 type AppView = "splash" | "clinician" | "patient" | "biomarkers"
 
 export default function Home() {
@@ -85,6 +86,16 @@ export default function Home() {
               <p className="text-muted-foreground">Secure messaging and AI conversation insights</p>
             </div>
             <CommunicationHub expanded />
+          </>
+        )
+      case "regulatory":
+        return (
+          <>
+            <div className="flex flex-col gap-1">
+              <h1 className="text-2xl font-bold tracking-tight">Regulatory Documents Hub</h1>
+              <p className="text-muted-foreground">Informed consent, privacy policy and data processing documents for all trial participants</p>
+            </div>
+            <RegulatoryHub />
           </>
         )
       case "settings":
