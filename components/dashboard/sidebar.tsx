@@ -28,7 +28,7 @@ const navigation: { name: string; id: SidebarSection; icon: React.ComponentType<
   { name: "Biomarkers",       id: "biomarkers",    icon: LineChart },
   { name: "Test Deployer",    id: "tests",         icon: FlaskConical },
   { name: "Communications",   id: "communications",icon: MessageSquare },
-  { name: "Regulatory Docs",  id: "regulatory",    icon: FileCheck },
+  { name: "Regulatory Hub",  id: "regulatory",    icon: FileCheck },
   { name: "Settings",         id: "settings",      icon: Settings },
 ]
 
