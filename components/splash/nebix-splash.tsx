@@ -67,10 +67,10 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
                 alt="NEBix Logo"
                 className="w-48 h-48 object-contain"
                 style={{
-                  mixBlendMode: "screen",
-                  transform: "scale(3)" "rotate(15deg)",
-                  transformOrigin: "center"
-                }}
+  mixBlendMode: "screen" as React.CSSProperties["mixBlendMode"],
+  transform: "scale(3) rotate(15deg)",
+  transformOrigin: "center"
+}}
               />
             </motion.div>
 
