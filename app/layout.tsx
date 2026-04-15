@@ -10,7 +10,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'Neuro-Estrogen-Biotics Integrated Experience',
+  title: 'Claudia è bella',
   description: 'Advanced neuro-endocrinology clinical trial management system for Gut-Brain axis research. HIPAA compliant, GDPR ready.',
   generator: 'v0.app',
   icons: {
