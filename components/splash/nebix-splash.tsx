@@ -17,20 +17,18 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
   const handleStart = () => {
     setSpinning(true)
     setTimeout(() => {
+      setSpinning(false)
       setShowSelection(true)
-    }, 800)
+    }, 1000)
   }
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-[#1a0a2e] via-[#16213e] to-[#0f0f1a]">
-      {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-violet-600/20 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-600/15 rounded-full blur-3xl animate-pulse delay-1000" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-violet-500/10 to-blue-500/10 rounded-full blur-3xl" />
       </div>
-
-      {/* Grid pattern overlay */}
       <div
         className="absolute inset-0 opacity-[0.03]"
         style={{
@@ -49,17 +47,17 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
             transition={{ duration: 0.5 }}
             className="relative z-10 flex flex-col items-center gap-4 px-6 pt-32"
           >
-            {/* Logo — gira come moneta solo al click */}
+            {/* Logo */}
             <motion.div
-              initial={{ scale: 0, rotate: -180 }}
+              initial={{ scale: 0 }}
               animate={
                 spinning
-                  ? { scaleX: [1, 0, 1, 0, 1], scaleY: [1, 1, 1, 1, 1] }
-                  : { scale: 1, rotate: 0 }
+                  ? { scaleX: [1, 0, -1, 0, 1, 0, -1, 0, 1] }
+                  : { scale: 1 }
               }
               transition={
                 spinning
-                  ? { duration: 0.8, ease: "easeInOut" }
+                  ? { duration: 1.0, ease: "easeInOut" }
                   : { type: "spring", duration: 1.2, bounce: 0.4 }
               }
               className="relative flex items-center justify-center w-64 h-64"
@@ -68,6 +66,7 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
                 src="/nebix-logo.png"
                 alt="NEBix Logo"
                 className="w-64 h-64 object-contain"
+                style={{ mixBlendMode: "screen" }}
               />
             </motion.div>
 
@@ -106,6 +105,7 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.2, duration: 0.6 }}
               onClick={handleStart}
+              disabled={spinning}
               className="group relative mt-4"
             >
               <span className="absolute inset-0 rounded-full bg-gradient-to-r from-violet-500 to-blue-500 animate-ping opacity-20" />
@@ -130,16 +130,11 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
               transition={{ delay: 0.2 }}
               className="text-center"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
-                Select Your Access
-              </h2>
-              <p className="text-slate-400">
-                Choose your role to continue to the NEBix platform
-              </p>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">Select Your Access</h2>
+              <p className="text-slate-400">Choose your role to continue to the NEBix platform</p>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-              {/* Clinician Card */}
               <motion.button
                 initial={{ opacity: 0, x: -50 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -167,7 +162,6 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
                 </div>
               </motion.button>
 
-              {/* Patient Card */}
               <motion.button
                 initial={{ opacity: 0, x: 50 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -209,7 +203,6 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
         )}
       </AnimatePresence>
 
-      {/* Footer */}
       <motion.footer
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
