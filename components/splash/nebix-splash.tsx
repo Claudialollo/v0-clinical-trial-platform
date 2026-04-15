@@ -68,7 +68,7 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
                 className="w-48 h-48 object-contain"
                 style={{
                   mixBlendMode: "screen",
-                  transform: "scale(3)",
+                  transform: "scale(3)" "rotate(15deg)",
                   transformOrigin: "center"
                 }}
               />
