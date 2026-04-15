@@ -10,6 +10,146 @@ interface NebixSplashProps {
   onEnter: (type: EntryType) => void
 }
 
+function NebixBrainLogo() {
+  const nodes = [
+    { id: 0, x: 130, y: 60 },
+    { id: 1, x: 190, y: 50 },
+    { id: 2, x: 235, y: 85 },
+    { id: 3, x: 250, y: 135 },
+    { id: 4, x: 235, y: 185 },
+    { id: 5, x: 195, y: 215 },
+    { id: 6, x: 145, y: 225 },
+    { id: 7, x: 100, y: 215 },
+    { id: 8, x: 65,  y: 185 },
+    { id: 9, x: 55,  y: 140 },
+    { id: 10, x: 70, y: 95 },
+    { id: 11, x: 105, y: 65 },
+    { id: 12, x: 160, y: 115 },
+    { id: 13, x: 120, y: 150 },
+    { id: 14, x: 185, y: 150 },
+  ]
+
+  const edges = [
+    [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 7], [7, 8],
+    [8, 9], [9, 10], [10, 11], [11, 0],
+    [0, 12], [1, 12], [2, 12], [3, 14], [4, 14], [5, 14],
+    [6, 13], [7, 13], [8, 13], [9, 13], [10, 11], [11, 12],
+    [12, 13], [12, 14], [13, 14], [13, 9], [14, 3],
+  ]
+
+  const nodeColors = [
+    "#f97316", "#f97316", "#ec4899", "#ec4899", "#a855f7",
+    "#a855f7", "#6366f1", "#6366f1", "#3b82f6", "#3b82f6",
+    "#06b6d4", "#06b6d4", "#e879f9", "#a78bfa", "#f472b6",
+  ]
+
+  return (
+    <svg
+      viewBox="0 0 305 285"
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-64 h-64"
+    >
+      <defs>
+        <filter id="nodeGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <filter id="edgeGlow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="1.5" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        {edges.map(([a, b], i) => (
+          <linearGradient
+            key={`lg-${i}`}
+            id={`edgeGrad-${i}`}
+            x1={nodes[a].x} y1={nodes[a].y}
+            x2={nodes[b].x} y2={nodes[b].y}
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0%" stopColor={nodeColors[a]} stopOpacity="0.9" />
+            <stop offset="100%" stopColor={nodeColors[b]} stopOpacity="0.9" />
+          </linearGradient>
+        ))}
+        <radialGradient id="globalGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#a855f7" stopOpacity="0.25" />
+          <stop offset="100%" stopColor="#06b6d4" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+
+      <ellipse cx="152" cy="145" rx="115" ry="110" fill="url(#globalGrad)" />
+
+      {edges.map(([a, b], i) => (
+        <line
+          key={`edge-${i}`}
+          x1={nodes[a].x} y1={nodes[a].y}
+          x2={nodes[b].x} y2={nodes[b].y}
+          stroke={`url(#edgeGrad-${i})`}
+          strokeWidth="2"
+          strokeOpacity="0.7"
+          filter="url(#edgeGlow)"
+        >
+          <animate
+            attributeName="strokeOpacity"
+            values="0.4;0.9;0.4"
+            dur={`${2.5 + (i % 5) * 0.4}s`}
+            repeatCount="indefinite"
+          />
+        </line>
+      ))}
+
+      {nodes.map((node, i) => (
+        <g key={`node-${i}`} filter="url(#nodeGlow)">
+          <circle cx={node.x} cy={node.y} r="9" fill={nodeColors[i]} opacity="0.15">
+            <animate
+              attributeName="r"
+              values="7;13;7"
+              dur={`${2 + (i % 6) * 0.3}s`}
+              repeatCount="indefinite"
+            />
+            <animate
+              attributeName="opacity"
+              values="0.1;0.3;0.1"
+              dur={`${2 + (i % 6) * 0.3}s`}
+              repeatCount="indefinite"
+            />
+          </circle>
+          <circle cx={node.x} cy={node.y} r="5" fill={nodeColors[i]}>
+            <animate
+              attributeName="r"
+              values="4;6;4"
+              dur={`${1.8 + (i % 4) * 0.35}s`}
+              repeatCount="indefinite"
+            />
+          </circle>
+          <circle cx={node.x} cy={node.y} r="2" fill="white" opacity="0.9" />
+        </g>
+      ))}
+
+      {[[0,12],[12,14],[14,4],[13,7],[9,13]].map(([a,b], i) => (
+        <circle key={`particle-${i}`} r="2.5" fill="white" opacity="0.85">
+          <animateMotion
+            dur={`${2.2 + i * 0.5}s`}
+            repeatCount="indefinite"
+            path={`M ${nodes[a].x} ${nodes[a].y} L ${nodes[b].x} ${nodes[b].y}`}
+          />
+          <animate
+            attributeName="opacity"
+            values="0;0.9;0"
+            dur={`${2.2 + i * 0.5}s`}
+            repeatCount="indefinite"
+          />
+        </circle>
+      ))}
+    </svg>
+  )
+}
+
 export function NebixSplash({ onEnter }: NebixSplashProps) {
   const [showSelection, setShowSelection] = useState(false)
 
@@ -29,7 +169,7 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
         className="absolute inset-0 opacity-[0.03]"
         style={{
           backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-          backgroundSize: '50px 50px'
+          backgroundSize: "50px 50px",
         }}
       />
 
@@ -41,262 +181,19 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.5 }}
-            className="relative z-10 flex flex-col items-center gap-6 px-6"
+            className="relative z-10 flex flex-col items-center gap-4 px-6 pt-32"
           >
-            {/* Brain with neural nodes */}
             <motion.div
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 1.2, ease: "easeOut" }}
-              className="relative w-72 h-72"
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ type: "spring", duration: 1.2, bounce: 0.4 }}
+              className="relative"
             >
-              <style>{`
-                @keyframes pulseNode {
-                  0%, 100% { opacity: 0.25; r: 4; }
-                  50% { opacity: 1; r: 7; }
-                }
-                @keyframes glowNode {
-                  0%, 100% { filter: drop-shadow(0 0 3px #a855f7); }
-                  50% { filter: drop-shadow(0 0 14px #ec4899); }
-                }
-                @keyframes pulseLine {
-                  0%, 100% { opacity: 0.08; }
-                  50% { opacity: 0.85; }
-                }
-                @keyframes signalTravel {
-                  0%   { stroke-dashoffset: 300; opacity: 0; }
-                  15%  { opacity: 1; }
-                  85%  { opacity: 1; }
-                  100% { stroke-dashoffset: 0; opacity: 0; }
-                }
-                @keyframes brainGlow {
-                  0%, 100% { filter: drop-shadow(0 0 6px #7c3aed); opacity: 0.7; }
-                  50% { filter: drop-shadow(0 0 20px #a855f7); opacity: 1; }
-                }
-                @keyframes bgPulse {
-                  0%, 100% { opacity: 0.08; }
-                  50% { opacity: 0.25; }
-                }
-                .brain-outline { animation: brainGlow 3s ease-in-out infinite; }
-                .bg-glow { animation: bgPulse 3s ease-in-out infinite; }
-                .n1  { animation: pulseNode 2.1s ease-in-out infinite,       glowNode 2.1s ease-in-out infinite; }
-                .n2  { animation: pulseNode 1.8s ease-in-out infinite 0.3s,  glowNode 1.8s ease-in-out infinite 0.3s; }
-                .n3  { animation: pulseNode 2.4s ease-in-out infinite 0.6s,  glowNode 2.4s ease-in-out infinite 0.6s; }
-                .n4  { animation: pulseNode 1.9s ease-in-out infinite 0.9s,  glowNode 1.9s ease-in-out infinite 0.9s; }
-                .n5  { animation: pulseNode 2.2s ease-in-out infinite 1.2s,  glowNode 2.2s ease-in-out infinite 1.2s; }
-                .n6  { animation: pulseNode 2.0s ease-in-out infinite 0.5s,  glowNode 2.0s ease-in-out infinite 0.5s; }
-                .n7  { animation: pulseNode 1.7s ease-in-out infinite 0.8s,  glowNode 1.7s ease-in-out infinite 0.8s; }
-                .n8  { animation: pulseNode 2.3s ease-in-out infinite 1.1s,  glowNode 2.3s ease-in-out infinite 1.1s; }
-                .n9  { animation: pulseNode 2.0s ease-in-out infinite 1.4s,  glowNode 2.0s ease-in-out infinite 1.4s; }
-                .n10 { animation: pulseNode 1.9s ease-in-out infinite 0.2s,  glowNode 1.9s ease-in-out infinite 0.2s; }
-                .n11 { animation: pulseNode 2.1s ease-in-out infinite 0.7s,  glowNode 2.1s ease-in-out infinite 0.7s; }
-                .n12 { animation: pulseNode 1.8s ease-in-out infinite 1.0s,  glowNode 1.8s ease-in-out infinite 1.0s; }
-                .n13 { animation: pulseNode 2.3s ease-in-out infinite 1.5s,  glowNode 2.3s ease-in-out infinite 1.5s; }
-                .la { animation: pulseLine 2.1s ease-in-out infinite; }
-                .lb { animation: pulseLine 1.8s ease-in-out infinite 0.4s; }
-                .lc { animation: pulseLine 2.4s ease-in-out infinite 0.8s; }
-                .ld { animation: pulseLine 1.9s ease-in-out infinite 1.2s; }
-                .le { animation: pulseLine 2.2s ease-in-out infinite 0.2s; }
-                .lf { animation: pulseLine 2.0s ease-in-out infinite 0.6s; }
-                .lg { animation: pulseLine 1.7s ease-in-out infinite 1.0s; }
-                .lh { animation: pulseLine 2.3s ease-in-out infinite 0.3s; }
-                .li { animation: pulseLine 2.1s ease-in-out infinite 0.9s; }
-                .lj { animation: pulseLine 1.8s ease-in-out infinite 1.3s; }
-                .lk { animation: pulseLine 2.0s ease-in-out infinite 0.5s; }
-                .ll { animation: pulseLine 1.9s ease-in-out infinite 0.7s; }
-                .lm { animation: pulseLine 2.2s ease-in-out infinite 1.1s; }
-                .s1 { stroke-dasharray: 300; animation: signalTravel 3.5s ease-in-out infinite; }
-                .s2 { stroke-dasharray: 300; animation: signalTravel 3.5s ease-in-out infinite 1.2s; }
-                .s3 { stroke-dasharray: 300; animation: signalTravel 3.5s ease-in-out infinite 2.4s; }
-              `}</style>
-
-              <svg width="288" height="288" viewBox="0 0 288 288" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <radialGradient id="bgG" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.4" />
-                    <stop offset="100%" stopColor="#7c3aed" stopOpacity="0" />
-                  </radialGradient>
-                  <radialGradient id="ng1" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#f0abfc" />
-                    <stop offset="100%" stopColor="#a855f7" />
-                  </radialGradient>
-                  <radialGradient id="ng2" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#fbcfe8" />
-                    <stop offset="100%" stopColor="#ec4899" />
-                  </radialGradient>
-                  <radialGradient id="ng3" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#c4b5fd" />
-                    <stop offset="100%" stopColor="#6d28d9" />
-                  </radialGradient>
-                  <linearGradient id="brainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#c084fc" />
-                    <stop offset="50%" stopColor="#a855f7" />
-                    <stop offset="100%" stopColor="#ec4899" />
-                  </linearGradient>
-                  <clipPath id="brainShape">
-                    <path d="
-                      M 144 38
-                      C 118 35, 90 45, 76 65
-                      C 60 85, 58 108, 65 128
-                      C 52 140, 46 158, 52 175
-                      C 58 192, 74 202, 92 202
-                      C 96 214, 106 222, 118 224
-                      C 128 230, 140 228, 144 225
-                      C 148 228, 160 230, 170 224
-                      C 182 222, 192 214, 196 202
-                      C 214 202, 230 192, 236 175
-                      C 242 158, 236 140, 223 128
-                      C 230 108, 228 85, 212 65
-                      C 198 45, 170 35, 144 38 Z
-                    " />
-                  </clipPath>
-                </defs>
-
-                {/* Background glow */}
-                <circle cx="144" cy="140" r="120" fill="url(#bgG)" className="bg-glow" />
-
-                {/* Brain fill */}
-                <path d="
-                  M 144 38
-                  C 118 35, 90 45, 76 65
-                  C 60 85, 58 108, 65 128
-                  C 52 140, 46 158, 52 175
-                  C 58 192, 74 202, 92 202
-                  C 96 214, 106 222, 118 224
-                  C 128 230, 140 228, 144 225
-                  C 148 228, 160 230, 170 224
-                  C 182 222, 192 214, 196 202
-                  C 214 202, 230 192, 236 175
-                  C 242 158, 236 140, 223 128
-                  C 230 108, 228 85, 212 65
-                  C 198 45, 170 35, 144 38 Z
-                "
-                  fill="#3b0764"
-                  fillOpacity="0.25"
-                />
-
-                {/* Brain hemisphere divider */}
-                <path d="M 144 42 C 140 80, 140 140, 144 225"
-                  fill="none" stroke="#a855f7" strokeWidth="1" strokeOpacity="0.3" strokeDasharray="4 6" />
-
-                {/* Brain wrinkle lines */}
-                <path d="M 80 90 C 90 82, 105 85, 112 95" fill="none" stroke="#c084fc" strokeWidth="1" strokeOpacity="0.25" />
-                <path d="M 68 130 C 78 118, 95 120, 100 132" fill="none" stroke="#c084fc" strokeWidth="1" strokeOpacity="0.25" />
-                <path d="M 72 165 C 84 155, 98 158, 102 170" fill="none" stroke="#c084fc" strokeWidth="1" strokeOpacity="0.25" />
-                <path d="M 208 90 C 198 82, 183 85, 176 95" fill="none" stroke="#c084fc" strokeWidth="1" strokeOpacity="0.25" />
-                <path d="M 220 130 C 210 118, 193 120, 188 132" fill="none" stroke="#c084fc" strokeWidth="1" strokeOpacity="0.25" />
-                <path d="M 216 165 C 204 155, 190 158, 186 170" fill="none" stroke="#c084fc" strokeWidth="1" strokeOpacity="0.25" />
-
-                {/* Neural connections inside brain */}
-                <g clipPath="url(#brainShape)">
-                  <line x1="100" y1="75"  x2="144" y2="90"  stroke="#a855f7" className="la" strokeWidth="1.2" />
-                  <line x1="144" y1="90"  x2="188" y2="75"  stroke="#ec4899" className="lb" strokeWidth="1.2" />
-                  <line x1="188" y1="75"  x2="210" y2="105" stroke="#a855f7" className="lc" strokeWidth="1.2" />
-                  <line x1="210" y1="105" x2="205" y2="140" stroke="#f472b6" className="ld" strokeWidth="1.2" />
-                  <line x1="205" y1="140" x2="188" y2="170" stroke="#a855f7" className="le" strokeWidth="1.2" />
-                  <line x1="188" y1="170" x2="165" y2="185" stroke="#ec4899" className="lf" strokeWidth="1.2" />
-                  <line x1="165" y1="185" x2="144" y2="188" stroke="#c084fc" className="lg" strokeWidth="1.2" />
-                  <line x1="144" y1="188" x2="123" y2="185" stroke="#a855f7" className="lh" strokeWidth="1.2" />
-                  <line x1="123" y1="185" x2="100" y2="170" stroke="#f472b6" className="li" strokeWidth="1.2" />
-                  <line x1="100" y1="170" x2="83"  y2="140" stroke="#a855f7" className="lj" strokeWidth="1.2" />
-                  <line x1="83"  y1="140" x2="78"  y2="105" stroke="#ec4899" className="lk" strokeWidth="1.2" />
-                  <line x1="78"  y1="105" x2="100" y2="75"  stroke="#c084fc" className="ll" strokeWidth="1.2" />
-
-                  {/* Cross connections */}
-                  <line x1="144" y1="90"  x2="144" y2="145" stroke="#f0abfc" className="la" strokeWidth="1" />
-                  <line x1="144" y1="145" x2="205" y2="140" stroke="#a855f7" className="lb" strokeWidth="1" />
-                  <line x1="144" y1="145" x2="83"  y2="140" stroke="#ec4899" className="lc" strokeWidth="1" />
-                  <line x1="144" y1="145" x2="165" y2="185" stroke="#c084fc" className="ld" strokeWidth="1" />
-                  <line x1="144" y1="145" x2="123" y2="185" stroke="#f472b6" className="le" strokeWidth="1" />
-                  <line x1="100" y1="75"  x2="188" y2="75"  stroke="#a855f7" className="lf" strokeWidth="1" />
-                  <line x1="78"  y1="105" x2="210" y2="105" stroke="#c084fc" className="lg" strokeWidth="1" />
-                  <line x1="83"  y1="140" x2="188" y2="170" stroke="#f472b6" className="lh" strokeWidth="1" />
-                  <line x1="100" y1="170" x2="205" y2="140" stroke="#a855f7" className="li" strokeWidth="1" />
-                  <line x1="100" y1="75"  x2="144" y2="145" stroke="#ec4899" className="lj" strokeWidth="1" />
-                  <line x1="188" y1="75"  x2="144" y2="145" stroke="#a855f7" className="lk" strokeWidth="1" />
-                  <line x1="210" y1="105" x2="100" y2="170" stroke="#f472b6" className="ll" strokeWidth="1" />
-                  <line x1="78"  y1="105" x2="188" y2="170" stroke="#ec4899" className="lm" strokeWidth="1" />
-
-                  {/* Traveling signals */}
-                  <line x1="100" y1="75" x2="210" y2="105" stroke="#f0abfc" strokeWidth="2.5" className="s1" />
-                  <line x1="144" y1="90" x2="188" y2="170" stroke="#ec4899" strokeWidth="2.5" className="s2" />
-                  <line x1="83"  y1="140" x2="205" y2="140" stroke="#c084fc" strokeWidth="2.5" className="s3" />
-
-                  {/* Nodes */}
-                  <circle cx="100" cy="75"  r="5" fill="url(#ng2)" className="n1" />
-                  <circle cx="144" cy="90"  r="6" fill="url(#ng1)" className="n2" />
-                  <circle cx="188" cy="75"  r="5" fill="url(#ng3)" className="n3" />
-                  <circle cx="210" cy="105" r="4" fill="url(#ng2)" className="n4" />
-                  <circle cx="205" cy="140" r="5" fill="url(#ng1)" className="n5" />
-                  <circle cx="188" cy="170" r="4" fill="url(#ng3)" className="n6" />
-                  <circle cx="165" cy="185" r="5" fill="url(#ng2)" className="n7" />
-                  <circle cx="144" cy="188" r="4" fill="url(#ng1)" className="n8" />
-                  <circle cx="123" cy="185" r="5" fill="url(#ng3)" className="n9" />
-                  <circle cx="100" cy="170" r="4" fill="url(#ng2)" className="n10" />
-                  <circle cx="83"  cy="140" r="5" fill="url(#ng1)" className="n11" />
-                  <circle cx="78"  cy="105" r="4" fill="url(#ng3)" className="n12" />
-
-                  {/* Center node */}
-                  <circle cx="144" cy="145" r="10" fill="url(#ng1)" className="n3" style={{ filter: "drop-shadow(0 0 10px #a855f7)" }} />
-                  <circle cx="144" cy="145" r="5"  fill="white" opacity="0.95" />
-                </g>
-
-                {/* Brain outline */}
-                <path d="
-                  M 144 38
-                  C 118 35, 90 45, 76 65
-                  C 60 85, 58 108, 65 128
-                  C 52 140, 46 158, 52 175
-                  C 58 192, 74 202, 92 202
-                  C 96 214, 106 222, 118 224
-                  C 128 230, 140 228, 144 225
-                  C 148 228, 160 230, 170 224
-                  C 182 222, 192 214, 196 202
-                  C 214 202, 230 192, 236 175
-                  C 242 158, 236 140, 223 128
-                  C 230 108, 228 85, 212 65
-                  C 198 45, 170 35, 144 38 Z
-                "
-                  fill="none"
-                  stroke="url(#brainGrad)"
-                  strokeWidth="2.5"
-                  className="brain-outline"
-                />
-
-                {/* Brain stem */}
-                <path d="M 128 225 C 128 240, 132 250, 132 258 L 156 258 C 156 250, 160 240, 160 225"
-                  fill="none" stroke="url(#brainGrad)" strokeWidth="2" strokeOpacity="0.6" />
-                <line x1="132" y1="258" x2="156" y2="258" stroke="url(#brainGrad)" strokeWidth="2" strokeOpacity="0.5" />
-
-                {/* Radiating particles outside */}
-                {[
-                  { cx: 240, cy: 90,  cls: "n2", r: 2.5 },
-                  { cx: 252, cy: 140, cls: "n4", r: 3 },
-                  { cx: 242, cy: 188, cls: "n6", r: 2.5 },
-                  { cx: 46,  cy: 90,  cls: "n3", r: 2.5 },
-                  { cx: 34,  cy: 140, cls: "n5", r: 3 },
-                  { cx: 46,  cy: 188, cls: "n7", r: 2.5 },
-                  { cx: 110, cy: 22,  cls: "n1", r: 2 },
-                  { cx: 144, cy: 16,  cls: "n8", r: 3 },
-                  { cx: 178, cy: 22,  cls: "n9", r: 2 },
-                ].map((p, i) => (
-                  <circle key={i} cx={p.cx} cy={p.cy} r={p.r} fill="#c084fc" className={p.cls} />
-                ))}
-
-                {/* Radiating lines */}
-                <line x1="223" y1="128" x2="252" y2="140" stroke="#a855f7" className="la" strokeWidth="0.8" />
-                <line x1="212" y1="65"  x2="240" y2="90"  stroke="#ec4899" className="lb" strokeWidth="0.8" />
-                <line x1="236" y1="175" x2="242" y2="188" stroke="#c084fc" className="lc" strokeWidth="0.8" />
-                <line x1="65"  y1="128" x2="34"  y2="140" stroke="#a855f7" className="ld" strokeWidth="0.8" />
-                <line x1="76"  y1="65"  x2="46"  y2="90"  stroke="#f472b6" className="le" strokeWidth="0.8" />
-                <line x1="52"  y1="175" x2="46"  y2="188" stroke="#ec4899" className="lf" strokeWidth="0.8" />
-                <line x1="118" y1="38"  x2="110" y2="22"  stroke="#a855f7" className="lg" strokeWidth="0.8" />
-                <line x1="144" y1="38"  x2="144" y2="16"  stroke="#c084fc" className="lh" strokeWidth="0.8" />
-                <line x1="170" y1="38"  x2="178" y2="22"  stroke="#f472b6" className="li" strokeWidth="0.8" />
-              </svg>
+              <div className="relative flex items-center justify-center w-64 h-64">
+                <NebixBrainLogo />
+              </div>
             </motion.div>
 
-            {/* Brand name */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -322,16 +219,16 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
               transition={{ delay: 0.9, duration: 0.8 }}
               className="max-w-md text-center text-slate-500 text-sm leading-relaxed"
             >
-              Advanced clinical trial management platform for gut-brain axis research and neuro-endocrinology studies
+              Advanced clinical trial management platform for gut-brain axis
+              research and neuro-endocrinology studies
             </motion.p>
 
-            {/* Start Button */}
             <motion.button
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.2, duration: 0.6 }}
               onClick={handleStart}
-              className="group relative mt-2"
+              className="group relative mt-4"
             >
               <span className="absolute inset-0 rounded-full bg-gradient-to-r from-violet-500 to-blue-500 animate-ping opacity-20" />
               <span className="absolute inset-0 rounded-full bg-gradient-to-r from-violet-500 to-blue-500 blur-md opacity-40 group-hover:opacity-60 transition-opacity" />
@@ -355,8 +252,12 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
               transition={{ delay: 0.2 }}
               className="text-center"
             >
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">Select Your Access</h2>
-              <p className="text-slate-400">Choose your role to continue to the NEBix platform</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
+                Select Your Access
+              </h2>
+              <p className="text-slate-400">
+                Choose your role to continue to the NEBix platform
+              </p>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
