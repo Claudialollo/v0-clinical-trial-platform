@@ -35,105 +35,105 @@ interface LabMessage {
 }
 
 const PICKUPS: TubePickup[] = [
-  { id: "1", patientId: "PT-001", patientName: "Maria R.",   scheduledDate: "2026-04-15", tubes: ["EDTA 4mL", "SST 5mL", "Citrate 2.7mL"], status: "ready",     assignedNurse: "Inf. Conti",   notes: "Paziente a digiuno dalle 8h" },
-  { id: "2", patientId: "PT-002", patientName: "Giulia F.",  scheduledDate: "2026-04-15", tubes: ["EDTA 4mL", "SST 5mL"],                   status: "scheduled", assignedNurse: "Inf. Marino" },
-  { id: "3", patientId: "PT-003", patientName: "Anna M.",    scheduledDate: "2026-04-16", tubes: ["EDTA 4mL", "SST 5mL", "EDTA 2mL"],       status: "scheduled", assignedNurse: "Inf. Conti" },
-  { id: "4", patientId: "PT-004", patientName: "Laura C.",   scheduledDate: "2026-04-14", tubes: ["EDTA 4mL", "SST 5mL"],                   status: "delayed",   assignedNurse: "Inf. Russo",   notes: "Corriere non si è presentato" },
-  { id: "5", patientId: "PT-005", patientName: "Sofia B.",   scheduledDate: "2026-04-14", tubes: ["EDTA 4mL", "Citrate 2.7mL"],             status: "collected", assignedNurse: "Inf. Marino",  notes: "Ritirato ore 09:45" },
+  { id: "1", patientId: "PT-001", patientName: "Maria R.",  scheduledDate: "2026-04-15", tubes: ["EDTA 4mL", "SST 5mL", "Citrate 2.7mL"], status: "ready",     assignedNurse: "Nurse Conti",  notes: "Patient fasted for 8h" },
+  { id: "2", patientId: "PT-002", patientName: "Giulia F.", scheduledDate: "2026-04-15", tubes: ["EDTA 4mL", "SST 5mL"],                   status: "scheduled", assignedNurse: "Nurse Marino" },
+  { id: "3", patientId: "PT-003", patientName: "Anna M.",   scheduledDate: "2026-04-16", tubes: ["EDTA 4mL", "SST 5mL", "EDTA 2mL"],       status: "scheduled", assignedNurse: "Nurse Conti" },
+  { id: "4", patientId: "PT-004", patientName: "Laura C.",  scheduledDate: "2026-04-14", tubes: ["EDTA 4mL", "SST 5mL"],                   status: "delayed",   assignedNurse: "Nurse Russo",  notes: "Courier did not show up" },
+  { id: "5", patientId: "PT-005", patientName: "Sofia B.",  scheduledDate: "2026-04-14", tubes: ["EDTA 4mL", "Citrate 2.7mL"],             status: "collected", assignedNurse: "Nurse Marino", notes: "Collected at 09:45" },
 ]
 
 const MESSAGES: LabMessage[] = [
-  { id: "1", from: "Lab. Analisi",   role: "lab",       message: "Campione PT-001 ricevuto e in lavorazione. Risultati pTau181 attesi entro 48h.",                              time: "10:30", read: false, priority: "normal" },
-  { id: "2", from: "Inf. Conti",     role: "nurse",     message: "PT-004: il paziente ha disdetto l'appuntamento. Necessario riprogrammare il prelievo.",                      time: "09:15", read: false, priority: "urgent" },
-  { id: "3", from: "Lab. Analisi",   role: "lab",       message: "Attenzione: campione PT-003 emolizzato. Necessario nuovo prelievo per NfL e GFAP.",                          time: "08:50", read: true,  priority: "urgent" },
-  { id: "4", from: "Inf. Marino",    role: "nurse",     message: "PT-002 prelievo completato. Provette conservate a 4°C e pronte per il ritiro.",                              time: "08:20", read: true,  priority: "normal" },
-  { id: "5", from: "Lab. Analisi",   role: "lab",       message: "Reminder: per i campioni pTau217 usare esclusivamente provette EDTA, non SST. Riscontrati errori la settimana scorsa.", time: "Ieri", read: true, priority: "normal" },
+  { id: "1", from: "Lab Analysis",  role: "lab",       message: "Sample PT-001 received and being processed. pTau181 results expected within 48h.",                                    time: "10:30", read: false, priority: "normal" },
+  { id: "2", from: "Nurse Conti",   role: "nurse",     message: "PT-004: patient cancelled appointment. Rescheduling of blood draw required.",                                        time: "09:15", read: false, priority: "urgent" },
+  { id: "3", from: "Lab Analysis",  role: "lab",       message: "Warning: PT-003 sample haemolysed. New blood draw required for NfL and GFAP.",                                      time: "08:50", read: true,  priority: "urgent" },
+  { id: "4", from: "Nurse Marino",  role: "nurse",     message: "PT-002 blood draw completed. Tubes stored at 4°C and ready for pickup.",                                             time: "08:20", read: true,  priority: "normal" },
+  { id: "5", from: "Lab Analysis",  role: "lab",       message: "Reminder: for pTau217 samples use EDTA tubes only, not SST. Errors were detected last week.",                       time: "Yesterday", read: true, priority: "normal" },
 ]
 
 const MISSED_PATIENTS = [
-  { id: "PT-006", name: "Elena V.",   missedDate: "2026-04-13", reason: "Disdetta last-minute", attempts: 2, nextAvailable: "2026-04-17", status: "to_reschedule" as const },
-  { id: "PT-008", name: "Carla M.",   missedDate: "2026-04-12", reason: "Non presentata",       attempts: 1, nextAvailable: "2026-04-18", status: "to_reschedule" as const },
-  { id: "PT-011", name: "Rosa T.",    missedDate: "2026-04-10", reason: "Malattia",             attempts: 3, nextAvailable: "2026-04-20", status: "rescheduled"   as const },
+  { id: "PT-006", name: "Elena V.",  missedDate: "2026-04-13", reason: "Last-minute cancellation", attempts: 2, nextAvailable: "2026-04-17", status: "to_reschedule" as const },
+  { id: "PT-008", name: "Carla M.",  missedDate: "2026-04-12", reason: "Did not show up",          attempts: 1, nextAvailable: "2026-04-18", status: "to_reschedule" as const },
+  { id: "PT-011", name: "Rosa T.",   missedDate: "2026-04-10", reason: "Illness",                  attempts: 3, nextAvailable: "2026-04-20", status: "rescheduled"   as const },
 ]
 
 const PROTOCOLS = [
   {
     id: "p1",
-    title: "Inversione delle Provette",
+    title: "Tube Inversion Protocol",
     icon: RotateCcw,
     color: "text-blue-500",
     bg: "bg-blue-500/10",
     steps: [
-      "EDTA (tappo viola): 8–10 inversioni lente subito dopo il prelievo",
-      "Citrato (tappo azzurro): 3–4 inversioni — rapporto sangue/citrato 9:1 fondamentale",
-      "SST (tappo giallo/rosso): 5–6 inversioni, poi lasciare coagulare 30 min a temperatura ambiente",
-      "NON agitare vigorosamente — causa emolisi e invalida i campioni pTau",
+      "EDTA (purple cap): 8–10 slow inversions immediately after collection",
+      "Citrate (light blue cap): 3–4 inversions — 9:1 blood/citrate ratio is critical",
+      "SST (yellow/red cap): 5–6 inversions, then allow to clot for 30 min at room temperature",
+      "DO NOT shake vigorously — causes haemolysis and invalidates pTau samples",
     ]
   },
   {
     id: "p2",
-    title: "Conservazione e Temperatura",
+    title: "Storage and Temperature",
     icon: Thermometer,
     color: "text-emerald-500",
     bg: "bg-emerald-500/10",
     steps: [
-      "Dopo il prelievo: conservare a 4°C entro 30 minuti",
-      "Campioni pTau181/217: centrifugare entro 2h dal prelievo (2000g × 15 min)",
-      "Plasma aliquotato: congelare a −80°C se analisi entro >24h",
-      "MAI ricongelare campioni già scongelati — invalida i biomarker AD",
-      "Trasporto al laboratorio: contenitore refrigerato, mai a temperatura ambiente",
+      "After collection: store at 4°C within 30 minutes",
+      "pTau181/217 samples: centrifuge within 2h of collection (2000g × 15 min)",
+      "Aliquoted plasma: freeze at −80°C if analysis is >24h away",
+      "NEVER refreeze already thawed samples — invalidates AD biomarkers",
+      "Transport to laboratory: refrigerated container, never at room temperature",
     ]
   },
   {
     id: "p3",
-    title: "Gestione del Carico Provette",
+    title: "Sample Pickup Management",
     icon: Package,
     color: "text-amber-500",
     bg: "bg-amber-500/10",
     steps: [
-      "Contattare il laboratorio almeno 24h prima del ritiro tramite questa piattaforma",
-      "Il corriere passa il martedì e il giovedì mattina (ore 08:00–10:00)",
-      "Compilare il modulo di spedizione con ID paziente, data prelievo e tipo provette",
-      "Provette danneggiate o non etichettate: NON spedire — contattare il clinico",
-      "In caso di ritardo corriere: provette stabili 72h a 4°C (non per pTau oltre 48h)",
+      "Contact the laboratory at least 24h before pickup via this platform",
+      "Courier arrives on Tuesday and Thursday mornings (08:00–10:00)",
+      "Complete the shipping form with patient ID, collection date and tube types",
+      "Damaged or unlabelled tubes: DO NOT ship — contact the clinician",
+      "In case of courier delay: tubes stable 72h at 4°C (not for pTau beyond 48h)",
     ]
   },
   {
     id: "p4",
-    title: "Identificazione Paziente",
+    title: "Patient Identification",
     icon: User,
     color: "text-purple-500",
     bg: "bg-purple-500/10",
     steps: [
-      "Verificare identità con almeno 2 identificatori: nome+cognome + data di nascita",
-      "Controllare che il codice paziente sul braccialetto corrisponda al modulo trial",
-      "In caso di dubbio identità: NON procedere al prelievo, contattare il PI",
-      "Etichettare ogni provetta immediatamente al letto del paziente, mai dopo",
-      "Foto del set provette etichettato da caricare sulla piattaforma dopo ogni prelievo",
+      "Verify identity with at least 2 identifiers: full name + date of birth",
+      "Check that the patient code on the wristband matches the trial form",
+      "If identity is in doubt: DO NOT proceed with collection, contact the PI",
+      "Label every tube immediately at the patient's bedside, never afterwards",
+      "Upload a photo of the labelled tube set to the platform after each collection",
     ]
   },
   {
     id: "p5",
-    title: "Paziente Non Cooperante / Vena Difficile",
+    title: "Uncooperative Patient / Difficult Vein",
     icon: AlertTriangle,
     color: "text-rose-500",
     bg: "bg-rose-500/10",
     steps: [
-      "Max 2 tentativi per operatore — al terzo chiamare infermiere senior o medico",
-      "Documentare sempre: numero tentativi, vena utilizzata, eventuali complicazioni",
-      "Se paziente rifiuta: registrare il rifiuto firmato e notificare immediatamente il PI",
-      "In caso di lipotimia: interrompere, posizione Trendelenburg, monitorare 15 minuti",
-      "Ematoma post-prelievo: compressione 5 minuti, ghiaccio, documentare e segnalare",
+      "Maximum 2 attempts per operator — on the third, call senior nurse or physician",
+      "Always document: number of attempts, vein used, any complications",
+      "If patient refuses: record signed refusal and immediately notify the PI",
+      "In case of vasovagal syncope: stop, Trendelenburg position, monitor for 15 minutes",
+      "Post-collection haematoma: apply pressure for 5 minutes, ice pack, document and report",
     ]
   },
 ]
 
 function StatusBadge({ status }: { status: TubePickup["status"] }) {
   const cfg = {
-    scheduled: { label: "Programmato",  variant: "secondary"    as const, icon: Clock },
-    ready:     { label: "Pronto",        variant: "default"      as const, icon: CheckCircle2 },
-    collected: { label: "Ritirato",      variant: "outline"      as const, icon: CheckCircle2 },
-    delayed:   { label: "In Ritardo",    variant: "destructive"  as const, icon: AlertTriangle },
+    scheduled: { label: "Scheduled", variant: "secondary"   as const, icon: Clock },
+    ready:     { label: "Ready",     variant: "default"     as const, icon: CheckCircle2 },
+    collected: { label: "Collected", variant: "outline"     as const, icon: CheckCircle2 },
+    delayed:   { label: "Delayed",   variant: "destructive" as const, icon: AlertTriangle },
   }[status]
   const Icon = cfg.icon
   return (
@@ -147,7 +147,7 @@ function ProtocolCard({ protocol }: { protocol: typeof PROTOCOLS[0] }) {
   const [open, setOpen] = useState(false)
   const Icon = protocol.icon
   return (
-    <div className={`rounded-xl border border-border overflow-hidden transition-all`}>
+    <div className="rounded-xl border border-border overflow-hidden transition-all">
       <button
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-between px-5 py-4 hover:bg-muted/30 transition-colors"
@@ -181,10 +181,10 @@ export function LabNursingHub() {
   const [newMessage, setNewMessage] = useState("")
 
   const tabs: { id: TabId; label: string; icon: React.ComponentType<{ className?: string }>; badge?: number }[] = [
-    { id: "pickup",    label: "Carico Provette",   icon: Truck,          badge: PICKUPS.filter(p => p.status === "ready" || p.status === "delayed").length },
-    { id: "protocols", label: "Protocolli",        icon: BookOpen },
-    { id: "missed",    label: "Pazienti Assenti",  icon: UserX,          badge: MISSED_PATIENTS.filter(p => p.status === "to_reschedule").length },
-    { id: "messages",  label: "Messaggi",          icon: MessageSquare,  badge: MESSAGES.filter(m => !m.read).length },
+    { id: "pickup",    label: "Sample Pickup",    icon: Truck,         badge: PICKUPS.filter(p => p.status === "ready" || p.status === "delayed").length },
+    { id: "protocols", label: "Protocols",        icon: BookOpen },
+    { id: "missed",    label: "Missed Patients",  icon: UserX,         badge: MISSED_PATIENTS.filter(p => p.status === "to_reschedule").length },
+    { id: "messages",  label: "Messages",         icon: MessageSquare, badge: MESSAGES.filter(m => !m.read).length },
   ]
 
   return (
@@ -193,10 +193,10 @@ export function LabNursingHub() {
       {/* Summary bar */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: "Prelievi oggi",       value: PICKUPS.filter(p => p.scheduledDate === "2026-04-15").length,                         icon: FlaskConical,  color: "text-blue-500",   bg: "bg-blue-500/5" },
-          { label: "Pronti al ritiro",    value: PICKUPS.filter(p => p.status === "ready").length,                                     icon: Package,       color: "text-emerald-500", bg: "bg-emerald-500/5" },
-          { label: "In ritardo",          value: PICKUPS.filter(p => p.status === "delayed").length,                                   icon: AlertTriangle, color: "text-rose-500",    bg: "bg-rose-500/5" },
-          { label: "Messaggi non letti",  value: MESSAGES.filter(m => !m.read).length,                                                 icon: Bell,          color: "text-amber-500",   bg: "bg-amber-500/5" },
+          { label: "Collections today",   value: PICKUPS.filter(p => p.scheduledDate === "2026-04-15").length,  icon: FlaskConical,  color: "text-blue-500",    bg: "bg-blue-500/5" },
+          { label: "Ready for pickup",     value: PICKUPS.filter(p => p.status === "ready").length,             icon: Package,       color: "text-emerald-500", bg: "bg-emerald-500/5" },
+          { label: "Delayed",             value: PICKUPS.filter(p => p.status === "delayed").length,            icon: AlertTriangle, color: "text-rose-500",    bg: "bg-rose-500/5" },
+          { label: "Unread messages",      value: MESSAGES.filter(m => !m.read).length,                         icon: Bell,          color: "text-amber-500",   bg: "bg-amber-500/5" },
         ].map((s, i) => {
           const Icon = s.icon
           return (
@@ -222,7 +222,7 @@ export function LabNursingHub() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors relative ${
+              className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
                 isActive
                   ? "border-primary text-primary"
                   : "border-transparent text-muted-foreground hover:text-foreground"
@@ -242,27 +242,27 @@ export function LabNursingHub() {
         })}
       </div>
 
-      {/* Tab: Carico Provette */}
+      {/* Tab: Sample Pickup */}
       {activeTab === "pickup" && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <p className="text-sm text-muted-foreground">Gestisci il ritiro dei campioni biologici per ogni paziente</p>
+            <p className="text-sm text-muted-foreground">Manage biological sample collection and courier pickup for each patient</p>
             <Button size="sm" className="gap-2 text-xs">
               <Truck className="w-3.5 h-3.5" />
-              Richiedi Ritiro
+              Request Pickup
             </Button>
           </div>
           <div className="rounded-xl border border-border bg-card overflow-hidden">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border bg-muted/30">
-                  <th className="text-left px-5 py-3 text-xs font-medium text-muted-foreground">Paziente</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground">Data</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground">Provette</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground">Infermiere</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground">Stato</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground">Note</th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground">Azioni</th>
+                  <th className="text-left px-5 py-3 text-xs font-medium text-muted-foreground">Patient</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground">Date</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground">Tubes</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground">Nurse</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground">Status</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground">Notes</th>
+                  <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -300,12 +300,12 @@ export function LabNursingHub() {
                       <div className="flex gap-1">
                         <Button variant="ghost" size="sm" className="h-7 px-2 text-[10px]">
                           <Send className="w-3 h-3 mr-1" />
-                          Notifica
+                          Notify
                         </Button>
                         {p.status === "delayed" && (
                           <Button variant="ghost" size="sm" className="h-7 px-2 text-[10px] text-rose-500">
                             <AlertTriangle className="w-3 h-3 mr-1" />
-                            Sollecita
+                            Chase
                           </Button>
                         )}
                       </div>
@@ -318,11 +318,11 @@ export function LabNursingHub() {
         </div>
       )}
 
-      {/* Tab: Protocolli */}
+      {/* Tab: Protocols */}
       {activeTab === "protocols" && (
         <div className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            Procedure operative standard per infermieri e personale di laboratorio. Clicca su ogni protocollo per espanderlo.
+            Standard operating procedures for nurses and laboratory staff. Click each protocol to expand.
           </p>
           <div className="space-y-3">
             {PROTOCOLS.map(p => <ProtocolCard key={p.id} protocol={p} />)}
@@ -330,21 +330,21 @@ export function LabNursingHub() {
           <div className="p-4 rounded-xl border border-amber-500/30 bg-amber-500/5 flex gap-3">
             <AlertTriangle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
             <div>
-              <p className="text-sm font-semibold text-amber-600 mb-1">Reminder critico per campioni pTau</p>
+              <p className="text-sm font-semibold text-amber-600 mb-1">Critical reminder for pTau samples</p>
               <p className="text-xs text-muted-foreground">
-                I biomarker pTau181 e pTau217 sono estremamente sensibili alla temperatura e all'emolisi.
-                Qualsiasi deviazione dal protocollo deve essere documentata immediatamente e comunicata al clinico PI prima dell'invio al laboratorio.
+                pTau181 and pTau217 biomarkers are extremely sensitive to temperature and haemolysis.
+                Any deviation from protocol must be documented immediately and communicated to the PI clinician before sending to the laboratory.
               </p>
             </div>
           </div>
         </div>
       )}
 
-      {/* Tab: Pazienti Assenti */}
+      {/* Tab: Missed Patients */}
       {activeTab === "missed" && (
         <div className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            Pazienti che non si sono presentati al prelievo o hanno disdetto. Gestisci la riprogrammazione.
+            Patients who did not attend their blood draw or cancelled. Manage rescheduling.
           </p>
           <div className="space-y-3">
             {MISSED_PATIENTS.map(p => (
@@ -365,28 +365,28 @@ export function LabNursingHub() {
                         <p className="font-semibold text-sm">{p.name}</p>
                         <span className="text-xs text-muted-foreground">{p.id}</span>
                         <Badge variant={p.status === "to_reschedule" ? "destructive" : "default"} className="text-[10px]">
-                          {p.status === "to_reschedule" ? "Da riprogrammare" : "Riprogrammato"}
+                          {p.status === "to_reschedule" ? "To reschedule" : "Rescheduled"}
                         </Badge>
                       </div>
                       <p className="text-xs text-muted-foreground mb-0.5">
-                        <span className="font-medium">Assenza:</span> {p.missedDate} — {p.reason}
+                        <span className="font-medium">Missed:</span> {p.missedDate} — {p.reason}
                       </p>
                       <p className="text-xs text-muted-foreground mb-0.5">
-                        <span className="font-medium">Tentativi di contatto:</span> {p.attempts}
+                        <span className="font-medium">Contact attempts:</span> {p.attempts}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        <span className="font-medium">Prima disponibilità:</span> {p.nextAvailable}
+                        <span className="font-medium">First available:</span> {p.nextAvailable}
                       </p>
                     </div>
                   </div>
                   <div className="flex gap-2 shrink-0">
                     <Button variant="outline" size="sm" className="gap-1.5 text-xs">
                       <Phone className="w-3.5 h-3.5" />
-                      Chiama
+                      Call
                     </Button>
                     <Button size="sm" className="gap-1.5 text-xs">
                       <Calendar className="w-3.5 h-3.5" />
-                      Riprogramma
+                      Reschedule
                     </Button>
                   </div>
                 </div>
@@ -396,14 +396,14 @@ export function LabNursingHub() {
           <div className="p-4 rounded-xl border border-border bg-muted/20">
             <div className="flex items-center gap-2 mb-2">
               <ClipboardList className="w-4 h-4 text-muted-foreground" />
-              <p className="text-xs font-semibold">Procedura per paziente assente</p>
+              <p className="text-xs font-semibold">Missed patient procedure</p>
             </div>
             <ol className="space-y-1">
               {[
-                "Entro 24h: primo tentativo telefonico da parte dell'infermiere",
-                "Entro 48h: secondo tentativo + SMS con link di riprenotazione",
-                "Entro 72h: notifica automatica al clinico PI tramite questa piattaforma",
-                "Oltre 72h senza risposta: valutazione PI per esclusione dal trial o deviazione protocollare",
+                "Within 24h: first phone contact attempt by the nurse",
+                "Within 48h: second attempt + SMS with rebooking link",
+                "Within 72h: automatic notification to the PI via this platform",
+                "Beyond 72h with no response: PI assessment for trial exclusion or protocol deviation",
               ].map((step, i) => (
                 <li key={i} className="flex items-start gap-2 text-xs text-muted-foreground">
                   <span className="w-4 h-4 rounded-full bg-primary/10 text-primary text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">{i + 1}</span>
@@ -415,38 +415,38 @@ export function LabNursingHub() {
         </div>
       )}
 
-      {/* Tab: Messaggi */}
+      {/* Tab: Messages */}
       {activeTab === "messages" && (
         <div className="space-y-4">
           <div className="rounded-xl border border-border bg-card overflow-hidden">
             <div className="flex items-center justify-between px-5 py-4 border-b border-border">
-              <h3 className="font-semibold text-sm">Messaggi Lab & Infermieri</h3>
+              <h3 className="font-semibold text-sm">Lab & Nursing Messages</h3>
               <Badge variant="secondary" className="text-xs">
-                {MESSAGES.filter(m => !m.read).length} non letti
+                {MESSAGES.filter(m => !m.read).length} unread
               </Badge>
             </div>
             <div className="divide-y divide-border">
               {MESSAGES.map(msg => (
                 <div key={msg.id} className={`px-5 py-4 flex items-start gap-4 transition-colors hover:bg-muted/20 ${!msg.read ? "bg-primary/5" : ""}`}>
                   <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${
-                    msg.role === "lab"       ? "bg-blue-500/20"   :
-                    msg.role === "nurse"     ? "bg-purple-500/20" :
-                                              "bg-primary/20"
+                    msg.role === "lab"   ? "bg-blue-500/20"   :
+                    msg.role === "nurse" ? "bg-purple-500/20" :
+                                          "bg-primary/20"
                   }`}>
-                    {msg.role === "lab"   ? <FlaskConical className="w-4 h-4 text-blue-500" /> :
-                     msg.role === "nurse" ? <User className="w-4 h-4 text-purple-500" />      :
+                    {msg.role === "lab"   ? <FlaskConical className="w-4 h-4 text-blue-500" />  :
+                     msg.role === "nurse" ? <User className="w-4 h-4 text-purple-500" />         :
                                            <User className="w-4 h-4 text-primary" />}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1 flex-wrap">
                       <span className="text-xs font-semibold">{msg.from}</span>
                       <Badge variant="outline" className="text-[10px] py-0">
-                        {msg.role === "lab" ? "Laboratorio" : msg.role === "nurse" ? "Infermiere" : "Clinico"}
+                        {msg.role === "lab" ? "Laboratory" : msg.role === "nurse" ? "Nurse" : "Clinician"}
                       </Badge>
                       {msg.priority === "urgent" && (
                         <Badge variant="destructive" className="text-[10px] py-0 gap-1">
                           <AlertTriangle className="w-2.5 h-2.5" />
-                          Urgente
+                          Urgent
                         </Badge>
                       )}
                       {!msg.read && <span className="w-2 h-2 rounded-full bg-primary shrink-0" />}
@@ -457,19 +457,17 @@ export function LabNursingHub() {
                 </div>
               ))}
             </div>
-
-            {/* New message input */}
             <div className="px-5 py-4 border-t border-border bg-muted/10">
               <div className="flex gap-2">
                 <Input
-                  placeholder="Scrivi un messaggio a infermieri o laboratorio..."
+                  placeholder="Write a message to nurses or laboratory..."
                   value={newMessage}
                   onChange={e => setNewMessage(e.target.value)}
                   className="text-xs"
                 />
                 <Button size="sm" className="gap-1.5 text-xs shrink-0" disabled={!newMessage.trim()}>
                   <Send className="w-3.5 h-3.5" />
-                  Invia
+                  Send
                 </Button>
               </div>
             </div>
