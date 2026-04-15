@@ -60,7 +60,7 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
                   ? { duration: 1.0, ease: "easeInOut" }
                   : { type: "spring", duration: 1.2, bounce: 0.4 }
               }
-              className="relative flex items-center justify-center w-48 h-48 mb-[-40px] ml-[-75px]"
+              className="relative flex items-center justify-center w-48 h-48 mb-[-40px] ml-[-65px]"
             >
               <img
                 src="/nebix-logo.png"
@@ -68,7 +68,7 @@ export function NebixSplash({ onEnter }: NebixSplashProps) {
                 className="w-48 h-48 object-contain"
                 style={{
   mixBlendMode: "screen" as React.CSSProperties["mixBlendMode"],
-  transform: "scale(3) rotate(10deg)",
+  transform: "scale(3) rotate(8deg)",
   transformOrigin: "center"
 }}
               />
