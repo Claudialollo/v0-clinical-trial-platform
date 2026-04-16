@@ -16,8 +16,9 @@ import { AIChatbot } from "@/components/chatbot/ai-companion"
 import { NebixSplash } from "@/components/splash/nebix-splash"
 import { RegulatoryHub } from "@/components/dashboard/regulatory-hub"
 import { LabNursingHub } from "@/components/dashboard/lab-nursing-hub"
+import { DataQualityMonitor } from "@/components/dashboard/data-quality-monitor"
 
-type SidebarSection = "dashboard" | "patients" | "alerts" | "biomarkers" | "tests" | "communications" | "regulatory" | "lab" | "settings"
+type SidebarSection = "dashboard" | "patients" | "alerts" | "biomarkers" | "tests" | "communications" | "regulatory" | "lab" | "quality" | "settings"
 type AppView = "splash" | "clinician" | "patient" | "biomarkers"
 
 export default function Home() {
@@ -104,9 +105,19 @@ export default function Home() {
           <>
             <div className="flex flex-col gap-1">
               <h1 className="text-2xl font-bold tracking-tight">Lab & Nursing Hub</h1>
-              <p className="text-muted-foreground">Coordina prelievi, protocolli e comunicazioni con infermieri e laboratorio</p>
+              <p className="text-muted-foreground">Coordinate sample collection, protocols and communications with nurses and laboratory</p>
             </div>
             <LabNursingHub />
+          </>
+        )
+      case "quality":
+        return (
+          <>
+            <div className="flex flex-col gap-1">
+              <h1 className="text-2xl font-bold tracking-tight">Data Quality Monitor</h1>
+              <p className="text-muted-foreground">Automatic detection of missing data, anomalous values and inconsistencies</p>
+            </div>
+            <DataQualityMonitor />
           </>
         )
       case "settings":
@@ -151,7 +162,6 @@ export default function Home() {
     <div className="min-h-screen bg-background flex flex-col">
       <ViewSwitcher currentView={currentView} onViewChange={handleViewChange} />
 
-      {/* Clinician Dashboard View */}
       {currentView === "clinician" && (
         <div className="flex flex-1">
           <Sidebar activeSection={activeSection} onSectionChange={handleSectionChange} />
@@ -167,7 +177,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* Biomarker Analytics View */}
       {currentView === "biomarkers" && (
         <div className="flex flex-1">
           <Sidebar activeSection="biomarkers" onSectionChange={handleSectionChange} />
@@ -221,7 +230,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* Patient App View */}
       {currentView === "patient" && (
         <div className="flex-1 w-full">
           <PatientApp />
