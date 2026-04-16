@@ -2,22 +2,12 @@
 
 import { cn } from "@/lib/utils"
 import {
-  LayoutDashboard,
-  Users,
-  Bell,
-  LineChart,
-  MessageSquare,
-  Settings,
-  FlaskConical,
-  Brain,
-  Shield,
-  FileCheck,
-  Microscope,
-  ShieldAlert,
-  UserPlus
+  LayoutDashboard, Users, Bell, LineChart, MessageSquare,
+  Settings, FlaskConical, Brain, Shield, FileCheck,
+  Microscope, ShieldAlert, UserPlus, Package
 } from "lucide-react"
 
-type SidebarSection = "dashboard" | "patients" | "alerts" | "biomarkers" | "tests" | "communications" | "regulatory" | "lab" | "quality" | "preenrollment" | "settings"
+type SidebarSection = "dashboard" | "patients" | "alerts" | "biomarkers" | "tests" | "communications" | "regulatory" | "lab" | "quality" | "preenrollment" | "inventory" | "settings"
 
 interface SidebarProps {
   activeSection?: SidebarSection
@@ -35,6 +25,7 @@ const navigation: { name: string; id: SidebarSection; icon: React.ComponentType<
   { name: "Lab & Nursing",   id: "lab",            icon: Microscope },
   { name: "Data Quality",    id: "quality",        icon: ShieldAlert },
   { name: "Pre-Enrollment",  id: "preenrollment",  icon: UserPlus },
+  { name: "Inventory",       id: "inventory",      icon: Package },
   { name: "Settings",        id: "settings",       icon: Settings },
 ]
 
@@ -42,7 +33,6 @@ export function Sidebar({ activeSection = "dashboard", onSectionChange }: Sideba
   return (
     <aside className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 bg-sidebar mt-12">
       <div className="flex flex-col h-full">
-        {/* Logo */}
         <div className="flex items-center gap-3 px-6 py-6 border-b border-sidebar-border">
           <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary">
             <Brain className="w-6 h-6 text-white" />
@@ -52,8 +42,6 @@ export function Sidebar({ activeSection = "dashboard", onSectionChange }: Sideba
             <span className="text-xs text-sidebar-foreground/60">Clinical Trial Platform</span>
           </div>
         </div>
-
-        {/* Navigation */}
         <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
           {navigation.map((item) => {
             const isActive = activeSection === item.id
@@ -74,8 +62,6 @@ export function Sidebar({ activeSection = "dashboard", onSectionChange }: Sideba
             )
           })}
         </nav>
-
-        {/* Footer */}
         <div className="p-4 border-t border-sidebar-border">
           <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-sidebar-accent/50">
             <Shield className="w-4 h-4 text-sidebar-primary" />
