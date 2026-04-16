@@ -5,7 +5,7 @@ import {
   Package, AlertTriangle, CheckCircle2, Clock, Truck,
   Search, Bell, RefreshCw, Plus, ArrowDown, ChevronDown,
   ChevronUp, Download, Info, Bot, Mail, MessageSquare,
-  Send, X, Sparkles, Phone, Copy
+  Send, X, Sparkles, Phone, Copy, Loader2
 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -51,7 +51,21 @@ interface StockAlert {
   resolved: boolean
 }
 
-// ── SUPPLIER DATABASE ─────────────────────────────────────────────
+interface Draft {
+  itemName: string
+  category: InventoryItem["category"]
+  emailSubject: string
+  emailBody: string
+  smsText: string
+  supplier: typeof SUPPLIERS[string]
+  severity: "critical" | "warning"
+}
+
+// ── CAMBIA QUI ────────────────────────────────────────────────────
+const PI_PHONE = "+39 3XX XXX XXXX"    // ← IL TUO NUMERO
+const PI_EMAIL = "pi@hsantalucia.it"   // ← LA TUA EMAIL
+// ─────────────────────────────────────────────────────────────────
+
 const SUPPLIERS: Record<string, {
   name: string
   email: string
@@ -61,7 +75,7 @@ const SUPPLIERS: Record<string, {
 }> = {
   probiotic: {
     name: "Kaneka Corporation",
-    email: "c.spada@hsantalucia.com",
+    email: "orders.europe@kaneka.com",
     phone: "+81-6-6226-5050",
     contactPerson: "Dr. Marco Tanaka",
     product: "KB Women Probiotic KABP052"
@@ -88,12 +102,6 @@ const SUPPLIERS: Record<string, {
     product: "Consumables & Documents"
   },
 }
-
-// ── PI CONTACT ─────────────────────────────────────────────────────
-// ↓↓↓ CAMBIA QUI IL TUO NUMERO E EMAIL ↓↓↓
-const PI_PHONE = "+39 xxxxxxxxxx"
-const PI_EMAIL = "c.spada@hsantalucia.it"
-// ↑↑↑ CAMBIA QUI IL TUO NUMERO E EMAIL ↑↑↑
 
 const INVENTORY: InventoryItem[] = [
   {
@@ -227,6 +235,69 @@ const CATEGORY_LABELS: Record<InventoryItem["category"], string> = {
   probiotic: "Probiotic", tube: "Blood Tubes", kit: "Assay Kits", consumable: "Consumables",
 }
 
+function generateDrafts(): Draft[] {
+  const items = INVENTORY.filter(i =>
+    i.status === "critical" || i.status === "low" || i.status === "expiring_soon"
+  )
+  return items.map(item => {
+    const supplier = SUPPLIERS[item.category]
+    const isCritical = item.status === "critical"
+    const isExpiring = item.status === "expiring_soon"
+    const orderQty = Math.ceil(item.minStock * 2)
+
+    const emailSubject = isCritical
+      ? `URGENT: Emergency Restock Request — ${item.name}`
+      : isExpiring
+        ? `Advance Reorder Required — ${item.name} Expiring Soon`
+        : `Restock Request — ${item.name}`
+
+    const emailBody = `Dear ${supplier.contactPerson},
+
+I am writing on behalf of the NEBix Clinical Trial team at IRCCS Santa Lucia Foundation, Rome.
+
+${isCritical
+  ? `We have a CRITICAL stock shortage of ${item.name} (Batch: ${item.batchNumber}). Current stock: ${item.currentStock} ${item.unit} — minimum required: ${item.minStock} ${item.unit}. This is urgently impacting our trial operations.`
+  : isExpiring
+    ? `We need to place an advance reorder for ${item.name} (Batch: ${item.batchNumber}), which is due to expire on ${item.expiryDate}. We would like to ensure continuity of supply before expiry.`
+    : `Our stock of ${item.name} (Batch: ${item.batchNumber}) has fallen below the minimum threshold. Current stock: ${item.currentStock} ${item.unit} — minimum required: ${item.minStock} ${item.unit}.`
+}
+
+We would like to place an order for ${orderQty} ${item.unit} as soon as possible.
+
+Could you please confirm:
+1. Availability and lead time
+2. Current pricing for ${orderQty} ${item.unit}
+3. Expected delivery date to Rome, Italy
+
+Delivery address:
+IRCCS Santa Lucia Foundation
+Via Ardeatina 306, 00179 Rome, Italy
+Attn: Trial Logistics — NEBix KABP052
+
+Please reply to this email or contact us at ${PI_EMAIL}.
+
+Kind regards,
+NEBix Trial Management Team
+IRCCS Santa Lucia Foundation, Rome`
+
+    const smsText = isCritical
+      ? `🚨 URGENT NEBix Trial: Critical stock — ${item.name}. Only ${item.currentStock} ${item.unit} left (min: ${item.minStock}). Emergency order needed. Contact: ${PI_EMAIL}`
+      : isExpiring
+        ? `⚠️ NEBix Trial: ${item.name} expires ${item.expiryDate}. Reorder ${orderQty} ${item.unit}. Contact: ${PI_EMAIL}`
+        : `⚠️ NEBix Trial: Low stock — ${item.name}. ${item.currentStock}/${item.minStock} ${item.unit}. Order ${orderQty} needed. Contact: ${PI_EMAIL}`
+
+    return {
+      itemName: item.name,
+      category: item.category,
+      emailSubject,
+      emailBody,
+      smsText,
+      supplier,
+      severity: isCritical ? "critical" : "warning"
+    }
+  })
+}
+
 // ── INVENTORY TAB ─────────────────────────────────────────────────
 function InventoryTab() {
   const [search, setSearch] = useState("")
@@ -276,14 +347,12 @@ function InventoryTab() {
           <Download className="w-4 h-4" />Export
         </Button>
       </div>
-
       <div className="space-y-3">
         {sorted.map(item => {
           const cfg = STATUS_CONFIG[item.status]
           const StatusIcon = cfg.icon
           const isExpanded = expandedId === item.id
           const stockPct = Math.min(100, Math.round(item.currentStock / (item.minStock * 2) * 100))
-
           return (
             <div key={item.id} className={cn("rounded-xl border overflow-hidden transition-all", cfg.border)}>
               <button onClick={() => setExpandedId(isExpanded ? null : item.id)}
@@ -319,7 +388,6 @@ function InventoryTab() {
                 {isExpanded ? <ChevronUp className="w-4 h-4 text-muted-foreground shrink-0" /> :
                               <ChevronDown className="w-4 h-4 text-muted-foreground shrink-0" />}
               </button>
-
               {isExpanded && (
                 <div className="px-5 pb-5 border-t border-border bg-muted/10">
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 mb-4">
@@ -441,7 +509,7 @@ function AlertsTab() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <p className="text-sm text-muted-foreground">
-          {filtered.filter(a => !a.resolved).length} active alert{filtered.filter(a => !a.resolved).length !== 1 ? "s" : ""}
+          {ALERTS.filter(a => !a.resolved).length} active alerts
         </p>
         <Button variant={showResolved ? "default" : "outline"} size="sm"
           onClick={() => setShowResolved(!showResolved)} className="gap-2 text-xs">
@@ -517,96 +585,51 @@ function AlertsTab() {
 }
 
 // ── AI AGENT TAB ──────────────────────────────────────────────────
-interface Draft {
-  itemName: string
-  category: InventoryItem["category"]
-  emailSubject: string
-  emailBody: string
-  smsText: string
-  supplier: typeof SUPPLIERS[string]
-  severity: "critical" | "warning"
-}
-
-function generateDrafts(): Draft[] {
-  const criticalItems = INVENTORY.filter(i => i.status === "critical" || i.status === "low" || i.status === "expiring_soon")
-  return criticalItems.map(item => {
-    const supplier = SUPPLIERS[item.category]
-    const isCritical = item.status === "critical"
-    const isExpiring = item.status === "expiring_soon"
-    const shortage = item.minStock - item.currentStock
-    const orderQty = Math.ceil(item.minStock * 2)
-
-    const emailSubject = isCritical
-      ? `URGENT: Emergency Restock Request — ${item.name}`
-      : isExpiring
-        ? `Advance Reorder Required — ${item.name} Expiring Soon`
-        : `Restock Request — ${item.name}`
-
-    const emailBody = `Dear ${supplier.contactPerson},
-
-I am writing on behalf of the NEBix Clinical Trial team at IRCCS Santa Lucia Foundation, Rome.
-
-${isCritical
-  ? `We have a CRITICAL stock shortage of ${item.name} (Batch: ${item.batchNumber}). Current stock: ${item.currentStock} ${item.unit} — minimum required: ${item.minStock} ${item.unit}. This is urgently impacting our trial operations.`
-  : isExpiring
-    ? `We need to place an advance reorder for ${item.name} (Batch: ${item.batchNumber}), which is due to expire on ${item.expiryDate}. We would like to ensure continuity of supply before expiry.`
-    : `Our stock of ${item.name} (Batch: ${item.batchNumber}) has fallen below the minimum threshold. Current stock: ${item.currentStock} ${item.unit} — minimum required: ${item.minStock} ${item.unit}.`
-}
-
-We would like to place an order for ${orderQty} ${item.unit} as soon as possible.
-
-Could you please confirm:
-1. Availability and lead time
-2. Current pricing for ${orderQty} ${item.unit}
-3. Expected delivery date to Rome, Italy
-
-Our delivery address:
-IRCCS Santa Lucia Foundation
-Via Ardeatina 306, 00179 Rome, Italy
-Attn: Trial Logistics — NEBix KABP052
-
-Please reply to this email or contact the PI directly at ${PI_EMAIL}.
-
-Thank you for your prompt assistance.
-
-Kind regards,
-NEBix Trial Management Team
-IRCCS Santa Lucia Foundation, Rome`
-
-    const smsText = isCritical
-      ? `🚨 URGENT NEBix Trial: Critical stock shortage — ${item.name}. Only ${item.currentStock} ${item.unit} remaining (min: ${item.minStock}). Please confirm emergency delivery ASAP. Contact: ${PI_EMAIL}`
-      : isExpiring
-        ? `⚠️ NEBix Trial: ${item.name} expiring ${item.expiryDate}. Please arrange reorder of ${orderQty} ${item.unit}. Contact: ${PI_EMAIL}`
-        : `⚠️ NEBix Trial: Low stock alert — ${item.name}. ${item.currentStock}/${item.minStock} ${item.unit} remaining. Order of ${orderQty} units needed. Contact: ${PI_EMAIL}`
-
-    return {
-      itemName: item.name,
-      category: item.category,
-      emailSubject,
-      emailBody,
-      smsText,
-      supplier,
-      severity: isCritical ? "critical" : "warning"
-    }
-  })
-}
-
 function AIAgentTab() {
   const [drafts] = useState<Draft[]>(generateDrafts())
   const [selectedDraft, setSelectedDraft] = useState<Draft | null>(null)
   const [activeView, setActiveView] = useState<"email" | "sms">("email")
   const [sent, setSent] = useState<string[]>([])
   const [copied, setCopied] = useState(false)
-
-  const handleSend = (draftName: string) => {
-    setSent(prev => [...prev, draftName])
-    setSelectedDraft(null)
-  }
+  const [sending, setSending] = useState(false)
+  const [sendError, setSendError] = useState<string | null>(null)
+  const [sendSuccess, setSendSuccess] = useState(false)
 
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
+  }
+
+  const handleSendEmail = async (draft: Draft) => {
+    setSending(true)
+    setSendError(null)
+    setSendSuccess(false)
+    try {
+      const res = await fetch("/api/send-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          to: draft.supplier.email,
+          subject: draft.emailSubject,
+          body: draft.emailBody,
+        }),
+      })
+      if (!res.ok) {
+        const err = await res.json()
+        throw new Error(err?.error?.message || "Failed to send email")
+      }
+      setSent(prev => [...prev, draft.itemName])
+      setSendSuccess(true)
+      setTimeout(() => {
+        setSendSuccess(false)
+        setSelectedDraft(null)
+      }, 2000)
+    } catch (e: any) {
+      setSendError(e.message || "Failed to send. Check your Resend API key.")
+    } finally {
+      setSending(false)
+    }
   }
 
   return (
@@ -617,21 +640,18 @@ function AIAgentTab() {
         <div className="w-9 h-9 rounded-lg bg-primary/20 flex items-center justify-center shrink-0">
           <Bot className="w-5 h-5 text-primary" />
         </div>
-        <div>
+        <div className="flex-1">
           <p className="font-semibold text-sm mb-0.5">AI Inventory Agent</p>
           <p className="text-xs text-muted-foreground leading-relaxed">
-            The AI agent has analysed your current inventory and automatically generated reorder communications for all items below threshold or expiring soon. Review each draft and send with one click.
+            The agent has analysed your inventory and generated reorder communications for all items below threshold or expiring soon. Review and send with one click via Resend.
           </p>
         </div>
-        <div className="shrink-0">
-          <Badge variant="secondary" className="text-xs gap-1">
-            <Sparkles className="w-3 h-3" />
-            {drafts.length} drafts ready
-          </Badge>
-        </div>
+        <Badge variant="secondary" className="text-xs gap-1 shrink-0">
+          <Sparkles className="w-3 h-3" />{drafts.length} drafts ready
+        </Badge>
       </div>
 
-      {/* PI Contact info box */}
+      {/* Contact info */}
       <div className="rounded-xl border border-border bg-muted/20 p-4">
         <div className="flex items-center gap-2 mb-2">
           <Info className="w-4 h-4 text-muted-foreground" />
@@ -639,8 +659,7 @@ function AIAgentTab() {
         </div>
         <div className="flex gap-6">
           <div>
-            <p className="text-[10px] text-muted-foreground">PI Phone (SMS sender)</p>
-            {/* ↓↓↓ IL TUO NUMERO APPARE QUI ↓↓↓ */}
+            <p className="text-[10px] text-muted-foreground">PI Phone</p>
             <p className="text-xs font-mono font-semibold">{PI_PHONE}</p>
           </div>
           <div>
@@ -649,12 +668,12 @@ function AIAgentTab() {
           </div>
         </div>
         <p className="text-[10px] text-muted-foreground mt-2">
-          To update these details, change <code className="bg-muted px-1 rounded">PI_PHONE</code> and <code className="bg-muted px-1 rounded">PI_EMAIL</code> at the top of <code className="bg-muted px-1 rounded">inventory-manager.tsx</code>
+          To update: change <code className="bg-muted px-1 rounded">PI_PHONE</code> and <code className="bg-muted px-1 rounded">PI_EMAIL</code> at the top of <code className="bg-muted px-1 rounded">inventory-manager.tsx</code>
         </p>
       </div>
 
-      {/* Draft list */}
       {!selectedDraft ? (
+        /* Draft list */
         <div className="space-y-3">
           <p className="text-sm font-semibold">Items requiring action ({drafts.length})</p>
           {drafts.map((draft, i) => (
@@ -670,7 +689,7 @@ function AIAgentTab() {
                 )} />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-0.5">
+                <div className="flex items-center gap-2 mb-0.5 flex-wrap">
                   <p className="font-semibold text-sm truncate">{draft.itemName}</p>
                   <Badge variant={draft.severity === "critical" ? "destructive" : "secondary"} className="text-[10px] shrink-0">
                     {draft.severity === "critical" ? "Critical" : "Warning"}
@@ -679,7 +698,7 @@ function AIAgentTab() {
                     <Badge variant="outline" className="text-[10px] text-emerald-600 shrink-0">Sent ✓</Badge>
                   )}
                 </div>
-                <p className="text-xs text-muted-foreground">Supplier: {draft.supplier.name} · {draft.supplier.email}</p>
+                <p className="text-xs text-muted-foreground">{draft.supplier.name} · {draft.supplier.email}</p>
               </div>
               <div className="flex gap-2 shrink-0">
                 <Button size="sm" variant="outline" className="gap-1.5 text-xs"
@@ -695,38 +714,37 @@ function AIAgentTab() {
           ))}
         </div>
       ) : (
-        /* Draft detail view */
+        /* Draft detail */
         <div className="space-y-4">
           <div className="flex items-center gap-3">
-            <Button variant="outline" size="sm" onClick={() => setSelectedDraft(null)} className="gap-1.5">
+            <Button variant="outline" size="sm" onClick={() => { setSelectedDraft(null); setSendError(null) }} className="gap-1.5">
               <X className="w-3.5 h-3.5" />Back
             </Button>
-            <h3 className="font-semibold text-sm">{selectedDraft.itemName}</h3>
+            <h3 className="font-semibold text-sm truncate">{selectedDraft.itemName}</h3>
           </div>
 
-          {/* Email / SMS toggle */}
+          {/* Toggle */}
           <div className="flex gap-2 p-1 bg-muted rounded-xl w-fit">
-            <button onClick={() => setActiveView("email")}
-              className={cn("flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all",
-                activeView === "email" ? "bg-background shadow-sm" : "text-muted-foreground hover:text-foreground"
-              )}>
-              <Mail className="w-4 h-4" />Email to Supplier
-            </button>
-            <button onClick={() => setActiveView("sms")}
-              className={cn("flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all",
-                activeView === "sms" ? "bg-background shadow-sm" : "text-muted-foreground hover:text-foreground"
-              )}>
-              <Phone className="w-4 h-4" />SMS to PI
-            </button>
+            {[
+              { id: "email" as const, label: "Email to Supplier", icon: Mail },
+              { id: "sms"   as const, label: "SMS to PI",         icon: Phone },
+            ].map(v => (
+              <button key={v.id} onClick={() => setActiveView(v.id)}
+                className={cn("flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all",
+                  activeView === v.id ? "bg-background shadow-sm" : "text-muted-foreground hover:text-foreground"
+                )}>
+                <v.icon className="w-4 h-4" />{v.label}
+              </button>
+            ))}
           </div>
 
           {/* Supplier info */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
-              { label: "Supplier",        value: selectedDraft.supplier.name },
-              { label: "Contact",         value: selectedDraft.supplier.contactPerson },
-              { label: "Email",           value: selectedDraft.supplier.email },
-              { label: "Phone",           value: selectedDraft.supplier.phone },
+              { label: "Supplier",  value: selectedDraft.supplier.name },
+              { label: "Contact",   value: selectedDraft.supplier.contactPerson },
+              { label: "Email",     value: selectedDraft.supplier.email },
+              { label: "Phone",     value: selectedDraft.supplier.phone },
             ].map((f, i) => (
               <div key={i} className="p-3 rounded-xl border border-border bg-muted/20">
                 <p className="text-[10px] text-muted-foreground mb-0.5">{f.label}</p>
@@ -735,7 +753,7 @@ function AIAgentTab() {
             ))}
           </div>
 
-          {/* EMAIL DRAFT */}
+          {/* EMAIL */}
           {activeView === "email" && (
             <div className="space-y-3">
               <div className="rounded-xl border border-border bg-card overflow-hidden">
@@ -767,27 +785,43 @@ function AIAgentTab() {
                   </div>
                 </div>
               </div>
+
+              {sendError && (
+                <div className="p-3 rounded-xl border border-rose-500/30 bg-rose-500/5">
+                  <p className="text-xs text-rose-500">{sendError}</p>
+                </div>
+              )}
+              {sendSuccess && (
+                <div className="p-3 rounded-xl border border-emerald-500/30 bg-emerald-500/5 flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                  <p className="text-xs text-emerald-600 font-semibold">Email sent successfully!</p>
+                </div>
+              )}
+
               <div className="flex gap-2">
-                <Button variant="outline" className="gap-2 text-xs" onClick={() => handleCopy(selectedDraft.emailBody)}>
-                  <Copy className="w-3.5 h-3.5" />
-                  {copied ? "Copied!" : "Copy Email"}
+                <Button variant="outline" className="gap-2 text-xs"
+                  onClick={() => handleCopy(selectedDraft.emailBody)}>
+                  <Copy className="w-3.5 h-3.5" />{copied ? "Copied!" : "Copy"}
                 </Button>
-                <Button className="gap-2 text-xs flex-1" onClick={() => handleSend(selectedDraft.itemName)}>
-                  <Send className="w-3.5 h-3.5" />
-                  Send Email to {selectedDraft.supplier.name}
+                <Button className="gap-2 text-xs flex-1" disabled={sending}
+                  onClick={() => handleSendEmail(selectedDraft)}>
+                  {sending
+                    ? <><Loader2 className="w-3.5 h-3.5 animate-spin" />Sending...</>
+                    : <><Send className="w-3.5 h-3.5" />Send Email to {selectedDraft.supplier.name}</>
+                  }
                 </Button>
               </div>
             </div>
           )}
 
-          {/* SMS DRAFT */}
+          {/* SMS */}
           {activeView === "sms" && (
             <div className="space-y-3">
               <div className="rounded-xl border border-border bg-card overflow-hidden">
                 <div className="px-4 py-3 border-b border-border bg-muted/20 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <MessageSquare className="w-4 h-4 text-primary" />
-                    <span className="text-xs font-semibold">SMS Draft — to PI / Researcher</span>
+                    <span className="text-xs font-semibold">SMS Draft — to PI</span>
                   </div>
                   <Badge variant="outline" className="text-[10px] gap-1">
                     <Sparkles className="w-3 h-3" />AI Draft
@@ -795,7 +829,6 @@ function AIAgentTab() {
                 </div>
                 <div className="p-4 space-y-3">
                   <div>
-                    {/* ↓↓↓ QUI APPARE IL TUO NUMERO ↓↓↓ */}
                     <p className="text-[10px] text-muted-foreground font-semibold uppercase tracking-wide mb-1">To (PI Phone)</p>
                     <p className="text-xs font-mono font-semibold">{PI_PHONE}</p>
                   </div>
@@ -804,27 +837,24 @@ function AIAgentTab() {
                     <div className="bg-muted/30 rounded-lg p-4">
                       <p className="text-sm leading-relaxed">{selectedDraft.smsText}</p>
                     </div>
-                    <p className="text-[10px] text-muted-foreground mt-1">
-                      {selectedDraft.smsText.length} characters
-                    </p>
+                    <p className="text-[10px] text-muted-foreground mt-1">{selectedDraft.smsText.length} characters</p>
                   </div>
                 </div>
               </div>
               <div className="flex gap-2">
-                <Button variant="outline" className="gap-2 text-xs" onClick={() => handleCopy(selectedDraft.smsText)}>
-                  <Copy className="w-3.5 h-3.5" />
-                  {copied ? "Copied!" : "Copy SMS"}
+                <Button variant="outline" className="gap-2 text-xs"
+                  onClick={() => handleCopy(selectedDraft.smsText)}>
+                  <Copy className="w-3.5 h-3.5" />{copied ? "Copied!" : "Copy SMS"}
                 </Button>
-                <Button className="gap-2 text-xs flex-1" onClick={() => handleSend(selectedDraft.itemName)}>
-                  <Send className="w-3.5 h-3.5" />
-                  Send SMS to {PI_PHONE}
+                <Button className="gap-2 text-xs flex-1" disabled>
+                  <Phone className="w-3.5 h-3.5" />Send SMS (requires Twilio)
                 </Button>
               </div>
               <div className="flex items-start gap-2 p-3 rounded-xl border border-amber-500/30 bg-amber-500/5">
                 <Info className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
                 <p className="text-xs text-muted-foreground">
-                  SMS sending requires Twilio integration. For now, copy the message and send manually, or use the Copy button above.
-                  To enable real SMS, add your Twilio credentials to the environment variables.
+                  SMS sending requires Twilio integration. Copy the message above and send manually for now.
+                  To enable real SMS, add <code className="bg-muted px-1 rounded">TWILIO_ACCOUNT_SID</code>, <code className="bg-muted px-1 rounded">TWILIO_AUTH_TOKEN</code> and <code className="bg-muted px-1 rounded">TWILIO_PHONE_NUMBER</code> to your Vercel environment variables.
                 </p>
               </div>
             </div>
@@ -846,16 +876,14 @@ export function InventoryManager() {
   const activeAlerts   = ALERTS.filter(a => !a.resolved).length
 
   const tabs: { id: TabId; label: string; icon: React.ComponentType<{ className?: string }>; badge?: number }[] = [
-    { id: "inventory",  label: "Inventory",  icon: Package,       badge: criticalCount + lowCount },
-    { id: "shipments",  label: "Shipments",  icon: Truck,         badge: inTransitCount },
-    { id: "alerts",     label: "Alerts",     icon: Bell,          badge: activeAlerts },
-    { id: "ai_agent",   label: "AI Agent",   icon: Bot,           badge: criticalCount + lowCount },
+    { id: "inventory", label: "Inventory", icon: Package,       badge: criticalCount + lowCount },
+    { id: "shipments", label: "Shipments", icon: Truck,         badge: inTransitCount },
+    { id: "alerts",    label: "Alerts",    icon: Bell,          badge: activeAlerts },
+    { id: "ai_agent",  label: "AI Agent",  icon: Bot,           badge: criticalCount + lowCount },
   ]
 
   return (
     <div className="space-y-6">
-
-      {/* Summary cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
           { label: "Critical / Expired", value: criticalCount,  icon: AlertTriangle, color: "text-rose-500",   bg: "bg-rose-500/5" },
@@ -878,7 +906,6 @@ export function InventoryManager() {
         })}
       </div>
 
-      {/* Tabs */}
       <div className="flex gap-1 border-b border-border">
         {tabs.map(tab => {
           const Icon = tab.icon
