@@ -91,8 +91,8 @@ const SUPPLIERS: Record<string, {
 
 // ── PI CONTACT ─────────────────────────────────────────────────────
 // ↓↓↓ CAMBIA QUI IL TUO NUMERO E EMAIL ↓↓↓
-const PI_PHONE = "+39 3342820100"
-const PI_EMAIL = "pi@hsantalucia.it"
+const PI_PHONE = "+39 xxxxxxxxxx"
+const PI_EMAIL = "c.spada@hsantalucia.it"
 // ↑↑↑ CAMBIA QUI IL TUO NUMERO E EMAIL ↑↑↑
 
 const INVENTORY: InventoryItem[] = [
