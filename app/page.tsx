@@ -223,4 +223,31 @@ export default function Home() {
                     <div>
                       <h4 className="font-medium text-sm mb-2">Inverse Correlation Observed</h4>
                       <p className="text-sm text-muted-foreground leading-relaxed">
-                        The data demonstrates a strong inverse correlation (r = -0
+                        The data demonstrates a strong inverse correlation (r = -0.89) between rising Estradiol levels and declining p-tau217 concentrations, supporting the hypothesis that estrogen restoration via gut microbiome modulation may enhance amyloid clearance mechanisms.
+                      </p>
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-sm mb-2">Event Impact Analysis</h4>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        Lifestyle disruption events (antibiotics, high stress, poor sleep) correlate with temporary biomarker fluctuations. The estrobolome disruption from antibiotic intake at W2 caused a measurable 2% p-tau217 rebound, highlighting the importance of real-time monitoring.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </main>
+            <Footer />
+          </div>
+        </div>
+      )}
+
+      {currentView === "patient" && (
+        <div className="flex-1 w-full">
+          <PatientApp />
+        </div>
+      )}
+
+      <AIChatbot />
+    </div>
+  )
+}
