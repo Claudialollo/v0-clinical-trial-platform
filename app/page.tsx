@@ -18,8 +18,9 @@ import { RegulatoryHub } from "@/components/dashboard/regulatory-hub"
 import { LabNursingHub } from "@/components/dashboard/lab-nursing-hub"
 import { DataQualityMonitor } from "@/components/dashboard/data-quality-monitor"
 import { PreEnrollment } from "@/components/dashboard/pre-enrollment"
+import { InventoryManager } from "@/components/dashboard/inventory-manager"
 
-type SidebarSection = "dashboard" | "patients" | "alerts" | "biomarkers" | "tests" | "communications" | "regulatory" | "lab" | "quality" | "preenrollment" | "settings"
+type SidebarSection = "dashboard" | "patients" | "alerts" | "biomarkers" | "tests" | "communications" | "regulatory" | "lab" | "quality" | "preenrollment" | "inventory" | "settings"
 type AppView = "splash" | "clinician" | "patient" | "biomarkers"
 
 export default function Home() {
@@ -129,6 +130,16 @@ export default function Home() {
               <p className="text-muted-foreground">Manage candidate pre-screening submissions and share the QR code</p>
             </div>
             <PreEnrollment />
+          </>
+        )
+      case "inventory":
+        return (
+          <>
+            <div className="flex flex-col gap-1">
+              <h1 className="text-2xl font-bold tracking-tight">Inventory Manager</h1>
+              <p className="text-muted-foreground">Monitor stock levels, manage shipments and receive automatic alerts for probiotics, tubes and kits</p>
+            </div>
+            <InventoryManager />
           </>
         )
       case "settings":
