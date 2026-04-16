@@ -12,10 +12,11 @@ import {
   Brain,
   Shield,
   FileCheck,
-  Microscope
+  Microscope,
+  ShieldAlert
 } from "lucide-react"
 
-type SidebarSection = "dashboard" | "patients" | "alerts" | "biomarkers" | "tests" | "communications" | "regulatory" | "lab" | "settings"
+type SidebarSection = "dashboard" | "patients" | "alerts" | "biomarkers" | "tests" | "communications" | "regulatory" | "lab" | "quality" | "settings"
 
 interface SidebarProps {
   activeSection?: SidebarSection
@@ -31,6 +32,7 @@ const navigation: { name: string; id: SidebarSection; icon: React.ComponentType<
   { name: "Communications",  id: "communications", icon: MessageSquare },
   { name: "Regulatory Hub",  id: "regulatory",     icon: FileCheck },
   { name: "Lab & Nursing",   id: "lab",            icon: Microscope },
+  { name: "Data Quality",    id: "quality",        icon: ShieldAlert },
   { name: "Settings",        id: "settings",       icon: Settings },
 ]
 
