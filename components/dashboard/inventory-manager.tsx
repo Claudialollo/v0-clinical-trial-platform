@@ -61,7 +61,7 @@ const SUPPLIERS: Record<string, {
 }> = {
   probiotic: {
     name: "Kaneka Corporation",
-    email: "orders.europe@kaneka.com",
+    email: "c.spada@hsantalucia.com",
     phone: "+81-6-6226-5050",
     contactPerson: "Dr. Marco Tanaka",
     product: "KB Women Probiotic KABP052"
