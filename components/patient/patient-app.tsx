@@ -1089,40 +1089,19 @@ function MonthlySnapshot() {
               </div>
             )}
 
-            {/* Tips */}
-            <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-5">
-              <div className="flex items-center gap-2 mb-3">
-                <Sparkles className="w-5 h-5 text-emerald-500" />
-                <h3 className="font-semibold text-sm text-emerald-700">Personalised Tips for Your Estrobolome</h3>
-              </div>
-              <div className="space-y-2">
-                {finalEstroScore < 50 && (
-                  <p className="text-xs text-emerald-800 flex items-start gap-2">
-                    <span className="mt-0.5">🫘</span>
-                    Try adding legumes at least 3 times a week — they are the most powerful prebiotic fiber for gmGUS activity.
-                  </p>
-                )}
-                {(nutritionAnswers.fermented === "Never" || nutritionAnswers.fermented === "1–2×/month") && (
-                  <p className="text-xs text-emerald-800 flex items-start gap-2">
-                    <span className="mt-0.5">🫙</span>
-                    Add a daily fermented food (yogurt, kefir or sauerkraut) — these directly restore the bacterial strains that activate the estrobolome.
-                  </p>
-                )}
-                {sleepScore < 60 && (
-                  <p className="text-xs text-emerald-800 flex items-start gap-2">
-                    <span className="mt-0.5">🌙</span>
-                    Poor sleep reduces microbiome diversity. Try to maintain a consistent sleep schedule to support your gut-brain axis.
-                  </p>
-                )}
-                {finalEstroScore >= 70 && (
-                  <p className="text-xs text-emerald-800 flex items-start gap-2">
-                    <span className="mt-0.5">✅</span>
-                    Excellent! Your diet is well aligned with estrobolome support. Keep up the good work throughout the trial.
-                  </p>
-                )}
-              </div>
-            </div>
-
+            {/* Trial reminder */}
+<div className="rounded-xl border border-primary/20 bg-primary/5 p-5">
+  <div className="flex items-center gap-2 mb-3">
+    <Info className="w-5 h-5 text-primary" />
+    <h3 className="font-semibold text-sm text-primary">Important — Keep Your Habits as They Are</h3>
+  </div>
+  <p className="text-sm text-muted-foreground leading-relaxed">
+    During the trial it is important that you <strong className="text-foreground">do not change your usual habits</strong> — continue eating, sleeping, and exercising exactly as you normally would. These scores are recorded only to give the clinical team a picture of your baseline. Any changes to your lifestyle during the trial could affect the scientific validity of the results.
+  </p>
+  <p className="text-sm text-muted-foreground leading-relaxed mt-2">
+    If you have any questions about your diet, sleep or physical activity, please speak directly with your clinician.
+  </p>
+</div>
             {/* Info note */}
             <div className="flex items-start gap-3 p-4 rounded-xl border border-border bg-muted/20">
               <Info className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
